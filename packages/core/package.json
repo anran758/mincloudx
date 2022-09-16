@@ -1,15 +1,11 @@
 {
   "name": "@mincloud/core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "知晓云核心 API",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "src/core.js",
-  "directories": {
-    "lib": "dist",
-    "test": "__tests__"
-  },
+  "main": "dist/main.js",
   "files": [
     "dist"
   ],
@@ -17,7 +13,17 @@
     "access": "restricted"
   },
   "scripts": {
-    "test": "node ./__tests__/core.test.js"
+    "test": "node ./__tests__/core.test.js",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch"
   },
-  "type": "module"
+  "devDependencies": {
+    "@webpack-cli/generators": "^2.5.0",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.8.3",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
 }
