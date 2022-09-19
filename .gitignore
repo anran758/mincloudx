@@ -3,3 +3,6 @@ dist/
 
 # lock file
 package-lock.json
+
+# 知晓云
+.mincloudrc

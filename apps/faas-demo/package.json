@@ -1,18 +1,10 @@
 {
-  "name": "@mincloud/node-demo",
-  "version": "0.0.1",
-  "description": "test node env",
+  "name": "my-webpack-project",
+  "version": "1.0.0",
+  "description": "My webpack project",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloud/tree/main/packages/node-demo#readme",
   "license": "ISC",
-  "main": "lib/node-demo.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
   "publishConfig": {
     "access": "restricted"
   },
@@ -21,12 +13,19 @@
     "url": "git+https://github.com/anran758/mincloud.git"
   },
   "scripts": {
-    "test": "node ./__tests__/node-demo.test.js"
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "watch": "webpack --watch"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloud/issues"
   },
   "dependencies": {
     "@mincloud/io": "*"
+  },
+  "devDependencies": {
+    "glob": "^8.0.3",
+    "lodash": "^4.17.21",
+    "mincloud": "^1.0.6"
   }
 }

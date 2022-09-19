@@ -1,5 +1,5 @@
-import {sayHi} from "@mincloud/core";
+import { sayHi } from '@mincloud/io';
 
-sayHi()
+sayHi();
 
-console.log("Hello World, This is web demo!");
+console.log('Hello World, This is web demo!');

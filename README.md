@@ -17,6 +17,6 @@ npx lerna create @mincloud/<new_package_name> [packages|apps] --access restricte
 ### package 内部引用包
 
 ``` bash
-# 添加 @mincloud/core package
-npx lerna add @mincloud/core
+# 添加 @mincloud/io package
+npx lerna add @mincloud/io
 ```

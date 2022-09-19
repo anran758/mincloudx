@@ -1,5 +1,5 @@
 'use strict';
-const {sayHi} = require('@mincloud/core')
+const {sayHi} = require('@mincloud/io')
 
 function nodeDemo() {
     return "Hello from nodeDemo";
