@@ -6,3 +6,7 @@ package-lock.json
 
 # 知晓云
 .mincloudrc
+
+# convert-types
+_scheme.json
+packages/convert-types/types/scheme/*.d.ts

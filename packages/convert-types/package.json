@@ -1,0 +1,22 @@
+{
+  "name": "@mincloud/convert-types",
+  "version": "0.0.1",
+  "description": "知晓云数据表 JSON 信息转为 typescript 类型文件",
+  "author": "anran758 <anran758@gmail.com>",
+  "homepage": "https://github.com/anran758/mincloud/tree/main/packages/convert-types#readme",
+  "license": "ISC",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anran758/mincloud.git"
+  },
+  "scripts": {
+    "generator": "node ./src/index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/anran758/mincloud/issues"
+  }
+}
