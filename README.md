@@ -20,3 +20,9 @@ npx lerna create @mincloud/<new_package_name> [packages|apps] --access restricte
 # 添加 @mincloud/io package
 npx lerna add @mincloud/io
 ```
+
+## TODO
+
+- [ ] 整合云函数基础模板
+- [ ] 整合通用 io 模块
+- [ ] 生成知晓云应用数据表对应的 typescript 类型

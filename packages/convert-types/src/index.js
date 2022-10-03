@@ -1,8 +1,8 @@
 const { readFile, writeFile } = require('fs/promises');
 const path = require('path');
 
-const targetFilePath = path.resolve(__dirname, '../_scheme.json');
-const outputPath = path.resolve(__dirname, '../types/scheme');
+const targetFilePath = path.resolve(__dirname, '../_schema.json');
+const outputPath = path.resolve(__dirname, '../types/schema');
 
 const TBL_NAME_MAPPING = {
   _userprofile: 'UserProfile',
@@ -15,6 +15,16 @@ const FIELD_TYPE_MAP = {
 
 function omitBaseFields(field) {
   return !['id', 'created_at', 'updated_at', 'created_by'].includes(field.name);
+}
+
+/**
+ * 解析字段所引用的数据表
+ */
+function parseCollectionName(collectionName = '') {
+  const [appId, schemaId, ...others] = collectionName.split('_')
+  const schemaName = others.join('_')
+
+  return {appId, schemaId, schemaName}
 }
 
 /**
@@ -33,7 +43,7 @@ async function generateTsEntryFile(schemas) {
 /**
  * 生成入口文件
  */
-function generateSchemeTsFile(schema) {
+function generateSchemaTsFile(schema) {
   const declaration = generateDeclaration(schema);
   return writeFile(
     path.resolve(outputPath, `${schema.name}.d.ts`),
@@ -51,7 +61,8 @@ function generateFieldType(field) {
   } else if (field.type === 'array') {
     typeStr = `${FIELD_TYPE_MAP[field.items.type] || field.items.type}[]`;
   } else if (field.type === 'reference') {
-    typeStr = `SchemaPointer<${getInterfaceName(field.name)}>`;
+    const {schemaName} = parseCollectionName(field.collection_name)
+    typeStr = `SchemaPointer<${getInterfaceName(schemaName)}>`;
   } else if (field.type === 'string' && fieldChoices) {
     typeStr = ['string', ...fieldChoices.map((val) => `'${val}'`)].join(' | ');
   } else {
@@ -87,7 +98,7 @@ function getFieldChoices(field) {
 }
 
 /**
- * 根据 scheme 信息生成对应的类型代码
+ * 根据 schema 信息生成对应的类型代码
  * @returns {Number}
  */
 function generateDeclaration(schema) {
@@ -107,7 +118,7 @@ function generateDeclaration(schema) {
     ` * ${name} 表`,
     ` * @description ${schema.options?.description || ''}`,
     ` */`,
-    `interface ${schemaName} extends IBaseSchemaObject {`,
+    `interface ${schemaName} extends BaseSchemaObject {`,
     `${content}`,
     `}`,
   ].join('\n');
@@ -115,7 +126,7 @@ function generateDeclaration(schema) {
 
 function getInterfaceName(name) {
   // 添加类前缀
-  return `I${TBL_NAME_MAPPING[name] || pascalCase(name)}Schema`;
+  return TBL_NAME_MAPPING[name] || pascalCase(name);
 }
 
 function pascalCase(str) {
@@ -134,7 +145,7 @@ async function main() {
     if (Array.isArray(schemas)) {
       console.log('准备生成文件');
 
-      const taskList = schemas.map((scheme) => generateSchemeTsFile(scheme));
+      const taskList = schemas.map((schema) => generateSchemaTsFile(schema));
       taskList.push(generateTsEntryFile(schemas));
 
       await Promise.all(taskList);

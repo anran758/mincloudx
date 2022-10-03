@@ -1,5 +1,9 @@
 node_modules/
+
+# 通过编译生成的文件
+/packages/*/lib
 dist/
+tsconfig.tsbuildinfo
 
 # lock file
 package-lock.json
@@ -8,5 +12,5 @@ package-lock.json
 .mincloudrc
 
 # convert-types
-_scheme.json
-packages/convert-types/types/scheme/*.d.ts
+_schema.json
+packages/convert-types/types/schema/*.d.ts

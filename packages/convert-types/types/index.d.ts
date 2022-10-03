@@ -1,1 +1,1 @@
-/// <reference path="./scheme/index.d.ts" />
+/// <reference path="./schema/index.d.ts" />
