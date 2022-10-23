@@ -22,4 +22,5 @@ yarn generator
 
 - [ ] 接入编译器来处理源码
 - [ ] 封装为可供其他 package 使用的 cli 库
-- [ ] 脚本提供自定义配置
+- [ ] 脚本提供自定义配置 (commander)
+- [ ] Test case
