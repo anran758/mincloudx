@@ -7094,6 +7094,11 @@ min-indent@^1.0.0:
   resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==
 
+minapp-sdk-typings@^3.1.0:
+  version "3.22.0"
+  resolved "https://registry.yarnpkg.com/minapp-sdk-typings/-/minapp-sdk-typings-3.22.0.tgz#2c2692ca870c1d27c7b0afbfc5e822ebd30d4640"
+  integrity sha512-+Rgq7M8eHkWoDDA0akK4HaUu/lLEedPCzwqhGST6rMHvvhSv6F2vB+gVWmCJFDfU/27zqBms8fZlsdDmdCetfQ==
+
 mincloud@^1.0.6:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/mincloud/-/mincloud-1.1.0.tgz#6700f5773c4878790eddd8ef0a78276559b223ea"

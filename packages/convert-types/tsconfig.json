@@ -2,9 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
-    "rootDir": "./src",
+    "rootDir": "./",
+    "types": ["minapp-sdk-typings"],
     "suppressImplicitAnyIndexErrors": true
     // "typeRoots": ["./src/types.ts"]
   },
-  "include": ["./src"]
+  "include": ["./src", "package.json"]
 }

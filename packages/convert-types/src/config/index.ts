@@ -8,4 +8,5 @@ export const TABLE_NAME_MAPPING = {
 
 export const FIELD_TYPE_MAP = {
   integer: 'Int',
+  file: 'WechatBaaS.FileOperationResult',
 };
