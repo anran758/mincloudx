@@ -16,11 +16,11 @@ yarn generator
 
 ---
 
-项目初始化使用 `yarn install` 或 `yarn` 安装依赖时会自动将 bin 安装到 nodu_modules 中。若在开发过程中修改了 bin 名称，可通过 `yarn link` 重新关联。
+项目初始化使用 `yarn install` 或 `yarn` 安装依赖时会自动将 bin 安装到 node_modules 中。若在开发过程中修改了 bin 名称，可通过 `yarn link` 重新关联。
 
 ## TODO
 
-- [ ] 接入编译器来处理源码
+- [x] 接入编译器/打包工具来处理源码
 - [ ] 封装为可供其他 package 使用的 cli 库
 - [ ] 脚本提供自定义配置 (commander)
-- [ ] Test case
+- [ ] Test Case
