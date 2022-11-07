@@ -1,0 +1,31 @@
+{
+  "name": "my-webpack-project",
+  "version": "1.0.0",
+  "description": "My webpack project",
+  "author": "anran758 <anran758@gmail.com>",
+  "homepage": "https://github.com/anran758/mincloud/tree/main/packages/node-demo#readme",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anran758/mincloud.git"
+  },
+  "scripts": {
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "watch": "webpack --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/anran758/mincloud/issues"
+  },
+  "dependencies": {
+    "@mincloud/io": "*"
+  },
+  "devDependencies": {
+    "glob": "^8.0.3",
+    "lodash": "^4.17.21",
+    "mincloud": "^1.0.6"
+  }
+}

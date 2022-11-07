@@ -1,0 +1,48 @@
+{
+  "name": "@mincloud/convert-types",
+  "version": "0.0.1",
+  "description": "知晓云数据表 JSON 信息转为 typescript 类型文件",
+  "author": "anran758 <anran758@gmail.com>",
+  "homepage": "https://github.com/anran758/mincloud/tree/main/packages/convert-types#readme",
+  "license": "ISC",
+  "main": "lib/convert-types/index.js",
+  "type": "commonjs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anran758/mincloud.git",
+    "directory": "packages/convert-types"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch",
+    "generator": "ts-node ./src/convert-types/index.ts",
+    "test": "convert-types"
+  },
+  "bin": {
+    "convert-types": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "static",
+    "README.md"
+  ],
+  "bugs": {
+    "url": "https://github.com/anran758/mincloud/issues"
+  },
+  "peerDependencies": {
+    "minapp-sdk-typings": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/mkdirp": "^1.0.2",
+    "minapp-sdk-typings": "^3.1.0",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2"
+  },
+  "dependencies": {
+    "mkdirp": "^1.0.4"
+  }
+}

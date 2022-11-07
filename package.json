@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "homepage": "https://github.com/anran758/mincloud#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +15,7 @@
     "apps/*"
   ],
   "devDependencies": {
-    "lerna": "^5.5.0"
+    "lerna": "^5.5.0",
+    "typescript": "^4.7.2"
   }
 }
