@@ -21,6 +21,6 @@ yarn generator
 ## TODO
 
 - [x] 接入编译器/打包工具来处理源码
+- [x] 脚本提供自定义配置 (commander)
 - [ ] 封装为可供其他 package 使用的 cli 库
-- [ ] 脚本提供自定义配置 (commander)
 - [ ] Test Case

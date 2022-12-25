@@ -1,11 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "outDir": "./lib",
-    "rootDir": "./",
-    "types": ["minapp-sdk-typings"],
-    "suppressImplicitAnyIndexErrors": true
-    // "typeRoots": ["./src/types.ts"]
+    "composite": false,
+    "rootDir": ".",
   },
-  "include": ["./src", "package.json"]
+  "include": ["./src"]
 }

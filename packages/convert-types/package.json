@@ -16,9 +16,10 @@
     "directory": "packages/convert-types"
   },
   "scripts": {
-    "build": "tsc --build",
-    "watch": "tsc --build --watch",
-    "generator": "ts-node ./src/convert-types/index.ts",
+    "build": "tsc --build tsconfig.build.json",
+    "watch": "tsc --build tsconfig.build.json --watch",
+    "clean": "tsc -b tsconfig.build.json --clean",
+    "debug": "ts-node ./src/index.ts",
     "test": "convert-types"
   },
   "bin": {
@@ -43,6 +44,7 @@
     "typescript": "^4.7.2"
   },
   "dependencies": {
+    "commander": "^9.4.1",
     "mkdirp": "^1.0.4"
   }
 }
