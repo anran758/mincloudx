@@ -12,5 +12,5 @@ package-lock.json
 .mincloudrc
 
 # convert-types
-_schema.json
-packages/convert-types/types/schema/*.d.ts
+packages/convert-types/_schema.json
+packages/convert-types/typings/schema.d.ts

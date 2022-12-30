@@ -14,8 +14,9 @@ program
 
 // 设置可选项
 program
-  .option('-o, --output <path>', 'output path', './dist/types/schema')
+  .option('-o, --output <path>', 'output path', './typings')
   .option('-i, --input <path>', 'input path', './_schema.json')
+  .option('--name <name>', 'output filename', 'schema')
   .parse();
 
 const options = program.opts();
@@ -25,4 +26,5 @@ const cwd = process.cwd();
 generatorSchemaTs({
   input: path.resolve(cwd, options.input),
   output: path.resolve(cwd, options.output),
+  fileName: options.name,
 });

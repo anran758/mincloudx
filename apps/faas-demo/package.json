@@ -15,12 +15,14 @@
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "generator:type": "convert-types"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloud/issues"
   },
   "dependencies": {
+    "@mincloud/convert-types": "*",
     "@mincloud/io": "*"
   },
   "devDependencies": {
