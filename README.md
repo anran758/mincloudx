@@ -23,6 +23,6 @@ npx lerna add @mincloud/io
 
 ## TODO
 
-- [x] [[packages/convert-types](./packages/convert-types/README.md)] 生成知晓云应用数据表对应的 typescript 类型
+- [x] [[packages/cli](./packages/cli/README.md)] 生成知晓云应用数据表对应的 typescript 类型
 - [ ] [[packages/io](./packages/io/README.md)] 整合通用 io 模块
 - [ ] 整合云函数基础模板

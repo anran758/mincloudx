@@ -8,9 +8,9 @@ dist/
 # lock file
 package-lock.json
 
-# 知晓云
+# 知晓云云函数配置文件
 .mincloudrc
 
-# convert-types
-packages/convert-types/_schema.json
-packages/convert-types/typings/schema.d.ts
+# cli
+packages/cli/_schema.json
+packages/cli/typings/schema.d.ts

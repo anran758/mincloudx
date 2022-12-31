@@ -1,4 +1,4 @@
-// [tips]: 该文件由 @mincloud/convert-types 自动生成，请勿直接修改文件。
+// [tips]: 该文件由 @mincloud/cli 自动生成，请勿直接修改文件。
 type Int = number;
 type SchemaId = string | Int;
 type EpochSeconds = Int & { seconds_since_the_unix_start: never };

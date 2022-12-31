@@ -1,4 +1,4 @@
-# @mincloud/convert-types
+# @mincloud/cli
 
 > 知晓云数据表 JSON 信息转为 typescript 类型文件
 
@@ -22,5 +22,5 @@ yarn generator
 
 - [x] 接入编译器/打包工具来处理源码
 - [x] 脚本提供自定义配置 (commander)
-- [ ] 封装为可供其他 package 使用的 cli 库
+- [x] 封装为可供其他 package 使用的 cli 库
 - [ ] Test Case
