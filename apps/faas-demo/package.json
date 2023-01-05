@@ -1,6 +1,6 @@
 {
   "name": "@mincloud/faas-demo",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "private": true,
   "description": "My webpack project",
   "author": "anran758 <anran758@gmail.com>",

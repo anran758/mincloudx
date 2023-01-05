@@ -1,6 +1,6 @@
 {
   "name": "@mincloud/cli",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "知晓云命令行工具",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloud/tree/main/packages/cli#readme",
