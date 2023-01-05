@@ -1,11 +1,11 @@
 {
-  "name": "@mincloud/convert-types",
+  "name": "@mincloud/cli",
   "version": "0.0.1",
-  "description": "知晓云数据表 JSON 信息转为 typescript 类型文件",
+  "description": "知晓云命令行工具",
   "author": "anran758 <anran758@gmail.com>",
-  "homepage": "https://github.com/anran758/mincloud/tree/main/packages/convert-types#readme",
+  "homepage": "https://github.com/anran758/mincloud/tree/main/packages/cli#readme",
   "license": "ISC",
-  "main": "lib/convert-types/index.js",
+  "main": "lib/index.js",
   "type": "commonjs",
   "publishConfig": {
     "access": "public"
@@ -13,16 +13,17 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anran758/mincloud.git",
-    "directory": "packages/convert-types"
+    "directory": "packages/cli"
   },
   "scripts": {
-    "build": "tsc --build",
-    "watch": "tsc --build --watch",
-    "generator": "ts-node ./src/convert-types/index.ts",
-    "test": "convert-types"
+    "build": "tsc --build tsconfig.build.json",
+    "watch": "tsc --build tsconfig.build.json --watch",
+    "clean": "tsc -b tsconfig.build.json --clean",
+    "debug": "ts-node ./src/index.ts",
+    "test": "mincloud-cli"
   },
   "bin": {
-    "convert-types": "./bin/cli.js"
+    "mincloud-cli": "./bin/cli.js"
   },
   "files": [
     "bin",
@@ -43,6 +44,7 @@
     "typescript": "^4.7.2"
   },
   "dependencies": {
+    "commander": "^9.4.1",
     "mkdirp": "^1.0.4"
   }
 }
