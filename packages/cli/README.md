@@ -8,6 +8,22 @@
 
 ![copy response](static/network-save-response.png)
 
+安装依赖
+
+``` bash
+yarn add -D @mincloud/cli
+```
+
+``` bash
+# 查看现有命令
+mincloud-cli -h
+
+# 生成类型，默认读取当前目录下的 _schema.json 文件来生成 TypeScript 类型文件
+mincloud-cli type 
+```
+
+## 开发
+
 在命令行执行命令:
 
 ``` shell
