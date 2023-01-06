@@ -1,7 +1,7 @@
 {
   "name": "@mincloud/cli",
   "version": "0.0.1-alpha.0",
-  "description": "知晓云命令行工具",
+  "description": "知晓云数据表转换类型工具",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloud/tree/main/packages/cli#readme",
   "license": "ISC",
@@ -10,6 +10,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "typescript",
+    "faas",
+    "cli"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anran758/mincloud.git",
