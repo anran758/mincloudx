@@ -1,4 +1,4 @@
-# @mincloud/convert-types
+# @mincloud/cli
 
 > 知晓云数据表 JSON 信息转为 typescript 类型文件
 
@@ -7,6 +7,22 @@
 进入知晓云控制面板后，打开浏览器开发者工具，在 network 找到 `dserve/v1.8/schema/?offset=0&limit=200` 这条请求，并将 response 保存为 `_schema.json` 文件放置到本项目的根目录。
 
 ![copy response](static/network-save-response.png)
+
+安装依赖
+
+``` bash
+yarn add -D @mincloud/cli
+```
+
+``` bash
+# 查看现有命令
+mincloud-cli -h
+
+# 生成类型，默认读取当前目录下的 _schema.json 文件来生成 TypeScript 类型文件
+mincloud-cli type 
+```
+
+## 开发
 
 在命令行执行命令:
 
@@ -20,7 +36,7 @@ yarn generator
 
 ## TODO
 
-- [x] 接入编译器/打包工具来处理源码
-- [ ] 封装为可供其他 package 使用的 cli 库
-- [ ] 脚本提供自定义配置 (commander)
+- [x] 接入编译器/打包工具
+- [x] 脚本提供自定义配置 (commander)
+- [x] 封装为可供其他 package 使用的 cli 库
 - [ ] Test Case

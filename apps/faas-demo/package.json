@@ -1,6 +1,7 @@
 {
-  "name": "my-webpack-project",
-  "version": "1.0.0",
+  "name": "@mincloud/faas-demo",
+  "version": "0.0.1-alpha.0",
+  "private": true,
   "description": "My webpack project",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloud/tree/main/packages/node-demo#readme",
@@ -15,13 +16,15 @@
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "generator:type": "mincloud-cli type"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloud/issues"
   },
   "dependencies": {
-    "@mincloud/io": "*"
+    "@mincloud/cli": "^0.0.1-alpha.0",
+    "@mincloud/io": "^0.0.1-alpha.0"
   },
   "devDependencies": {
     "glob": "^8.0.3",

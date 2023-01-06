@@ -1,20 +1,52 @@
-import path from 'path';
 import { readFile } from 'fs/promises';
 
-import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING } from '../../config';
+import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING, packageInfo } from '../../config';
 import {
   getBaseType,
   pascalCase,
   parseCollectionName,
   writeFile,
 } from '../../utils';
-import projectPackage from "../../../package.json";
 import type { SchemaRootObject, SchemeObject, SchemaField } from '../schema';
 
 /**
- * 公共的类型文件
+ * 生成公共的类型文件
  */
-const baseFilePath = path.resolve(__dirname, './base.d.ts');
+export function generatorBaseTs() {
+  return [
+    'type Int = number;',
+    'type SchemaId = string | Int;',
+    'type EpochSeconds = Int & { seconds_since_the_unix_start: never };',
+    'type JSONString = string & { json_parsable_string: never };',
+    'type HTMLText = string & { html_content: never };',
+    'type ValueOf<T> = T[keyof T];',
+    'type KeyOf<T> = Array<keyof T>;',
+    '',
+    '/**',
+    ' * 数据的默认值',
+    ' */',
+    'type Default<T> = T;',
+
+    'interface PointerWithoutData {',
+    '  id: SchemaId;',
+    '  _table: string;',
+    '}',
+    '',
+    'type SchemaPointer<T extends BaseSchemaObject> = T | PointerWithoutData;',
+    '',
+    'type CreatedBy = UserProfile | PointerWithoutData | Int',
+    '',
+    'interface BaseSchemaObject {',
+    '  _id: Int;',
+    '  id: SchemaId;',
+    '  created_at: Int;',
+    '  updated_at: Int;',
+    '  created_by?: CreatedBy;',
+    '  read_perm: string[];',
+    '  write_perm: string[];',
+    '}',
+  ].join('\n');
+}
 
 /**
  * 获取接口名称
@@ -101,9 +133,11 @@ export function generateDeclaration(schema: SchemeObject) {
 export async function generatorSchemaTs({
   input,
   output,
+  fileName = `schema`,
 }: {
   input: string;
   output: string;
+  fileName?: string;
 }) {
   let schemaData: SchemaRootObject | null = null;
 
@@ -134,14 +168,13 @@ export async function generatorSchemaTs({
     .join('\n');
 
   // 基础类型文件
-  const baseTypeFile = await readFile(baseFilePath);
-  const baseTypeStr = baseTypeFile.toString();
+  const baseTypeStr = generatorBaseTs();
 
   return writeFile({
-    fileName: `index.d.ts`,
+    fileName: `${fileName}.d.ts`,
     dirPath: output,
     content:
-      `// [tips]: 该文件由 ${projectPackage.name} 自动生成，请勿直接修改文件。\n` +
+      `// [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。\n` +
       baseTypeStr +
       schemasText,
   });

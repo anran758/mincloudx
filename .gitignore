@@ -3,14 +3,14 @@ node_modules/
 # 通过编译生成的文件
 /packages/*/lib
 dist/
-tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # lock file
 package-lock.json
 
-# 知晓云
+# 知晓云云函数配置文件
 .mincloudrc
 
-# convert-types
-_schema.json
-packages/convert-types/types/schema/*.d.ts
+# cli
+packages/cli/_schema.json
+packages/cli/typings/schema.d.ts
