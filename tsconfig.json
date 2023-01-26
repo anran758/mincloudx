@@ -1,6 +1,7 @@
 {
   "exclude": ["node_modules", "lib", "__tests__"],
   "compilerOptions": {
+    "types": ["@types/node"],
     "skipLibCheck": true,
     "target": "es2017",
     "module": "commonjs",
