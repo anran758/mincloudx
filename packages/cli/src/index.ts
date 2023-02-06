@@ -2,7 +2,7 @@ import path from 'path';
 import { Command } from 'commander';
 
 import { packageInfo } from './config';
-import { generatorSchemaTs } from './convert-types';
+import { generatorSchemaTs } from './commands/type';
 
 /**
  * https://github.com/tj/commander.js#quick-start

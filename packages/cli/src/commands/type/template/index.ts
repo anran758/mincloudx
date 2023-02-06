@@ -1,12 +1,12 @@
 import { readFile } from 'fs/promises';
 
-import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING, packageInfo } from '../../config';
+import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING, packageInfo } from '../../../config';
 import {
   getBaseType,
   pascalCase,
   parseCollectionName,
   writeFile,
-} from '../../utils';
+} from '../../../utils';
 import type { SchemaRootObject, SchemeObject, SchemaField } from '../schema';
 
 /**
