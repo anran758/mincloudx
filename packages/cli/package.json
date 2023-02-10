@@ -43,7 +43,10 @@
     "minapp-sdk-typings": "^3.1.0"
   },
   "devDependencies": {
+    "@types/ini": "^1.3.31",
     "@types/mkdirp": "^1.0.2",
+    "@types/osenv": "^0.1.1",
+    "@types/rc": "^1.2.1",
     "@types/tough-cookie": "^4.0.2",
     "minapp-sdk-typings": "^3.1.0",
     "ts-node": "^10.8.0",
@@ -53,7 +56,10 @@
     "axios": "^1.3.4",
     "axios-cookiejar-support": "^4.0.6",
     "commander": "^9.4.1",
+    "ini": "^3.0.1",
     "mkdirp": "^1.0.4",
+    "osenv": "^0.1.5",
+    "rc": "^1.2.8",
     "tough-cookie": "^4.1.2"
   }
 }

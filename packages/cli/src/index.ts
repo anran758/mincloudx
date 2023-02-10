@@ -1,7 +1,7 @@
 import path from 'path';
 import { Command } from 'commander';
 
-import { packageInfo } from './config';
+import { packageInfo } from './config/constant';
 import { generatorSchemaTs } from './commands/type';
 
 /**

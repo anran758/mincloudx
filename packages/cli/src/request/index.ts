@@ -5,11 +5,13 @@ import { CookieJar } from 'tough-cookie';
 
 import { transformErrorMessage } from './utils';
 
+import config from "../config";
+
 const jar = new CookieJar();
 
 const instance = wrapper(
   axios.create({
-    baseURL: 'https://cloud.minapp.com/',
+    baseURL: config.base_url,
     jar,
   })
 );

@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises';
 
-import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING, packageInfo } from '../../../config';
+import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING, packageInfo } from '../../../config/constant';
 import {
   getBaseType,
   pascalCase,
