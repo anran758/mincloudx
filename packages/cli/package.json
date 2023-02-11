@@ -22,13 +22,13 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "watch": "tsc --build tsconfig.build.json --watch",
+    "watch": "tsc --build tsconfig.build.json --verbose --watch",
     "clean": "tsc -b tsconfig.build.json --clean",
     "debug": "ts-node ./src/index.ts",
-    "test": "mincloud-cli"
+    "test": "min-cloud"
   },
   "bin": {
-    "mincloud-cli": "./bin/cli.js"
+    "min-cloud": "./bin/cli.js"
   },
   "files": [
     "bin",

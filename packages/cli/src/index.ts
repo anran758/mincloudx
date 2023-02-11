@@ -10,7 +10,7 @@ const program = new Command();
 
 // 设置基本信息
 program
-  .name('mincloud-cli')
+  .name('min-cloud')
   .description(packageInfo.description)
   .version(packageInfo.version);
 

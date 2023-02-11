@@ -3,9 +3,9 @@ import { generatorSchemaTs } from './template';
 import type { Command } from 'commander';
 
 export const DEFAULT_COMMAND_CONFIG = {
-  input: './_schema.json',
+  schemaFile: './_schema.json',
   outputDir: './typings',
-  fileName: 'schema',
+  outputFileName: 'schema',
 };
 
 /**
@@ -14,30 +14,30 @@ export const DEFAULT_COMMAND_CONFIG = {
 export function registerCommandType(program: Command) {
   return program
     .command('type')
-    .description('根据知晓云 schema 生成 TypeScript 类型文件')
+    .description('生成知晓云数据表的 .d.ts 类型文件')
     .option(
-      '-i, --input <path>',
-      '通过本地的 schema 数据表 JSON 文件来转换 TypeScript',
-      DEFAULT_COMMAND_CONFIG.input
+      '-f, --schemaFile <path>',
+      '解析本地的 JSON 数据表文件来转换 TypeScript',
+      DEFAULT_COMMAND_CONFIG.schemaFile
     )
     .option(
-      '--output-dir, <path>',
-      '生成类型文件后输出的目录',
+      '--outputDir, <path>',
+      '类型文件的输出目录',
       DEFAULT_COMMAND_CONFIG.outputDir
     )
     .option(
-      '--file-name <fileName>',
-      '生成类型文件后的文件名',
-      DEFAULT_COMMAND_CONFIG.fileName
+      '--outputFileName <fileName>',
+      '类型文件的文件名',
+      DEFAULT_COMMAND_CONFIG.outputFileName
     )
     .action((options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
 
-      // 生成配置
+      // 通过读取 schema file 的形式解析
       return generatorSchemaTs({
-        input: path.resolve(cwd, options.input),
+        input: path.resolve(cwd, options.schemaFile),
         outputDir: path.resolve(cwd, options.outputDir),
-        fileName: options.fileName,
+        outputFileName: options.outputFileName,
       });
     });
 }

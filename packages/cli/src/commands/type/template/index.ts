@@ -133,11 +133,11 @@ export function generateDeclaration(schema: SchemeObject) {
 export async function generatorSchemaTs({
   input,
   outputDir,
-  fileName = `schema`,
+  outputFileName = `schema`,
 }: {
   input: string;
   outputDir: string;
-  fileName?: string;
+  outputFileName?: string;
 }) {
   let schemaData: SchemaRootObject | null = null;
 
@@ -171,7 +171,7 @@ export async function generatorSchemaTs({
   const baseTypeStr = generatorBaseTs();
 
   return writeFile({
-    fileName: `${fileName}.d.ts`,
+    fileName: `${outputFileName}.d.ts`,
     dirPath: outputDir,
     content:
       `// [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。\n` +
