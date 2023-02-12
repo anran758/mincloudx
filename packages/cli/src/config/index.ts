@@ -23,7 +23,7 @@ export const DEFAULT_CONFIG = {
   prefix: APP_NAME,
 };
 
-export function loadConfig(args?: Mapping): Config {
+export function getConfig(args?: Mapping): Config {
   const config = rc(APP_NAME, DEFAULT_CONFIG, args);
 
   return config;
@@ -61,4 +61,4 @@ export function updateConfig(data: Mapping) {
   return writeFile(rootRcFilePath, ini.stringify(newConf), 'utf8');
 }
 
-export default loadConfig();
+export default getConfig();

@@ -1,11 +1,17 @@
 import FormData from 'form-data';
 
 import request from '../index';
-import { updateConfig } from '../../config';
+import { decodeTokens, encodeTokens } from '../utils';
+import { getConfig, updateConfig } from '../../config';
+import { API_URL_MAPPING } from '../../config/api';
 
-function saveToken(token: string) {
+function saveToken(clientId: string, token: string) {
+  const config = getConfig();
+  const tokens = decodeTokens(config.tokens);
+  tokens[clientId] = token;
+
   return updateConfig({
-    tokens: token,
+    tokens: encodeTokens(tokens),
   });
 }
 
@@ -13,8 +19,6 @@ function saveToken(token: string) {
  * 登录
  *
  * @description 获取知晓云的登录授权 token
- *
- * TODO: API url 应集中放置到映射中
  */
 export async function login({
   clientId,
@@ -25,7 +29,7 @@ export async function login({
 }) {
   // 获取 code 信息
   const authResponse = await request<string | { code: string }>({
-    url: '/api/oauth2/hydrogen/openapi/authorize/',
+    url: API_URL_MAPPING.AUTHORIZE,
     method: 'post',
     data: {
       client_id: clientId,
@@ -52,9 +56,10 @@ export async function login({
     expires_in: number;
     scope: string;
     refresh_token: string;
-  }>('/api/oauth2/access_token/', formData);
+  }>(API_URL_MAPPING.ACCESS_TOKEN, formData);
 
-  const { access_token } = response.data;
-  await saveToken(access_token);
-  console.log('登录成功')
+  // 缓存 token
+  await saveToken(clientId, response.data.access_token);
+
+  return response;
 }
