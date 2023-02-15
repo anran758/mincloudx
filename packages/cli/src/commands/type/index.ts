@@ -11,7 +11,7 @@ export const DEFAULT_COMMAND_CONFIG = {
 /**
  * register `type` command
  */
-export function registerCommandType(program: Command) {
+export function registerCommand(program: Command) {
   return program
     .command('type')
     .description('生成知晓云数据表的 .d.ts 类型文件')
@@ -42,4 +42,4 @@ export function registerCommandType(program: Command) {
     });
 }
 
-export default registerCommandType;
+export default registerCommand;

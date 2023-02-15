@@ -1,7 +1,9 @@
 import { Command } from 'commander';
 
 import { packageInfo } from './config/constant';
-import { registerCommandType } from './commands/type';
+
+import registerCommandType from './commands/type';
+import registerCommandLogin from './commands/login';
 
 /**
  * https://github.com/tj/commander.js#quick-start
@@ -14,7 +16,8 @@ program
   .description(packageInfo.description)
   .version(packageInfo.version);
 
-// TypeScript 类型转换
+// 注册对应的 command
 registerCommandType(program);
+registerCommandLogin(program);
 
 program.parse();
