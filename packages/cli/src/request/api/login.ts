@@ -1,7 +1,7 @@
 import FormData from 'form-data';
 
 import request from '../index';
-import { decodeTokens, encodeTokens } from '../utils';
+import { decodeTokens, encodeTokens } from '../../utils/token';
 import { getConfig, updateConfig } from '../../config';
 import { API_URL_MAPPING } from '../../config/api';
 

@@ -17,7 +17,7 @@ export function registerCommand(program: Command) {
     .argument('<clientSecret>', '知晓云应用的密钥')
     .argument('[clientId]', '知晓云应用的 clint_id, 默认从 rc 文件中读取')
     .action(async (clientSecret, clientId) => {
-      console.log('[registerCommand] login --> ', clientSecret, clientId);
+      // console.log('[command/login] login options --> ', clientSecret, clientId);
       const id = clientId || config.client_id;
       if (!id) {
         program.error('未从本地配置中读取到 clint_id, 请配置或传入 clint_id!');
@@ -30,9 +30,9 @@ export function registerCommand(program: Command) {
         });
       } catch (error) {
         if (error instanceof Error) {
-          program.error(`登录失败: ${error.message}`);
+          program.error(`[command/login] 登录失败: ${error.message}`);
         } else {
-          program.error('登录失败，请稍后再试');
+          program.error('[command/login] 登录失败，请稍后再试');
         }
       }
     });

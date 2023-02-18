@@ -1,6 +1,10 @@
 import { readFile } from 'fs/promises';
 
-import { FIELD_TYPE_MAP, TABLE_NAME_MAPPING, packageInfo } from '../../../config/constant';
+import {
+  FIELD_TYPE_MAP,
+  TABLE_NAME_MAPPING,
+  packageInfo,
+} from '../../../config/constant';
 import {
   getBaseType,
   pascalCase,
@@ -130,6 +134,31 @@ export function generateDeclaration(schema: SchemeObject) {
   ].join('\n');
 }
 
+/**
+ * 写入 schema 至 .d.ts 类型文件中
+ */
+export async function writeSchemaListToTsFile(
+  list: SchemeObject[],
+  { outputDir, outputFileName }: { outputDir: string; outputFileName: string }
+) {
+  // 转为文本
+  const schemasText = list
+    .map((schema) => generateDeclaration(schema))
+    .join('\n');
+
+  // 基础类型文件
+  const baseTypeStr = generatorBaseTs();
+
+  return writeFile({
+    fileName: `${outputFileName}.d.ts`,
+    dirPath: outputDir,
+    content:
+      `// [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。\n` +
+      baseTypeStr +
+      schemasText,
+  });
+}
+
 export async function generatorSchemaTs({
   input,
   outputDir,
@@ -162,20 +191,5 @@ export async function generatorSchemaTs({
     return;
   }
 
-  // 转为文本
-  const schemasText = schemas
-    .map((schema) => generateDeclaration(schema))
-    .join('\n');
-
-  // 基础类型文件
-  const baseTypeStr = generatorBaseTs();
-
-  return writeFile({
-    fileName: `${outputFileName}.d.ts`,
-    dirPath: outputDir,
-    content:
-      `// [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。\n` +
-      baseTypeStr +
-      schemasText,
-  });
+  return writeSchemaListToTsFile(schemas, { outputDir, outputFileName });
 }

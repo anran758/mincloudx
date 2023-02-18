@@ -7,6 +7,7 @@ import ini from 'ini';
 
 import { APP_NAME } from './constant';
 import type { Config } from './type.d';
+import { decodeTokens } from '../utils/token';
 
 type Mapping = Record<number | string, unknown>;
 
@@ -31,7 +32,7 @@ export function getConfig(args?: Mapping): Config {
 
 /**
  * 更新全局 rc 配置
- * 
+ *
  * @description 本地临时配置都储存在 user 目录下的 rc 文件中
  */
 export function updateConfig(data: Mapping) {
@@ -59,6 +60,16 @@ export function updateConfig(data: Mapping) {
 
   // 写入 ini 格式
   return writeFile(rootRcFilePath, ini.stringify(newConf), 'utf8');
+}
+
+/**
+ * 从缓存中读取知晓云的 token
+ */
+export function getToken(clientId?: string, args?: Mapping) {
+  const conf = getConfig(args);
+  const id = clientId || conf.client_id
+
+  return id && conf.tokens ? decodeTokens(conf.tokens)[id] : '';
 }
 
 export default getConfig();
