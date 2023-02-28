@@ -23,12 +23,12 @@ export function registerCommand(program: Command) {
       DEFAULT_COMMAND_CONFIG.fromMinCloud
     )
     .option(
-      '-f, --schemaFile <path>',
+      '--schemaFile <path>',
       '解析本地的 JSON 数据表文件来转换 TypeScript',
       DEFAULT_COMMAND_CONFIG.schemaFile
     )
     .option(
-      '--outputDir, <path>',
+      '--outputDir <path>',
       '类型文件的输出目录',
       DEFAULT_COMMAND_CONFIG.outputDir
     )
