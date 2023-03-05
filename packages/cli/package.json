@@ -1,16 +1,17 @@
 {
   "name": "@mincloud/cli",
   "version": "0.0.1-alpha.0",
-  "description": "知晓云数据表转换类型工具",
+  "description": "基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloud/tree/main/packages/cli#readme",
-  "license": "ISC",
+  "license": "MIT",
   "main": "lib/index.js",
   "type": "commonjs",
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
+    "mincloud",
     "typescript",
     "faas",
     "cli"

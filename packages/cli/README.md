@@ -1,13 +1,24 @@
+<!-- omit in toc -->
 # @mincloud/cli
 
 [![npm version](https://badge.fury.io/js/%40mincloud%2Fcli.svg)](https://badge.fury.io/js/%40mincloud%2Fcli)
 [![GitHub release](https://img.shields.io/github/release/anran758/mincloud.svg)](https://GitHub.com/OWNER/REPO/releases/)
 
-基于知晓云的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
+基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
 
-### Installation
+**Table of Contents**
 
-你可以通过 yarn 或 npm 安装：
+- [Installation](#installation)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [login](#login)
+  - [type](#type)
+  - [help](#help)
+- [Development](#development)
+
+## Installation
+
+可以通过 yarn 或 npm 安装：
 
 ``` bash
 # 通过 yarn 安装
@@ -17,16 +28,17 @@ yarn add @mincloud/cli -D
 npm install @mincloud/cli -D 
 ```
 
-### Usage
+## Usage
 
 ``` bash
 min-cloud [command] [options]
 ```
 
-| Commands | Description                   |
-| -------- | ----------------------------- |
-| login    | 登录知晓云                    |
-| type     | 将知晓云数据表转换 TypeScript |
+| Commands        | Description                   |
+| --------------- | ----------------------------- |
+| [login](#login) | 登录知晓云                    |
+| [type](#type)   | 将知晓云数据表转换 TypeScript |
+| [help](#help)   | 输出命令的帮助信息。          |
 
 **Global Options:**
 
@@ -34,9 +46,9 @@ min-cloud [command] [options]
 - `--envId <envId>`：设置环境 ID
 - `-h, --help`：输出帮助信息
 
-### Commands
+## Commands
 
-#### login
+### login
 
 ``` bash
 min-cloud login [options] <clientSecret> [clientId]
@@ -53,7 +65,7 @@ min-cloud login [options] <clientSecret> [clientId]
 min-cloud login myClientSecret myClientId
 ```
 
-#### type
+### type
 
 ``` bash
 min-cloud type [options]
@@ -87,7 +99,7 @@ min-cloud type --fromMinCloud
 min-cloud type --schemaFile ./_schema.json
 ```
 
-#### help
+### help
 
 输出命令的帮助信息。
 
@@ -102,7 +114,7 @@ min-cloud type --schemaFile ./_schema.json
 min-cloud help type
 ```
 
-### Development
+## Development
 
 运行以下命令进行开发：
 
@@ -113,8 +125,6 @@ yarn watch
 # 执行本地编译后的 cli 文件
 yarn test
 ```
-
----
 
 项目初始化使用 `yarn install` 或 `yarn` 安装依赖时会自动将 bin 安装到 node_modules 中。
 
