@@ -35,6 +35,7 @@
     "bin",
     "lib",
     "static",
+    "LICENSE",
     "README.md"
   ],
   "bugs": {
