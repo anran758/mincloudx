@@ -2,7 +2,7 @@
 # @mincloud/cli
 
 [![npm version](https://badge.fury.io/js/%40mincloud%2Fcli.svg)](https://badge.fury.io/js/%40mincloud%2Fcli)
-[![GitHub release](https://img.shields.io/github/release/anran758/mincloud.svg)](https://GitHub.com/OWNER/REPO/releases/)
+[![GitHub](https://img.shields.io/github/license/anran758/mincloud)](https://github.com/anran758/mincloud/blob/master/LICENSE)
 
 基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
 
