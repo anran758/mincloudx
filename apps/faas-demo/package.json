@@ -17,7 +17,7 @@
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",
-    "generator:type": "mincloud-cli type"
+    "generator:type": "min-cloud type"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloud/issues"

@@ -1,6 +1,6 @@
-# `@mincloud/web-demo`
+# @mincloud/web-demo
 
-> 用于调试 core 模块的功能
+> 知晓云 web 开发模板
 
 This project has been created using **webpack-cli**, you can now run
 
