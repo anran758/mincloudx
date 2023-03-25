@@ -1,20 +1,25 @@
 {
+  "private": true,
   "name": "mincloud",
   "version": "0.0.1-alpha.0",
   "description": "知晓云生态库工具",
   "main": "index.js",
   "homepage": "https://github.com/anran758/mincloud#readme",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "private": true,
   "author": "anran758",
   "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "husky install"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-angular": "^17.6.1",
+    "commitizen": "^4.3.0",
+    "husky": "^8.0.3",
     "lerna": "^5.5.0",
     "typescript": "^4.7.2"
   }
