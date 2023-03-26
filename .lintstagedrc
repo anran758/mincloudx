@@ -1,0 +1,3 @@
+{
+  "*.{ts,tsx,js,mjs,cjs,jsx,json,md,css}": ["yarn lint"]
+}
