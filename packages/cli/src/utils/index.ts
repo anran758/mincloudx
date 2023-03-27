@@ -24,7 +24,11 @@ export function parseCollectionName(collectionName = '') {
   const [appId, schemaId, ...others] = collectionName.split('_');
   const schemaName = others.join('_');
 
-  return { appId, schemaId, schemaName };
+  return {
+    appId,
+    schemaId,
+    schemaName,
+  };
 }
 
 export async function writeFile({
@@ -41,4 +45,3 @@ export async function writeFile({
 
   return fs.writeFile(path.resolve(dirPath, fileName), content);
 }
-

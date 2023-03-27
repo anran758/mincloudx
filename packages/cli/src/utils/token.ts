@@ -18,6 +18,6 @@ export function decodeTokens(str = '') {
  */
 export function encodeTokens(obj = {}) {
   return Object.keys(obj)
-    .map((key) => `${key}:${obj[key]}`)
+    .map(key => `${key}:${obj[key]}`)
     .join(',');
 }

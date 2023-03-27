@@ -13,7 +13,7 @@ const instance = wrapper(
   axios.create({
     baseURL: config.base_url,
     jar,
-  })
+  }),
 );
 
 instance.interceptors.response.use(
@@ -32,10 +32,16 @@ instance.interceptors.response.use(
     transformErrorMessage(error);
 
     return Promise.reject(error);
-  }
+  },
 );
 
-export function registerMinCloudHeaders({ token, envId }: { token: string; envId: string }) {
+export function registerMinCloudHeaders({
+  token,
+  envId,
+}: {
+  token: string;
+  envId: string;
+}) {
   instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   if (envId) {
