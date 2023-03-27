@@ -1,3 +1,4 @@
 {
-  "*.{ts,tsx,js,mjs,cjs,jsx,json,md,css}": ["yarn lint"]
+  "*.{ts,tsx,js,mjs,cjs,jsx,json,css}": ["yarn format", "yarn lint"],
+  "*.{md}": ["yarn format"]
 }
