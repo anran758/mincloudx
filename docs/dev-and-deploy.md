@@ -50,6 +50,10 @@ npx lerna version
 npx lerna version --conventional-commits
 ```
 
+## 发布至 master 分支
+
+经过测试确认无误后，需要通过 Github 提出 Pull Request ，并且经过审核后再合并至 master 分支中。
+
 ## 发布至 npm
 
 ```bash
@@ -59,7 +63,3 @@ npx lerna publish
 # 如果不想自动打标签，可以使用 --no-git-tag-version 选项
 # 如果不想发布到 registry，可以使用 --skip-npm 选项
 ```
-
-## 发布至 master 分支
-
-经过测试确认无误后，需要通过 Github 提出 Pull Request ，并且经过审核后再合并至 master 分支中。
