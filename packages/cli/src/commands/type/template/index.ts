@@ -64,7 +64,7 @@ export function getFieldChoices(field: SchemaField): string[] {
     field.constraints &&
     field.constraints.rules &&
     field.constraints.rules.length &&
-    field.constraints.rules.find((rule) => rule.type === 'choices');
+    field.constraints.rules.find(rule => rule.type === 'choices');
 
   return rule?.value || [];
 }
@@ -83,7 +83,7 @@ export function generateFieldType(field: SchemaField) {
     const { schemaName } = parseCollectionName(field.collection_name);
     typeStr = `SchemaPointer<${getInterfaceName(schemaName)}>`;
   } else if (field.type === 'string' && fieldChoices) {
-    typeStr = ['string', ...fieldChoices.map((val) => `'${val}'`)].join(' | ');
+    typeStr = ['string', ...fieldChoices.map(val => `'${val}'`)].join(' | ');
   } else {
     typeStr = FIELD_TYPE_MAP[field.type] || field.type;
   }
@@ -107,9 +107,9 @@ export function generateDeclaration(schema: SchemeObject) {
   const { name = '' } = schema;
   const schemaName = getInterfaceName(name);
   const content = schema.schema.fields
-    .filter((field) => {
+    .filter(field => {
       return !['id', 'created_at', 'updated_at', 'created_by'].includes(
-        field.name
+        field.name,
       );
     })
     .map((field: SchemaField) => {
@@ -139,11 +139,11 @@ export function generateDeclaration(schema: SchemeObject) {
  */
 export async function writeSchemaListToTsFile(
   list: SchemeObject[],
-  { outputDir, outputFileName }: { outputDir: string; outputFileName: string }
+  { outputDir, outputFileName }: { outputDir: string; outputFileName: string },
 ) {
   // 转为文本
   const schemasText = list
-    .map((schema) => generateDeclaration(schema))
+    .map(schema => generateDeclaration(schema))
     .join('\n');
 
   // 基础类型文件

@@ -16,6 +16,6 @@
     "baseUrl": ".",
     "composite": true,
     "declaration": true
-  },
+  }
   // "references": [],
 }

@@ -18,7 +18,7 @@ interface PointerWithoutData {
 
 type SchemaPointer<T extends BaseSchemaObject> = T | PointerWithoutData;
 
-type CreatedBy = UserProfile | PointerWithoutData | Int
+type CreatedBy = UserProfile | PointerWithoutData | Int;
 
 interface BaseSchemaObject {
   _id: Int;
@@ -31,73 +31,73 @@ interface BaseSchemaObject {
 }
 /**
  * _userprofile 表
- * @description 
+ * @description
  */
 interface UserProfile extends BaseSchemaObject {
   /**
    * 用户昵称
    **/
-  nickname: string | Default<undefined>
+  nickname: string | Default<undefined>;
   /**
    * 用户的性别，值为 1 时是男性，值为 2 时是女性，值为 0 时是未知
    **/
-  gender: Int | Default<undefined>
+  gender: Int | Default<undefined>;
   /**
    * 用户所在国家
    **/
-  country: string | Default<undefined>
+  country: string | Default<undefined>;
   /**
    * 用户所在省份
    **/
-  province: string | Default<undefined>
+  province: string | Default<undefined>;
   /**
    * 用户所在城市
    **/
-  city: string | Default<undefined>
+  city: string | Default<undefined>;
   /**
    * 用户的语言
    **/
-  language: string | Default<undefined>
+  language: string | Default<undefined>;
   /**
    * openid
    **/
-  openid: string | Default<undefined>
+  openid: string | Default<undefined>;
   /**
    * unionid
    **/
-  unionid: string | Default<undefined>
+  unionid: string | Default<undefined>;
   /**
    * 用户头像
    **/
-  avatar: string | Default<undefined>
+  avatar: string | Default<undefined>;
   /**
    * 用户是否授权，True 为已授权，False 为未授权
    **/
-  is_authorized: boolean | Default<undefined>
+  is_authorized: boolean | Default<undefined>;
   /**
    * 用户邮箱是否已经通过验证
    **/
-  _email_verified: boolean | Default<undefined>
+  _email_verified: boolean | Default<undefined>;
   /**
    * 用户邮箱
    **/
-  _email: string | Default<undefined>
+  _email: string | Default<undefined>;
   /**
    * 用户名
    **/
-  _username: string | Default<undefined>
+  _username: string | Default<undefined>;
   /**
    * 用户在平台方的用户信息
    **/
-  _provider: object | Default<undefined>
+  _provider: object | Default<undefined>;
   /**
    * 用户手机
    **/
-  _phone: string | Default<undefined>
+  _phone: string | Default<undefined>;
   /**
    * 用户手机是否已经通过验证
    **/
-  _phone_verified: boolean | Default<undefined>
+  _phone_verified: boolean | Default<undefined>;
 }
 
 /**
@@ -108,7 +108,7 @@ interface ChannelFollow extends BaseSchemaObject {
   /**
    * 圈子信息
    **/
-  channel: SchemaPointer<Channel> | Default<undefined>
+  channel: SchemaPointer<Channel> | Default<undefined>;
 }
 
 /**
@@ -119,11 +119,11 @@ interface PinsVoteLog extends BaseSchemaObject {
   /**
    * 主体类型，用于区分 subject_id 的用途。可选类型为： 1. pins
    **/
-  subject_type: string | 'pins' | Default<"pins">
+  subject_type: string | 'pins' | Default<'pins'>;
   /**
    * 主体的 id
    **/
-  subject_id: string | Default<undefined>
+  subject_id: string | Default<undefined>;
 }
 
 /**
@@ -134,15 +134,15 @@ interface ChannelActivityLog extends BaseSchemaObject {
   /**
    * 圈子id
    **/
-  channel_id: string
+  channel_id: string;
   /**
    * 关联的活动 id
    **/
-  activity_id: string
+  activity_id: string;
   /**
    * applied_at
    **/
-  applied_at: EpochSeconds
+  applied_at: EpochSeconds;
 }
 
 /**
@@ -153,15 +153,15 @@ interface ChannelFeed extends BaseSchemaObject {
   /**
    * 关联的圈子 id
    **/
-  channel_id: string
+  channel_id: string;
   /**
    * 主体类型，用于区分 subject_id 的用途。可选类型为： 1. activity 2. pins
    **/
-  subject_type: string | 'activity' | 'pins'
+  subject_type: string | 'activity' | 'pins';
   /**
    * 主体的 id
    **/
-  subject_id: string
+  subject_id: string;
 }
 
 /**
@@ -172,31 +172,31 @@ interface Pins extends BaseSchemaObject {
   /**
    * 内容点赞数
    **/
-  upvote: Int | Default<0>
+  upvote: Int | Default<0>;
   /**
    * "想法" 附带的图片
    **/
-  images: string[] | Default<undefined>
+  images: string[] | Default<undefined>;
   /**
    * 主体 id
    **/
-  subject_id: string | Default<undefined>
+  subject_id: string | Default<undefined>;
   /**
    * 主体类型，用于区分 subject_id 的用途。可选类型为： 1. channel
    **/
-  subject_type: string | Default<undefined>
+  subject_type: string | Default<undefined>;
   /**
    * "想法" 内容
    **/
-  content: string
+  content: string;
   /**
    * 是否将想法推送到广场中
    **/
-  is_public: boolean | Default<true>
+  is_public: boolean | Default<true>;
   /**
    * 想法状态
    **/
-  status: string | 'approved' | 'deleted' | Default<"approved">
+  status: string | 'approved' | 'deleted' | Default<'approved'>;
 }
 
 /**
@@ -207,70 +207,70 @@ interface ChannelActivity extends BaseSchemaObject {
   /**
    * 关联的圈子
    **/
-  channel: SchemaPointer<Channel>
+  channel: SchemaPointer<Channel>;
   /**
    * 活动名称
    **/
-  name: string
+  name: string;
   /**
    * 活动封面图
    **/
-  cover_image: string
+  cover_image: string;
   /**
    * 活动的详细说明
    **/
-  detail: string | Default<undefined>
+  detail: string | Default<undefined>;
   /**
    * 报名结束时间 (unix 时间戳)
    **/
-  apply_ends_at: EpochSeconds
+  apply_ends_at: EpochSeconds;
   /**
    * 开放的参与名额，-1 表示不限数量
    **/
-  quota: Int | Default<-1>
+  quota: Int | Default<-1>;
   /**
    * 已申请名额
    **/
-  applied_quota: Int | Default<0>
+  applied_quota: Int | Default<0>;
   /**
    * 活动发起人的联系信息
    **/
-  contact_info: string | Default<undefined>
+  contact_info: string | Default<undefined>;
 }
 
 /**
  * _richtextcontent 表
- * @description 
+ * @description
  */
 interface RichTextContent extends BaseSchemaObject {
   /**
    * 内容的标题
    **/
-  title: string | Default<undefined>
+  title: string | Default<undefined>;
   /**
    * 内容的简介
    **/
-  description: string | Default<undefined>
+  description: string | Default<undefined>;
   /**
    * 内容的封面图
    **/
-  cover: WechatBaaS.FileOperationResult | Default<undefined>
+  cover: WechatBaaS.FileOperationResult | Default<undefined>;
   /**
    * 内容详情
    **/
-  content: string | Default<undefined>
+  content: string | Default<undefined>;
   /**
    * 内容库 ID
    **/
-  group_id: Int | Default<undefined>
+  group_id: Int | Default<undefined>;
   /**
    * 内容分类的 ID 列表
    **/
-  categories: Int[] | Default<undefined>
+  categories: Int[] | Default<undefined>;
   /**
    * 内容阅读数
    **/
-  visit_count: Int | Default<undefined>
+  visit_count: Int | Default<undefined>;
 }
 
 /**
@@ -281,19 +281,19 @@ interface Channel extends BaseSchemaObject {
   /**
    * 圈子名称
    **/
-  name: string | Default<undefined>
+  name: string | Default<undefined>;
   /**
    * 圈子封面图
    **/
-  cover_image: string | Default<undefined>
+  cover_image: string | Default<undefined>;
   /**
    * 圈子描述
    **/
-  description: string | Default<undefined>
+  description: string | Default<undefined>;
   /**
    * 圈子状态
    **/
-  status: string | 'approved' | 'deleted' | Default<"approved">
+  status: string | 'approved' | 'deleted' | Default<'approved'>;
 }
 
 /**
@@ -304,5 +304,5 @@ interface ChannelAdmin extends BaseSchemaObject {
   /**
    * 圈子 id
    **/
-  channel_id: string | Default<undefined>
+  channel_id: string | Default<undefined>;
 }

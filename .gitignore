@@ -1,4 +1,5 @@
 node_modules/
+yarn-error.log
 
 # 通过编译生成的文件
 /packages/*/lib
