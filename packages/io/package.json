@@ -13,6 +13,7 @@
     "access": "restricted"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "node ./__tests__/core.test.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",

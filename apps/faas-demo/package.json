@@ -14,6 +14,7 @@
     "url": "git+https://github.com/anran758/mincloud.git"
   },
   "scripts": {
+    "lint": "eslint .",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",

@@ -8,7 +8,7 @@
 
 当需要新增功能或新增 package 时，需要切换到对应的 feature 分支。例如需要在 cli 中扩展新的功能，则需要切换至 feature/cli 中进行开发。
 
-``` bash
+```bash
 # 创建 feature 分支
 git checkout develop  # 切换至开发分支
 git checkout -b feature/cli  # 新分支的代码将基于 develop
@@ -21,7 +21,7 @@ git flow feature start cli
 
 当在 `feature` 分支中完成功能开发并测试通过后，将开发分支的代码合并至 develop 分支中：
 
-``` bash
+```bash
 git checkout develop
 git merge --no-ff feature/cli
 git branch -d feature/cli
@@ -34,7 +34,7 @@ git flow feature finish cli
 
 合并分支至 `develop` 中后，需要更新对应 packages 的版本号：
 
-``` bash
+```bash
 npx lerna version --conventional-commits
 # 选择需要更新的版本号
 
@@ -52,7 +52,7 @@ npx lerna version --conventional-commits
 
 ## 发布至 npm
 
-``` bash
+```bash
 npx lerna publish
 
 # lerna publish 命令默认会使用 git tag 打标签并将更新后的包发布至 npm registry。

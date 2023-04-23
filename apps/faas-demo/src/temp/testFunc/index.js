@@ -1,11 +1,11 @@
 'use strict';
 const { sayHi } = require('@mincloud/io');
-const path = require('path')
+const path = require('path');
 const rootPath = path.resolve(__dirname);
 
-console.log('rootPath', rootPath)
+console.log('rootPath', rootPath);
 
-sayHi()
+sayHi();
 
 export default function main1(event, callback) {
   console.log(`export default trigger`);
