@@ -35,11 +35,8 @@ git flow feature finish cli
 合并分支至 `develop` 中后，需要更新对应 packages 的版本号：
 
 ```bash
-npx lerna version --conventional-commits
 # 选择需要更新的版本号
-
-# 或者使用以下命令，直接指定版本号进行更新
-# npx lerna version 0.0.1
+npx lerna version
 
 # lerna version 会自动升级项目中的包版本号。具体的说它会做以下事情：
 
@@ -48,6 +45,9 @@ npx lerna version --conventional-commits
 # 3. 提交更新后的 package.json 文件和版本变更记录到 Git 仓库。
 # 4. 为每个更新后的包创建 Git tag。
 # 5. 将更新后的包发布到适当的 registry。
+
+# 或者通过 --conventional-commits 选项，根据提交历史自动识别出本次更新的版本类型（如 major、minor、patch 等），然后更新每个包的版本号，并在提交时生成符合规范的 Commit Message。
+npx lerna version --conventional-commits
 ```
 
 ## 发布至 npm
