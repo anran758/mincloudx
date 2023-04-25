@@ -47,7 +47,7 @@ npx lerna version
 # 5. 将更新后的包发布到适当的 registry。
 
 # 或者通过 --conventional-commits 选项，根据提交历史自动识别出本次更新的版本类型（如 major、minor、patch 等），然后更新每个包的版本号，并在提交时生成符合规范的 Commit Message。
-npx lerna version --conventional-commits
+npx lerna version
 ```
 
 ## 发布至 master 分支
@@ -57,9 +57,7 @@ npx lerna version --conventional-commits
 ## 发布至 npm
 
 ```bash
-npx lerna publish
-
+npx lerna publish from-package
 # lerna publish 命令默认会使用 git tag 打标签并将更新后的包发布至 npm registry。
-# 如果不想自动打标签，可以使用 --no-git-tag-version 选项
-# 如果不想发布到 registry，可以使用 --skip-npm 选项
+# 由于前面通过 version 打过了 tag，因此在 master 分支上仅做 npm 发布处理。
 ```
