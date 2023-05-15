@@ -14,7 +14,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "node ./__tests__/core.test.js",
+    "test": "npx ts-node ./test/index.ts",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",

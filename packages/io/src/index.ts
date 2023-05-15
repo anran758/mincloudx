@@ -1,7 +1,9 @@
-import core from './core/index';
+import { Db } from './db';
 
-export function sayHi() {
-  console.log('Hi');
+export class Client {
+  public db() {
+    return new Db();
+  }
 }
 
-export default core;
+export default Client;
