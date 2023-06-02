@@ -20,7 +20,7 @@ export async function generatorSchemaTsFromMincloud({
     console.error(
       `[command/type] ${
         error instanceof Error ? error.message : '获取数据表列表失败'
-      }`
+      }`,
     );
   }
 }

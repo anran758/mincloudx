@@ -4,13 +4,13 @@
 
 This project has been created using **webpack-cli**, you can now run
 
-``` bash
+```bash
 npm run build
 ```
 
 or
 
-``` bash
+```bash
 yarn build
 ```
 

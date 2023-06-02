@@ -1,8 +1,7 @@
-<!-- omit in toc -->
 # @mincloud/cli
 
 [![npm version](https://badge.fury.io/js/%40mincloud%2Fcli.svg)](https://badge.fury.io/js/%40mincloud%2Fcli)
-[![GitHub release](https://img.shields.io/github/release/anran758/mincloud.svg)](https://GitHub.com/OWNER/REPO/releases/)
+[![GitHub](https://img.shields.io/github/license/anran758/mincloud)](https://github.com/anran758/mincloud/blob/master/LICENSE)
 
 基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
 
@@ -20,17 +19,17 @@
 
 可以通过 yarn 或 npm 安装：
 
-``` bash
+```bash
 # 通过 yarn 安装
-yarn add @mincloud/cli -D 
+yarn add @mincloud/cli -D
 
 # 通过 npm 安装
-npm install @mincloud/cli -D 
+npm install @mincloud/cli -D
 ```
 
 ## Usage
 
-``` bash
+```bash
 min-cloud [command] [options]
 ```
 
@@ -50,7 +49,7 @@ min-cloud [command] [options]
 
 ### login
 
-``` bash
+```bash
 min-cloud login [options] <clientSecret> [clientId]
 ```
 
@@ -61,20 +60,20 @@ min-cloud login [options] <clientSecret> [clientId]
 
 **Example:**
 
-``` bash
+```bash
 min-cloud login myClientSecret myClientId
 ```
 
 ### type
 
-``` bash
+```bash
 min-cloud type [options]
 ```
 
 根据知晓云数据表转换成对应的 TypeScript 的 .d.ts 类型文件
 
 - `--fromMinCloud`: 通过读取线上的知晓云数据表信息来转换类型文件。默认为 false。
-- `-f, --schemaFile <path>`: 解析本地的 JSON 数据表文件来转换 TypeScript。默认为 "./_schema.json"。
+- `-f, --schemaFile <path>`: 解析本地的 JSON 数据表文件来转换 TypeScript。默认为 "./\_schema.json"。
 - `--outputDir <path>`: 类型文件的输出目录。默认为 "./typings"。
 - `--outputFileName <fileName>`: 类型文件的文件名。默认为 "schema"。
 
@@ -84,7 +83,7 @@ min-cloud type [options]
 
 **第一种**: 登录知晓云账号后，直接读取线上最新的数据表记录来转换
 
-``` bash
+```bash
 min-cloud type --fromMinCloud
 ```
 
@@ -94,7 +93,7 @@ min-cloud type --fromMinCloud
 
 ![copy response](static/network-save-response.png)
 
-``` bash
+```bash
 # 生成类型，默认读取当前目录下的 _schema.json 文件来生成 TypeScript 类型文件
 min-cloud type --schemaFile ./_schema.json
 ```
@@ -109,7 +108,7 @@ min-cloud type --schemaFile ./_schema.json
 
 **Example:**
 
-``` bash
+```bash
 # 查看 type 命令的使用方式
 min-cloud help type
 ```
@@ -118,7 +117,7 @@ min-cloud help type
 
 运行以下命令进行开发：
 
-``` shell
+```shell
 # 监听项目中的文件变化
 yarn watch
 

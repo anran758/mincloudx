@@ -1,0 +1,10 @@
+# 依赖
+node_modules
+
+# 构建出来的代码
+dist
+packages/**/lib
+
+# 测试相关文件
+coverage
+__snapshots__

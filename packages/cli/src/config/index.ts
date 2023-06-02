@@ -48,7 +48,7 @@ export function updateConfig(data: Mapping) {
   }
 
   const newConf = { ...data };
-  Object.keys(conf).forEach((key) => {
+  Object.keys(conf).forEach(key => {
     // 采用最新的数据
     if (newConf[key]) return;
 
@@ -67,7 +67,7 @@ export function updateConfig(data: Mapping) {
  */
 export function getToken(clientId?: string, args?: Mapping) {
   const conf = getConfig(args);
-  const id = clientId || conf.client_id
+  const id = clientId || conf.client_id;
 
   return id && conf.tokens ? decodeTokens(conf.tokens)[id] : '';
 }

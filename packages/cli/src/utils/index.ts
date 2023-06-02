@@ -13,7 +13,7 @@ export function getBaseType(target: any) {
 
 export function pascalCase(str: string) {
   return str.replace(/(^|_)(\w)/g, (match, head, letter) =>
-    letter.toUpperCase()
+    letter.toUpperCase(),
   );
 }
 
@@ -24,7 +24,11 @@ export function parseCollectionName(collectionName = '') {
   const [appId, schemaId, ...others] = collectionName.split('_');
   const schemaName = others.join('_');
 
-  return { appId, schemaId, schemaName };
+  return {
+    appId,
+    schemaId,
+    schemaName,
+  };
 }
 
 export async function writeFile({
@@ -37,7 +41,7 @@ export async function writeFile({
   content: string;
 }) {
   // 确保目录被创建
-  const made = await mkdirp(dirPath);
+  await mkdirp(dirPath);
 
   return fs.writeFile(path.resolve(dirPath, fileName), content);
 }

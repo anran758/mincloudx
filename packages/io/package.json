@@ -1,6 +1,6 @@
 {
   "name": "@mincloud/io",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.2",
   "description": "知晓云核心 API",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
@@ -13,6 +13,7 @@
     "access": "restricted"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "node ./__tests__/core.test.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",

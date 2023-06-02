@@ -17,12 +17,12 @@ const isProduction = process.env.NODE_ENV == 'production';
 function buildEntries(srcDir) {
   const jsFileExt = '.js';
   const pathPattern = srcDir ? `./src/${srcDir}/*?(.js)` : `./src/*/*?(.js)`;
-  const filePaths = glob.sync(pathPattern).filter((fileName) => {
+  const filePaths = glob.sync(pathPattern).filter(fileName => {
     const isDir = !path.basename(fileName).includes('.');
     const isJsFile = !isDir && fileName.endsWith(jsFileExt);
     return isDir || isJsFile;
   });
-  return keyBy(filePaths, (filePath) => path.basename(filePath, jsFileExt));
+  return keyBy(filePaths, filePath => path.basename(filePath, jsFileExt));
 }
 
 const config = {

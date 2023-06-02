@@ -1,5 +1,3 @@
-export class coreIo {
-  
-}
+export class coreIo {}
 
 export default coreIo;

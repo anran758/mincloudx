@@ -20,22 +20,22 @@ export function registerCommand(program: Command) {
     .option(
       '--fromMinCloud',
       '通过读取线上的知晓云数据表信息来转换类型文件',
-      DEFAULT_COMMAND_CONFIG.fromMinCloud
+      DEFAULT_COMMAND_CONFIG.fromMinCloud,
     )
     .option(
       '--schemaFile <path>',
       '解析本地的 JSON 数据表文件来转换 TypeScript',
-      DEFAULT_COMMAND_CONFIG.schemaFile
+      DEFAULT_COMMAND_CONFIG.schemaFile,
     )
     .option(
       '--outputDir <path>',
       '类型文件的输出目录',
-      DEFAULT_COMMAND_CONFIG.outputDir
+      DEFAULT_COMMAND_CONFIG.outputDir,
     )
     .option(
       '--outputFileName <fileName>',
       '类型文件的文件名',
-      DEFAULT_COMMAND_CONFIG.outputFileName
+      DEFAULT_COMMAND_CONFIG.outputFileName,
     )
     .action(async (options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
