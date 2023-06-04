@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Config = require('webpack-chain');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = new Config();
 
@@ -43,25 +44,34 @@ Object.keys(functionEntries).forEach(entryName => {
 config.output
   .path(path.resolve(__dirname, 'dist'))
   .filename('[name].js')
-  // .libraryTarget('commonjs2');
+  // 将库的导出赋值给一个名为 exports.main 的全局变量。
   .library('exports.main')
+  // 设置库的输出，设置 assign 会直接将库的导出赋值给由 library 指定的全局变量
   .libraryTarget('assign')
+  // 只导出模块的默认导出部分
   .libraryExport('default');
 
-// 别名
-config.resolve.alias.set('@', path.resolve(__dirname, 'src'));
-
-// 环境
 config.target('node');
 config.module
   .rule('typescript')
   .test(/\.ts$/)
   .use('ts-loader')
   .loader('ts-loader')
-  .end()
   .end();
 
+config.resolve.alias.set('@', path.resolve(__dirname, 'src'));
 config.resolve.extensions.add('.ts').add('.js').end();
-config.resolve.fallback = { path: false };
 
-module.exports = config.toConfig();
+config.optimization.minimizer('terser').use(TerserPlugin, [
+  {
+    extractComments: false,
+  },
+]);
+
+const webpackConfig = config.toConfig();
+
+// webpack-chain 目前不支持部分 webpack 5 的写法
+webpackConfig.output.clean = true;
+webpackConfig.resolve.fallback = { path: false };
+
+module.exports = webpackConfig;
