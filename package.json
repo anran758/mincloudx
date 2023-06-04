@@ -1,10 +1,10 @@
 {
   "private": true,
-  "name": "mincloud",
+  "name": "mincloudx",
   "version": "0.0.1-alpha.0",
   "description": "知晓云生态库工具",
   "main": "index.js",
-  "homepage": "https://github.com/anran758/mincloud#readme",
+  "homepage": "https://github.com/anran758/mincloudx#readme",
   "author": "anran758",
   "license": "MIT",
   "scripts": {

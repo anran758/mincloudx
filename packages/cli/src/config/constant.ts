@@ -1,4 +1,4 @@
-export const APP_NAME = 'mincloud';
+export const APP_NAME = 'mincloudx';
 
 /**
  * 默认表映射

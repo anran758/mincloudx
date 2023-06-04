@@ -1,5 +1,5 @@
 import path from 'path';
-import { sayHi } from '@mincloud/io';
+import { sayHi } from '@mincloudx/io';
 
 import { NAME } from '@/config';
 

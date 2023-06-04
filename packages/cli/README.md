@@ -1,7 +1,7 @@
-# @mincloud/cli
+# @mincloudx/cli
 
 [![npm version](https://badge.fury.io/js/%40mincloud%2Fcli.svg)](https://badge.fury.io/js/%40mincloud%2Fcli)
-[![GitHub](https://img.shields.io/github/license/anran758/mincloud)](https://github.com/anran758/mincloud/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/anran758/mincloudx)](https://github.com/anran758/mincloudx/blob/master/LICENSE)
 
 基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
 
@@ -21,10 +21,10 @@
 
 ```bash
 # 通过 yarn 安装
-yarn add @mincloud/cli -D
+yarn add @mincloudx/cli -D
 
 # 通过 npm 安装
-npm install @mincloud/cli -D
+npm install @mincloudx/cli -D
 ```
 
 ## Usage

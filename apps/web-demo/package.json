@@ -1,10 +1,10 @@
 {
-  "name": "@mincloud/web-demo",
+  "name": "@mincloudx/web-demo",
   "version": "0.0.2",
   "private": true,
   "description": "web test demo",
   "author": "anran758 <anran758@gmail.com>",
-  "homepage": "https://github.com/anran758/mincloud#readme",
+  "homepage": "https://github.com/anran758/mincloudx#readme",
   "license": "ISC",
   "main": "index.js",
   "directories": {
@@ -19,11 +19,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anran758/mincloud.git"
+    "url": "git+https://github.com/anran758/mincloudx.git"
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "node ./__tests__/@mincloud/web-demo.test.js",
+    "test": "node ./__tests__/@mincloudx/web-demo.test.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
@@ -31,7 +31,7 @@
     "serve": "webpack serve"
   },
   "bugs": {
-    "url": "https://github.com/anran758/mincloud/issues"
+    "url": "https://github.com/anran758/mincloudx/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -54,6 +54,6 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "dependencies": {
-    "@mincloud/io": "^0.0.2"
+    "@mincloudx/io": "^0.0.2"
   }
 }

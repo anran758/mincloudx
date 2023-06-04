@@ -1,4 +1,4 @@
-# @mincloud/web-demo
+# @mincloudx/web-demo
 
 > 知晓云 web 开发模板
 
