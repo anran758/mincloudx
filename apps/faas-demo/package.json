@@ -6,6 +6,7 @@
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloud/tree/main/packages/node-demo#readme",
   "license": "ISC",
+  "sideEffects": false,
   "publishConfig": {
     "access": "restricted"
   },
@@ -15,8 +16,8 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
+    "build": "rm -rf ./dist && webpack --mode=production --node-env=production",
+    "build:dev": "rm -rf ./dist && webpack --mode=development",
     "watch": "webpack --watch",
     "generator:type": "min-cloud type"
   },
@@ -25,11 +26,13 @@
   },
   "dependencies": {
     "@mincloud/cli": "^0.0.2",
-    "@mincloud/io": "^0.0.2"
+    "@mincloud/io": "^0.0.2",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack-chain": "^6.5.1",
+    "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "glob": "^8.0.3",
-    "lodash": "^4.17.21",
     "mincloud": "^1.0.6"
   }
 }

@@ -1,78 +1,67 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
+const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
-const { keyBy } = require('lodash');
+const Config = require('webpack-chain');
 
-const isProduction = process.env.NODE_ENV == 'production';
+const config = new Config();
 
 /**
- * 从 ./src 目录读取所有云函数 js 文件生成 webpack entry 参数对象
- * => {
- *   funcA: '/path/to/src/funcA.js',
- *   funcB: '/path/to/src/funcB.js',
- *   ...
- * }
- * @return {Object}
+ * 递归地搜索云函数入口文件。
+ * @param {string} dir - 要搜索的目录。
+ * @param {string} baseDir - 基础目录，用于计算相对路径。
+ * @returns {Object} - 入口点对象。
  */
-function buildEntries(srcDir) {
-  const jsFileExt = '.js';
-  const pathPattern = srcDir ? `./src/${srcDir}/*?(.js)` : `./src/*/*?(.js)`;
-  const filePaths = glob.sync(pathPattern).filter(fileName => {
-    const isDir = !path.basename(fileName).includes('.');
-    const isJsFile = !isDir && fileName.endsWith(jsFileExt);
-    return isDir || isJsFile;
-  });
-  return keyBy(filePaths, filePath => path.basename(filePath, jsFileExt));
-}
 
-const config = {
-  target: 'node',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    library: {
-      // 导出方式为 export default xxx
-      name: 'main',
-      type: 'commonjs-module',
-      export: 'default',
+function scanForFunctionEntries(dir) {
+  let entries = {};
 
-      // 使用 export function main() {}
-      // type: 'commonjs-module',
+  function findEntries(currentPath) {
+    fs.readdirSync(currentPath).forEach(file => {
+      const filePath = path.resolve(currentPath, file);
+      const stat = fs.statSync(filePath);
 
-      // name: 'exports.main',
-      // type: 'assign',
-      // type: 'umd',
-    },
-  },
-  plugins: [
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/i,
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset',
-      },
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
-    ],
-  },
-};
-
-module.exports = (env, argv) => {
-  config.entry = buildEntries(argv.src);
-
-  if (isProduction) {
-    config.mode = 'production';
-  } else {
-    config.mode = 'development';
+      if (stat && stat.isDirectory()) {
+        findEntries(filePath);
+      } else if (file.endsWith('.js') || file.endsWith('.ts')) {
+        const entryKey = path.basename(filePath, path.extname(filePath));
+        entries[entryKey] = filePath;
+      }
+    });
   }
 
-  return config;
-};
+  findEntries(dir);
+
+  return entries;
+}
+
+// 输入
+const functionEntries = scanForFunctionEntries('./src/function');
+Object.keys(functionEntries).forEach(entryName => {
+  config.entry(entryName).add(functionEntries[entryName]).end();
+});
+
+// 输出
+config.output
+  .path(path.resolve(__dirname, 'dist'))
+  .filename('[name].js')
+  // .libraryTarget('commonjs2');
+  .library('exports.main')
+  .libraryTarget('assign')
+  .libraryExport('default');
+
+// 别名
+config.resolve.alias.set('@', path.resolve(__dirname, 'src'));
+
+// 环境
+config.target('node');
+config.module
+  .rule('typescript')
+  .test(/\.ts$/)
+  .use('ts-loader')
+  .loader('ts-loader')
+  .end()
+  .end();
+
+config.resolve.extensions.add('.ts').add('.js').end();
+config.resolve.fallback = { path: false };
+
+module.exports = config.toConfig();
