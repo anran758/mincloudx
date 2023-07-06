@@ -1,13 +1,15 @@
 import path from 'path';
-import { generatorSchemaTs } from './template';
 import type { Command } from 'commander';
-import { generatorSchemaTsFromMincloud } from './list';
+import chalk from 'chalk';
+
+import { generatorSchemaFile } from './template';
+import { generatorSchemaFileFromRemote } from './list';
 
 export const DEFAULT_COMMAND_CONFIG = {
-  schemaFile: './_schema.json',
+  transform: './_schema.json',
   outputDir: './typings',
-  outputFileName: 'schema',
-  fromMinCloud: false,
+  outputFile: 'schema',
+  pull: false,
 };
 
 /**
@@ -18,14 +20,14 @@ export function registerCommand(program: Command) {
     .command('type')
     .description('生成知晓云数据表的 .d.ts 类型文件')
     .option(
-      '--fromMinCloud',
-      '通过读取线上的知晓云数据表信息来转换类型文件',
-      DEFAULT_COMMAND_CONFIG.fromMinCloud,
+      '--pull',
+      '从远端拉取知晓云数据表并生成类型定义',
+      DEFAULT_COMMAND_CONFIG.pull,
     )
     .option(
-      '--schemaFile <path>',
-      '解析本地的 JSON 数据表文件来转换 TypeScript',
-      DEFAULT_COMMAND_CONFIG.schemaFile,
+      '--transform <path>',
+      '转换本地 JSON 数据表为 TypeScript 类型定义',
+      DEFAULT_COMMAND_CONFIG.transform,
     )
     .option(
       '--outputDir <path>',
@@ -33,24 +35,33 @@ export function registerCommand(program: Command) {
       DEFAULT_COMMAND_CONFIG.outputDir,
     )
     .option(
-      '--outputFileName <fileName>',
+      '--outputFile <fileName>',
       '类型文件的文件名',
-      DEFAULT_COMMAND_CONFIG.outputFileName,
+      DEFAULT_COMMAND_CONFIG.outputFile,
     )
     .action(async (options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
       const outputConf = {
         outputDir: path.resolve(cwd, options.outputDir),
-        outputFileName: options.outputFileName,
+        outputFile: options.outputFile,
       };
 
       // 通过读取 schema file 的形式解析
-      return !options.fromMinCloud
-        ? generatorSchemaTs({
+      const result = await (options.pull
+        ? generatorSchemaFileFromRemote(outputConf)
+        : generatorSchemaFile({
             ...outputConf,
-            input: path.resolve(cwd, options.schemaFile),
-          })
-        : generatorSchemaTsFromMincloud(outputConf);
+            input: path.resolve(cwd, options.transform),
+          }));
+
+      console.log(
+        chalk.bold(`[mincloudx/type]`),
+        chalk.green('数据表类型文件保存成功:'),
+        path.join(outputConf.outputDir, `${outputConf.outputFile}.d.ts`),
+      );
+      console.log('');
+
+      return result;
     });
 }
 

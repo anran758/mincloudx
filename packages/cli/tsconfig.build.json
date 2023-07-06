@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "./lib",
     "rootDir": "./src",
-    "types": ["minapp-sdk-typings"],
     "noImplicitAny": false,
     "resolveJsonModule": true
   },

@@ -1,4 +1,5 @@
 export const APP_NAME = 'mincloudx';
+export const MIN_CLOUD_KEY = 'mincloud';
 
 /**
  * 默认表映射

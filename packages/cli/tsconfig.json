@@ -1,9 +1,9 @@
 {
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "types": ["@types/node"],
+    "types": ["@types/node", "minapp-sdk-typings"],
     "composite": false,
     "rootDir": "."
   },
-  "include": ["./src"]
+  "include": ["./src", "typings"]
 }

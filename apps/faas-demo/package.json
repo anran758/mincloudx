@@ -20,7 +20,7 @@
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",
     "test": "webpack -v",
-    "generator:type": "min-cloud type"
+    "generator:type": "mincloudx type"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloudx/issues"
@@ -34,7 +34,7 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "mincloudx": "^1.2.3",
+    "mincloud": "^1.2.3",
     "terser-webpack-plugin": "^5.3.9"
   }
 }

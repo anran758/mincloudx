@@ -16,11 +16,11 @@ interface PointerWithoutData {
   _table: string;
 }
 
-type SchemaPointer<T extends BaseSchemaObject> = T | PointerWithoutData;
+type SchemaPointer<T extends BaseTable> = T | PointerWithoutData;
 
 type CreatedBy = UserProfile | PointerWithoutData | Int;
 
-interface BaseSchemaObject {
+export interface BaseTable {
   _id: Int;
   id: SchemaId;
   created_at: Int;
@@ -33,7 +33,7 @@ interface BaseSchemaObject {
  * _userprofile 表
  * @description
  */
-interface UserProfile extends BaseSchemaObject {
+interface UserProfile extends BaseTable {
   /**
    * 用户昵称
    **/
@@ -104,7 +104,7 @@ interface UserProfile extends BaseSchemaObject {
  * channel_follow 表
  * @description channel_follow
  */
-interface ChannelFollow extends BaseSchemaObject {
+interface ChannelFollow extends BaseTable {
   /**
    * 圈子信息
    **/
@@ -115,7 +115,7 @@ interface ChannelFollow extends BaseSchemaObject {
  * pins_vote_log 表
  * @description 想法点赞记录表
  */
-interface PinsVoteLog extends BaseSchemaObject {
+interface PinsVoteLog extends BaseTable {
   /**
    * 主体类型，用于区分 subject_id 的用途。可选类型为： 1. pins
    **/
@@ -130,7 +130,7 @@ interface PinsVoteLog extends BaseSchemaObject {
  * channel_activity_log 表
  * @description 圈子活动参与记录表
  */
-interface ChannelActivityLog extends BaseSchemaObject {
+interface ChannelActivityLog extends BaseTable {
   /**
    * 圈子id
    **/
@@ -149,7 +149,7 @@ interface ChannelActivityLog extends BaseSchemaObject {
  * channel_feed 表
  * @description 圈子动态表
  */
-interface ChannelFeed extends BaseSchemaObject {
+interface ChannelFeed extends BaseTable {
   /**
    * 关联的圈子 id
    **/
@@ -168,7 +168,7 @@ interface ChannelFeed extends BaseSchemaObject {
  * pins 表
  * @description 想法表
  */
-interface Pins extends BaseSchemaObject {
+interface Pins extends BaseTable {
   /**
    * 内容点赞数
    **/
@@ -203,7 +203,7 @@ interface Pins extends BaseSchemaObject {
  * channel_activity 表
  * @description 圈子活动表
  */
-interface ChannelActivity extends BaseSchemaObject {
+interface ChannelActivity extends BaseTable {
   /**
    * 关联的圈子
    **/
@@ -242,7 +242,7 @@ interface ChannelActivity extends BaseSchemaObject {
  * _richtextcontent 表
  * @description
  */
-interface RichTextContent extends BaseSchemaObject {
+interface RichTextContent extends BaseTable {
   /**
    * 内容的标题
    **/
@@ -277,7 +277,7 @@ interface RichTextContent extends BaseSchemaObject {
  * channel 表
  * @description 圈子表
  */
-interface Channel extends BaseSchemaObject {
+interface Channel extends BaseTable {
   /**
    * 圈子名称
    **/
@@ -300,7 +300,7 @@ interface Channel extends BaseSchemaObject {
  * channel_admin 表
  * @description 用于保存圈子的管理员信息
  */
-interface ChannelAdmin extends BaseSchemaObject {
+interface ChannelAdmin extends BaseTable {
   /**
    * 圈子 id
    **/

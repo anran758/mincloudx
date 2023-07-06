@@ -1,6 +1,7 @@
 import { Command } from 'commander';
+import chalk from 'chalk';
 
-import { getToken } from './config';
+import { getConfig, getToken } from './config';
 import { packageInfo } from './config/constant';
 import { registerMinCloudHeaders } from './request';
 
@@ -14,11 +15,21 @@ const program = new Command();
 
 // 设置基本信息
 program
-  .name('min-cloud')
+  .name('mincloudx')
   .description(packageInfo.description)
   .version(packageInfo.version)
   .option('--envId <envId>', '环境 Id')
-  .hook('preAction', (thisCommand, actionCommand) => {
+  .hook('preAction', (_, actionCommand) => {
+    const opts = actionCommand.opts();
+    const config = getConfig(opts);
+
+    console.log('');
+    console.log(
+      chalk.bold(`[mincloudx/${actionCommand.name()}] client_id:`),
+      chalk.bold.blue(config.client_id),
+      '',
+    );
+
     // 知晓云请求需要附带对应的请求头
     registerMinCloudHeaders({
       token: getToken(),
