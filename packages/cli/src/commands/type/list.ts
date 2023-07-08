@@ -1,5 +1,6 @@
-import { getSchemaList } from '../../request/api/schema';
-import { writeSchemaFile } from './template';
+import { getSchemaList } from '@/request/api/schema';
+
+import { writeSchemaFile } from './generator';
 
 export async function generatorSchemaFileFromRemote({
   outputDir,

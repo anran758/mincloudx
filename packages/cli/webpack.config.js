@@ -1,13 +1,15 @@
-const fs = require('fs');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
-// webpack 配置
-module.exports = {
-  entry: 'src/index',
+const webpackConf = {
+  mode: 'production',
+  entry: {
+    index: path.resolve(__dirname, 'src/index.ts'),
+  },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    path: path.resolve(__dirname, 'lib'),
+    filename: 'index.js',
     clean: true,
   },
   target: 'node',
@@ -16,9 +18,22 @@ module.exports = {
       {
         test: /\.ts$/,
         use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },
+  externalsPresets: {
+    node: true,
+  },
+  externals: [
+    nodeExternals(),
+    // monorepo 结构还需要向上找一层
+    nodeExternals({
+      modulesDir: path.resolve(__dirname, '../../node_modules'),
+    }),
+    // axios-cookiejar-support 的相关依赖
+    { deasync: 'commonjs deasync' },
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -34,3 +49,5 @@ module.exports = {
     ],
   },
 };
+
+module.exports = webpackConf;

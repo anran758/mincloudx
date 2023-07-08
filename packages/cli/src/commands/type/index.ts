@@ -2,7 +2,7 @@ import path from 'path';
 import type { Command } from 'commander';
 import chalk from 'chalk';
 
-import { generatorSchemaFile } from './template';
+import { generatorSchemaFile } from './generator';
 import { generatorSchemaFileFromRemote } from './list';
 
 export const DEFAULT_COMMAND_CONFIG = {

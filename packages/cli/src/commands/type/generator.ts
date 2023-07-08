@@ -4,14 +4,15 @@ import {
   FIELD_TYPE_MAP,
   TABLE_NAME_MAPPING,
   packageInfo,
-} from '../../../config/constant';
+} from '@/config/constant';
 import {
   getBaseType,
   pascalCase,
   parseCollectionName,
   writeFile,
-} from '../../../utils';
-import type { SchemaRootObject, SchemeObject, SchemaField } from '../schema';
+} from '@/utils';
+
+import type { SchemaRootObject, SchemeObject, SchemaField } from './schema';
 
 /**
  * 生成公共的类型文件
