@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "target": "ES2019",
     "module": "commonJS",
     "moduleResolution": "node",
     "lib": ["es2015", "dom"]
   },
-  "exclude": ["node_modules", "dist", "webpack.config.js"]
+  "include": ["src", "test"]
 }
