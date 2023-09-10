@@ -1,10 +1,8 @@
+import { getBaaS } from './baas';
 import { createTableOperation, Operation } from './operations';
 
 export function createIo<T extends string>(options: { tables?: T[] } = {}) {
-  const BaaS = global.BaaS;
-  if (!BaaS) {
-    throw new Error('BaaS is not initialized.');
-  }
+  const BaaS = getBaaS();
 
   const io = {
     get query() {

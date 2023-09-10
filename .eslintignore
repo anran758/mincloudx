@@ -4,6 +4,7 @@ node_modules
 # 构建出来的代码
 dist
 packages/**/lib
+packages/**/libs
 
 # 测试相关文件
 coverage
