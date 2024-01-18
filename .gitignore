@@ -5,6 +5,7 @@ lerna-debug.log
 # 通过编译生成的文件
 /packages/*/lib
 dist/
+dist-ts/
 *.tsbuildinfo
 
 # lock file

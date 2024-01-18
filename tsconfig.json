@@ -1,5 +1,6 @@
 {
   "exclude": ["node_modules", "lib", "__tests__"],
+  "include": ["package.json"],
   "compilerOptions": {
     "types": ["@types/node"],
     "skipLibCheck": true,
@@ -17,5 +18,4 @@
     "composite": true,
     "declaration": true
   }
-  // "references": [],
 }

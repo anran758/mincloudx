@@ -1,7 +1,7 @@
-# @mincloud/cli
+# @mincloudx/cli
 
 [![npm version](https://badge.fury.io/js/%40mincloud%2Fcli.svg)](https://badge.fury.io/js/%40mincloud%2Fcli)
-[![GitHub](https://img.shields.io/github/license/anran758/mincloud)](https://github.com/anran758/mincloud/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/anran758/mincloudx)](https://github.com/anran758/mincloudx/blob/master/LICENSE)
 
 基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
 
@@ -21,16 +21,16 @@
 
 ```bash
 # 通过 yarn 安装
-yarn add @mincloud/cli -D
+yarn add @mincloudx/cli -D
 
 # 通过 npm 安装
-npm install @mincloud/cli -D
+npm install @mincloudx/cli -D
 ```
 
 ## Usage
 
 ```bash
-min-cloud [command] [options]
+mincloudx [command] [options]
 ```
 
 | Commands        | Description                   |
@@ -50,7 +50,7 @@ min-cloud [command] [options]
 ### login
 
 ```bash
-min-cloud login [options] <clientSecret> [clientId]
+mincloudx login [options] <clientSecret> [clientId]
 ```
 
 **Parameter:**
@@ -61,21 +61,21 @@ min-cloud login [options] <clientSecret> [clientId]
 **Example:**
 
 ```bash
-min-cloud login myClientSecret myClientId
+mincloudx login ClientSecret ClientId
 ```
 
 ### type
 
 ```bash
-min-cloud type [options]
+mincloudx type [options]
 ```
 
 根据知晓云数据表转换成对应的 TypeScript 的 .d.ts 类型文件
 
-- `--fromMinCloud`: 通过读取线上的知晓云数据表信息来转换类型文件。默认为 false。
-- `-f, --schemaFile <path>`: 解析本地的 JSON 数据表文件来转换 TypeScript。默认为 "./\_schema.json"。
+- `--pull`: 通过读取线上的知晓云数据表信息来转换类型文件。默认为 false。
+- `-f, --transform <path>`: 解析本地的 JSON 数据表文件来转换 TypeScript。默认为 "./\_schema.json"。
 - `--outputDir <path>`: 类型文件的输出目录。默认为 "./typings"。
-- `--outputFileName <fileName>`: 类型文件的文件名。默认为 "schema"。
+- `--outputFile <fileName>`: 类型文件的文件名。默认为 "schema"。
 
 ---
 
@@ -84,7 +84,7 @@ min-cloud type [options]
 **第一种**: 登录知晓云账号后，直接读取线上最新的数据表记录来转换
 
 ```bash
-min-cloud type --fromMinCloud
+mincloudx type --pull
 ```
 
 **第二种**： 若顾虑安全问题或其他因素考虑，还可以通过直接读取本地的 schema JSON 文件来转换：
@@ -95,8 +95,10 @@ min-cloud type --fromMinCloud
 
 ```bash
 # 生成类型，默认读取当前目录下的 _schema.json 文件来生成 TypeScript 类型文件
-min-cloud type --schemaFile ./_schema.json
+mincloudx type --transform ./_schema.json
 ```
+
+生成的类型文件可能会引用知晓云官方的全局命名空间，因此在使用前需要留意将 `minapp-sdk-typings` 添加到 `tsconfig.json` 的 `compilerOptions.types` 中。
 
 ### help
 
@@ -110,7 +112,7 @@ min-cloud type --schemaFile ./_schema.json
 
 ```bash
 # 查看 type 命令的使用方式
-min-cloud help type
+mincloudx help type
 ```
 
 ## Development

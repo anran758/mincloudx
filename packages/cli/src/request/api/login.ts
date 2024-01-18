@@ -12,6 +12,7 @@ function saveToken(clientId: string, token: string) {
 
   return updateConfig({
     tokens: encodeTokens(tokens),
+    client_id: clientId,
   });
 }
 

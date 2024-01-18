@@ -26,8 +26,13 @@ export const DEFAULT_CONFIG = {
 
 export function getConfig(args?: Mapping): Config {
   const config = rc(APP_NAME, DEFAULT_CONFIG, args);
+  const minCloudConfig = rc(APP_NAME, DEFAULT_CONFIG, args);
 
-  return config;
+  return {
+    // 若没有使用 mincloudx 的配置，则默认从官方提供的 .mincloudrc 中取 client_id
+    client_id: minCloudConfig.client_id,
+    ...config,
+  };
 }
 
 /**
