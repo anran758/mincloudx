@@ -1,6 +1,6 @@
 {
   "name": "@mincloudx/web-demo",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "description": "web test demo",
   "author": "anran758 <anran758@gmail.com>",
@@ -54,6 +54,6 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "dependencies": {
-    "@mincloudx/io": "^0.0.2"
+    "@mincloudx/io": "^0.1.0"
   }
 }
