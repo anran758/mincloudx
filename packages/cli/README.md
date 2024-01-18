@@ -1,6 +1,6 @@
 # @mincloudx/cli
 
-[![npm version](https://badge.fury.io/js/%40mincloud%2Fcli.svg)](https://badge.fury.io/js/%40mincloud%2Fcli)
+[![npm version](https://badge.fury.io/js/@mincloudx%2Fcli.svg)](https://badge.fury.io/js/@mincloudx%2Fcli)
 [![GitHub](https://img.shields.io/github/license/anran758/mincloudx)](https://github.com/anran758/mincloudx/blob/master/LICENSE)
 
 基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
@@ -61,7 +61,7 @@ mincloudx login [options] <clientSecret> [clientId]
 **Example:**
 
 ```bash
-mincloudx login ClientSecret ClientId
+mincloudx login clientSecret clientId
 ```
 
 ### type
