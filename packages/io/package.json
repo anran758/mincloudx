@@ -5,6 +5,7 @@
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
   "license": "ISC",
+  "private": true,
   "main": "dist/main.js",
   "files": [
     "dist"
