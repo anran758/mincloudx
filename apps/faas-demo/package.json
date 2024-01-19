@@ -1,35 +1,40 @@
 {
-  "name": "@mincloud/faas-demo",
-  "version": "0.0.2",
+  "name": "@mincloudx/faas-demo",
+  "version": "0.1.0",
   "private": true,
-  "description": "My webpack project",
+  "description": "开箱即用的云函数模板",
   "author": "anran758 <anran758@gmail.com>",
-  "homepage": "https://github.com/anran758/mincloud/tree/main/packages/node-demo#readme",
+  "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/node-demo#readme",
   "license": "ISC",
+  "sideEffects": false,
   "publishConfig": {
     "access": "restricted"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anran758/mincloud.git"
+    "url": "git+https://github.com/anran758/mincloudx.git"
   },
   "scripts": {
     "lint": "eslint .",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",
-    "generator:type": "min-cloud type"
+    "test": "webpack -v",
+    "generator:type": "mincloudx type"
   },
   "bugs": {
-    "url": "https://github.com/anran758/mincloud/issues"
+    "url": "https://github.com/anran758/mincloudx/issues"
   },
   "dependencies": {
-    "@mincloud/cli": "^0.0.2",
-    "@mincloud/io": "^0.0.2"
+    "@mincloudx/cli": "^0.1.0",
+    "@mincloudx/io": "^0.1.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack-chain": "^6.5.1",
+    "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "glob": "^8.0.3",
-    "lodash": "^4.17.21",
-    "mincloud": "^1.0.6"
+    "mincloud": "^1.2.3",
+    "terser-webpack-plugin": "^5.3.9"
   }
 }

@@ -1,10 +1,11 @@
 {
-  "name": "@mincloud/io",
-  "version": "0.0.2",
+  "name": "@mincloudx/io",
+  "version": "0.1.0",
   "description": "知晓云核心 API",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
   "license": "ISC",
+  "private": true,
   "main": "dist/main.js",
   "files": [
     "dist"
@@ -25,6 +26,6 @@
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.3",
     "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^5.1.4"
   }
 }

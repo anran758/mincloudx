@@ -1,4 +1,7 @@
-export const APP_NAME = 'mincloud';
+import * as packageInfo from '../../package.json';
+
+export const APP_NAME = 'mincloudx';
+export const MIN_CLOUD_KEY = 'mincloud';
 
 /**
  * 默认表映射
@@ -13,10 +16,4 @@ export const FIELD_TYPE_MAP = {
   file: 'WechatBaaS.FileOperationResult',
 };
 
-// note - cannot migrate this to an import statement because it will make TSC copy the package.json to the dist folder
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-export const packageInfo: {
-  name: string;
-  description: string;
-  version: string;
-} = require('../../package.json');
+export { packageInfo };
