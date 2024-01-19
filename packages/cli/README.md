@@ -1,6 +1,6 @@
 # @mincloudx/cli
 
-[![npm version](https://badge.fury.io/js/@mincloudx%2Fcli.svg)](https://badge.fury.io/js/@mincloudx%2Fcli)
+[![npm version](https://badge.fury.io/js/@mincloudx%2Fcli.svg)](https://www.npmjs.com/package/@mincloudx/cli)
 [![GitHub](https://img.shields.io/github/license/anran758/mincloudx)](https://github.com/anran758/mincloudx/blob/master/LICENSE)
 
 基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。
@@ -49,6 +49,8 @@ mincloudx [command] [options]
 
 ### login
 
+登录知晓云。
+
 ```bash
 mincloudx login [options] <clientSecret> [clientId]
 ```
@@ -64,41 +66,55 @@ mincloudx login [options] <clientSecret> [clientId]
 mincloudx login clientSecret clientId
 ```
 
+当 `mincloudx` 的命令中需要与知晓云应用交互时将优先读取 `.mincloudxrc` 配置文件中的 `client_id`。若项目目录或本地缓存中没有读取到，将会从知晓云官方提供的 `.mincloudrc` 中的 `client_id` 环境变量。
+
+因此，若你不希望在项目中创建太多 `rc` 配置文件，也可以直接使用 `.mincloudrc` 配置，`mincloudx` 不会污染 `.mincloudrc` 的配置信息。
+
 ### type
+
+`type` 命令用于将知晓云数据表转换为 TypeScript 的 `.d.ts` 类型文件。
 
 ```bash
 mincloudx type [options]
 ```
 
-根据知晓云数据表转换成对应的 TypeScript 的 .d.ts 类型文件
+**选项**:
 
-- `--pull`: 通过读取线上的知晓云数据表信息来转换类型文件。默认为 false。
-- `-f, --transform <path>`: 解析本地的 JSON 数据表文件来转换 TypeScript。默认为 "./\_schema.json"。
-- `--outputDir <path>`: 类型文件的输出目录。默认为 "./typings"。
-- `--outputFile <fileName>`: 类型文件的文件名。默认为 "schema"。
+| 选项              | 描述                                          | 默认值             |
+| ----------------- | --------------------------------------------- | ------------------ |
+| `--pull`          | 读取线上的知晓云数据表信息来转换类型文件。    | `false`            |
+| `-f, --transform` | 解析本地的 JSON 数据表文件来转换 TypeScript。 | `"./_schema.json"` |
+| `--outputDir`     | 类型文件的输出目录。                          | `"./typings"`      |
+| `--outputFile`    | 类型文件的文件名。                            | `"schema"`         |
 
 ---
 
-转换知晓云的数据表结构为 `.d.ts` 文件主要有两种方案：
+**转换方式**:
 
-**第一种**: 登录知晓云账号后，直接读取线上最新的数据表记录来转换
+**1. 在线转换**:
+
+登录知晓云账号后，直接读取线上最新的数据表记录来转换。
 
 ```bash
 mincloudx type --pull
 ```
 
-**第二种**： 若顾虑安全问题或其他因素考虑，还可以通过直接读取本地的 schema JSON 文件来转换：
+**2. 本地转换**:
 
-进入知晓云控制面板后，打开浏览器开发者工具，在 network 找到 `dserve/v1.8/schema/?offset=0&limit=200` 这条请求，并将 response 保存为 `_schema.json` 文件放置与 package.json 同级目录中。
+若顾虑应用密匙泄露的安全性等因素也可以直接读取本地的 schema JSON 文件来转换。
+
+方法：进入知晓云控制面板，打开浏览器开发者工具，在网络面板找到 `dserve/v1.8/schema/?offset=0&
+limit=200` 请求，并将响应保存为 `_schema.json` 文件，放在与 `package.json` 同级目录中。
 
 ![copy response](static/network-save-response.png)
 
 ```bash
-# 生成类型，默认读取当前目录下的 _schema.json 文件来生成 TypeScript 类型文件
 mincloudx type --transform ./_schema.json
 ```
 
-生成的类型文件可能会引用知晓云官方的全局命名空间，因此在使用前需要留意将 `minapp-sdk-typings` 添加到 `tsconfig.json` 的 `compilerOptions.types` 中。
+**注意**:
+
+生成的类型文件可能会引用知晓云官方的全局命名空间。在使用前，请确保将 `minapp-sdk-typings` 添加到 `tsconfig.json` 的 `compilerOptions.types` 中。
 
 ### help
 
