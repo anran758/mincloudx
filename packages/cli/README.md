@@ -106,7 +106,7 @@ mincloudx type --pull
 方法：进入知晓云控制面板，打开浏览器开发者工具，在网络面板找到 `dserve/v1.8/schema/?offset=0&
 limit=200` 请求，并将响应保存为 `_schema.json` 文件，放在与 `package.json` 同级目录中。
 
-![copy response](static/network-save-response.png)
+![copy response](./static/network-save-response.png)
 
 ```bash
 mincloudx type --transform ./_schema.json

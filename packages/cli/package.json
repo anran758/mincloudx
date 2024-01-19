@@ -32,7 +32,6 @@
   "files": [
     "bin",
     "lib",
-    "static",
     "LICENSE",
     "README.md"
   ],
