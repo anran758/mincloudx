@@ -1,6 +1,6 @@
 {
   "name": "@mincloudx/cli",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "description": "基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/cli#readme",
@@ -32,7 +32,6 @@
   "files": [
     "bin",
     "lib",
-    "static",
     "LICENSE",
     "README.md"
   ],

@@ -36,7 +36,7 @@ git flow feature finish cli
 
 ```bash
 # 选择需要更新的版本号
-npx lerna version
+npx lerna version --no-private
 
 # lerna version 会自动升级项目中的包版本号。具体的说它会做以下事情：
 
@@ -47,7 +47,7 @@ npx lerna version
 # 5. 将更新后的包发布到适当的 registry。
 
 # 或者通过 --conventional-commits 选项，根据提交历史自动识别出本次更新的版本类型（如 major、minor、patch 等），然后更新每个包的版本号，并在提交时生成符合规范的 Commit Message。
-npx lerna version
+npx lerna version --no-private --conventional-commits
 ```
 
 ## 发布至 master 分支
@@ -56,8 +56,8 @@ npx lerna version
 
 ## 发布至 npm
 
+进入需要发布的 package 中执行以下命令：
+
 ```bash
-npx lerna publish from-package
-# lerna publish 命令默认会使用 git tag 打标签并将更新后的包发布至 npm registry。
-# 由于前面通过 version 打过了 tag，因此在 master 分支上仅做 npm 发布处理。
+npm public
 ```
