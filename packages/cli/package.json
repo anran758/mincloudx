@@ -47,7 +47,6 @@
     "@types/osenv": "^0.1.1",
     "@types/rc": "^1.2.1",
     "@types/tough-cookie": "^4.0.2",
-    "chalk": "^4.1.2",
     "minapp-sdk-typings": "^3.1.0",
     "terser-webpack-plugin": "^5.3.10",
     "ts-node": "^10.8.0",
@@ -63,6 +62,8 @@
     "mkdirp": "^1.0.4",
     "osenv": "^0.1.5",
     "rc": "^1.2.8",
-    "tough-cookie": "^4.1.2"
+    "chalk": "^4.1.2",
+    "tough-cookie": "^4.1.2",
+    "webpack-merge": "^5.10.0"
   }
 }

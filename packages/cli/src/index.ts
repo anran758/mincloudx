@@ -7,6 +7,7 @@ import { registerMinCloudHeaders } from './request';
 
 import registerCommandType from './commands/type';
 import registerCommandLogin from './commands/login';
+import registerCommandFaas from './commands/faas';
 
 /**
  * https://github.com/tj/commander.js#quick-start
@@ -25,20 +26,20 @@ program
 
     console.log('');
     console.log(
-      chalk.bold(`[mincloudx/${actionCommand.name()}] client_id:`),
+      chalk.bold(`[mincloudx] client_id:`),
       chalk.bold.blue(config.client_id),
-      '',
     );
 
     // 知晓云请求需要附带对应的请求头
     registerMinCloudHeaders({
       token: getToken(),
-      envId: actionCommand.opts().envId,
+      envId: opts.envId,
     });
   });
 
 // 注册对应的 command
 registerCommandType(program);
 registerCommandLogin(program);
+registerCommandFaas(program);
 
 program.parse();
