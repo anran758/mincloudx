@@ -5,9 +5,10 @@ import { writeFile } from 'fs/promises';
 import path from 'path';
 import ini from 'ini';
 
-import { APP_NAME } from './constant';
+import { APP_NAME, MIN_CLOUD_KEY } from './constant';
 import type { Config } from './type.d';
 import { decodeTokens } from '../utils/token';
+import { checkPathExists } from '@/utils';
 
 type Mapping = Record<number | string, unknown>;
 
@@ -21,18 +22,24 @@ const IGNORE_CONFIG_KEYS = ['_', 'configs', 'config'];
 export const DEFAULT_CONFIG = {
   base_url: 'https://cloud.minapp.com/',
   os_home: osenv.home(),
-  prefix: APP_NAME,
 };
 
 export function getConfig(args?: Mapping): Config {
-  const config = rc(APP_NAME, DEFAULT_CONFIG, args);
-  const minCloudConfig = rc(APP_NAME, DEFAULT_CONFIG, args);
-
-  return {
-    // 若没有使用 mincloudx 的配置，则默认从官方提供的 .mincloudrc 中取 client_id
-    client_id: minCloudConfig.client_id,
-    ...config,
+  const config = {
+    ...rc(APP_NAME, DEFAULT_CONFIG, args),
   };
+  if (
+    !checkPathExists(`.${APP_NAME}rc`) &&
+    checkPathExists(`.${MIN_CLOUD_KEY}rc`)
+  ) {
+    // 没有使用默认 rc 配置，但使用了知晓云官方的 rc 配置
+    const minCloudConfig = rc(MIN_CLOUD_KEY, DEFAULT_CONFIG, args);
+
+    // 仅读取 client_id 兼容
+    config.client_id = minCloudConfig.client_id;
+  }
+
+  return config;
 }
 
 /**
@@ -43,9 +50,7 @@ export function getConfig(args?: Mapping): Config {
 export function updateConfig(data: Mapping) {
   // 默认配置不应污染 rc 文件的值
   const conf = rc(APP_NAME);
-
-  const prefix = conf.prefix || DEFAULT_CONFIG.prefix;
-  const rootRcFilePath = path.join(DEFAULT_CONFIG.os_home, `.${prefix}rc`);
+  const rootRcFilePath = path.join(DEFAULT_CONFIG.os_home, `.${APP_NAME}rc`);
 
   // 检测 user 路径下是否存在配置表，不存在则创建一个
   if (!fs.existsSync(rootRcFilePath)) {

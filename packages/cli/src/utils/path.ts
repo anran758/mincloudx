@@ -16,3 +16,13 @@ export function resolveCwdAbsolutePath(filePath) {
 
   return path.resolve(process.cwd(), filePath);
 }
+
+/**
+ * 检查给定的文件或目录路径是否存在。
+ * @param {string} filePath - 要检查的文件或目录的路径。
+ * @returns {boolean} 如果路径存在，则返回 true；否则返回 false。
+ */
+export function checkPathExists(filePath) {
+  const resolvedPath = resolveCwdAbsolutePath(filePath);
+  return fs.existsSync(resolvedPath);
+}
