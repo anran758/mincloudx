@@ -7,10 +7,6 @@ const COMMAND_NAME = 'login';
 
 /**
  * 注册 `login` 命令
- *
- * TODO:
- *   当前实现会在命令行中留痕，是一种简单的实现。后续可以换一种更加安全的方式读取 clientSecret。
- *   如 login 后隐藏 clientSecret 的输入，而不是从 argument 中读取
  */
 export function registerCommand(program: Command) {
   return program
@@ -31,7 +27,7 @@ export function registerCommand(program: Command) {
           clientSecret: clientSecret,
         });
       } catch (error) {
-        console.log('error', error);
+        // console.log('error', error);
 
         if (error instanceof Error) {
           program.error(`[command/login] 登录失败: ${error.message}`);

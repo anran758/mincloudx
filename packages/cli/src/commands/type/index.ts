@@ -62,8 +62,8 @@ export function registerCommand(program: Command) {
       logger.info(
         chalk.green('数据表类型文件保存成功:'),
         path.join(outputConf.outputPath, `${outputConf.outputFile}.d.ts`),
+        '\n',
       );
-      console.log('');
 
       return result;
     });

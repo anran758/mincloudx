@@ -88,7 +88,7 @@ export function buildFunction({
   return compiler;
 }
 
-export function registerBuildCommand(program: Command) {
+export function registerCommand(program: Command) {
   return program
     .command('build')
     .description('云函数构建')

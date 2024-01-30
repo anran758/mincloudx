@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import { program } from 'commander';
 import chalk from 'chalk';
 
 import { getConfig, getToken } from './config';
@@ -9,25 +9,21 @@ import registerCommandType from './commands/type';
 import registerCommandLogin from './commands/login';
 import registerCommandFaas from './commands/faas';
 
-/**
- * https://github.com/tj/commander.js#quick-start
- */
-const program = new Command();
-
 // 设置基本信息
 program
   .name('mincloudx')
   .description(packageInfo.description)
   .version(packageInfo.version)
   .option('--env-id <id>', '知晓云环境 ID')
+  .option('-d, --debug', 'output extra debugging')
   .hook('preAction', (_, actionCommand) => {
     const opts = actionCommand.opts();
     const config = getConfig(opts);
 
-    console.log('');
     console.log(
       chalk.bold(`[mincloudx] client_id:`),
       chalk.bold.blue(config.client_id),
+      '\n',
     );
 
     // 知晓云请求需要附带对应的请求头
@@ -42,4 +38,4 @@ registerCommandType(program);
 registerCommandLogin(program);
 registerCommandFaas(program);
 
-program.parse();
+program.parse(process.argv);
