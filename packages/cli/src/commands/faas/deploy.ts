@@ -57,7 +57,10 @@ async function deployFile({
       }
 
       if (status === 404) {
-        logger.log(`try create new function.`);
+        if (debug) {
+          logger.log(`"${functionName}" try create new function.`);
+        }
+
         await createCloudFunction({
           name: functionName,
           content: content.toString(),
@@ -76,7 +79,7 @@ async function deployFile({
           throw new Error(message);
         });
 
-        logger.info(`"${functionName}" created successfully.`);
+        logger.info(`"${chalk.bold.blue(functionName)}" created successfully.`);
       }
     } else {
       if (debug) {
@@ -101,9 +104,22 @@ export async function deployFunction({
       return result;
     } else {
       logger.info(
-        `${chalk.bold.yellow('TODO:')} Preparing to deploy ${chalk.bold(
-          'all',
-        )} Cloud Functions from the directory...`,
+        `Preparing to deploy`,
+        chalk.bold('all cloud functions'),
+        `from the directory...\n`,
+      );
+
+      const extension = '.js';
+      const files = fs
+        .readdirSync(folderPath)
+        .filter(file => path.extname(file) === extension);
+
+      await Promise.all(
+        files.map(file => {
+          const functionName = path.basename(file, extension);
+
+          return deployFile({ dir: folderPath, functionName });
+        }),
       );
     }
   } catch (error) {
