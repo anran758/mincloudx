@@ -14,6 +14,7 @@
   - [type](#type)
   - [faas](#faas)
     - [build](#build)
+    - [deploy](#deploy)
   - [help](#help)
 - [Development](#development)
 
@@ -143,15 +144,31 @@ mincloudx type --transform ./_schema.json
 
 构建云函数源码。`faas build` 将通过 webpack 对源码进行打包压缩。
 
+构建云函数源码：
+
 ```bash
-Usage: mincloudx faas build [options]
+# 默认打包 ./src/function 目录下云函数文件，默认输出到 ./dist 目录下
+mincloudx faas build
+```
 
-云函数构建
+可以通过传参的方式来修改输入/输出路径的默认值：
 
-Options:
-  --entry-path <value>       存放云函数源码目录的路径 (default: "./src/function")
-  -o, --output-path <value>  云函数构建文件输出目录 (default: "./dist")
-  -h, --help                 display help for command
+```bash
+mincloudx faas build --entry-path ./src -o ./dist
+```
+
+#### deploy
+
+部署云函数。默认情况下，云函数编译后的代码都会放在 `./dist` 目录下，因此 `faas deploy` 默认从 `./dist` 目录中部署全部云函数文件：
+
+```bash
+mincloudx faas deploy
+```
+
+若需要修改部署的目录:
+
+```bash
+mincloudx faas deploy --deploy-dir dist-test
 ```
 
 ### help
