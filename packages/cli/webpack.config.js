@@ -16,7 +16,7 @@ const webpackConf = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.(js|ts)$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },
