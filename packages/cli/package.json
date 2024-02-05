@@ -24,6 +24,7 @@
   "scripts": {
     "build": "webpack --node-env=production",
     "watch": "webpack --watch",
+    "release": "yarn build && npm public",
     "test": "mincloudx"
   },
   "bin": {
