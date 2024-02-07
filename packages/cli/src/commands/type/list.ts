@@ -3,10 +3,10 @@ import { getSchemaList } from '@/request/api/schema';
 import { writeSchemaFile } from './generator';
 
 export async function generatorSchemaFileFromRemote({
-  outputDir,
+  outputPath,
   outputFile = `schema`,
 }: {
-  outputDir: string;
+  outputPath: string;
   outputFile?: string;
 }) {
   try {
@@ -14,7 +14,7 @@ export async function generatorSchemaFileFromRemote({
     const response = await getSchemaList();
 
     return writeSchemaFile(response.data.objects, {
-      outputDir,
+      outputPath,
       outputFile,
     });
   } catch (error) {

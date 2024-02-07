@@ -16,10 +16,9 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
-    "watch": "webpack --watch",
-    "test": "webpack -v",
+    "build": "mincloudx faas build",
+    "deploy": "mincloudx faas deploy",
+    "release": "yarn build && yarn deploy",
     "generator:type": "mincloudx type"
   },
   "bugs": {

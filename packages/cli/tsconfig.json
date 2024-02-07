@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowJs": true, // 允许编译 JavaScript 文件
+
     // 代码生成相关配置
     "target": "es2015",
 

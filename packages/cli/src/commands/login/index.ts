@@ -1,18 +1,16 @@
 import type { Command } from 'commander';
 
-import config from '../../config';
-import { login } from '../../request/api/login';
+import config from '@/config';
+import { login } from '@/request/api/login';
+
+const COMMAND_NAME = 'login';
 
 /**
  * 注册 `login` 命令
- *
- * TODO:
- *   当前实现会在命令行中留痕，是一种简单的实现。后续可以换一种更加安全的方式读取 clientSecret。
- *   如 login 后隐藏 clientSecret 的输入，而不是从 argument 中读取
  */
 export function registerCommand(program: Command) {
   return program
-    .command('login')
+    .command(COMMAND_NAME)
     .description('登录知晓云应用，登录后可获取知晓云相关的数据')
     .argument('<clientSecret>', '知晓云应用的密钥')
     .argument('[clientId]', '知晓云应用的 clint_id, 默认从 rc 文件中读取')
@@ -29,7 +27,7 @@ export function registerCommand(program: Command) {
           clientSecret: clientSecret,
         });
       } catch (error) {
-        console.log('error', error);
+        // console.log('error', error);
 
         if (error instanceof Error) {
           program.error(`[command/login] 登录失败: ${error.message}`);
