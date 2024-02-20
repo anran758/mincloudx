@@ -13,6 +13,7 @@ const webpackConf = {
     clean: true,
   },
   target: 'node',
+  cache: { type: 'filesystem' },
   module: {
     rules: [
       {
