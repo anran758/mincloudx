@@ -30,16 +30,17 @@ git branch -d feature/cli
 git flow feature finish cli
 ```
 
-## 更新 package 版本号
-
-合并分支至 `develop` 中后，需要更新对应 packages 的版本号：
+## 准备发布
 
 ```bash
-npx lerna version --conventional-commits
-# 选择需要更新的版本号
+git flow release start 0.1.1
+```
 
-# 或者使用以下命令，直接指定版本号进行更新
-# npx lerna version 0.0.1
+通过 `lerna` 更新 package 版本号
+
+```bash
+# 选择需要更新的版本号
+npx lerna version
 
 # lerna version 会自动升级项目中的包版本号。具体的说它会做以下事情：
 
@@ -50,16 +51,14 @@ npx lerna version --conventional-commits
 # 5. 将更新后的包发布到适当的 registry。
 ```
 
-## 发布至 npm
-
-```bash
-npx lerna publish
-
-# lerna publish 命令默认会使用 git tag 打标签并将更新后的包发布至 npm registry。
-# 如果不想自动打标签，可以使用 --no-git-tag-version 选项
-# 如果不想发布到 registry，可以使用 --skip-npm 选项
-```
-
 ## 发布至 master 分支
 
 经过测试确认无误后，需要通过 Github 提出 Pull Request ，并且经过审核后再合并至 master 分支中。
+
+## 发布至 npm
+
+进入需要发布的 package 中执行完 `build` 后发布到 `npm` 中：
+
+```bash
+npm public
+```

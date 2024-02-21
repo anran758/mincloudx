@@ -1,20 +1,21 @@
-import { getSchemaList } from '../../request/api/schema';
-import { writeSchemaListToTsFile } from './template';
+import { getSchemaList } from '@/request/api/schema';
 
-export async function generatorSchemaTsFromMincloud({
-  outputDir,
-  outputFileName = `schema`,
+import { writeSchemaFile } from './generator';
+
+export async function generatorSchemaFileFromRemote({
+  outputPath,
+  outputFile = `schema`,
 }: {
-  outputDir: string;
-  outputFileName?: string;
+  outputPath: string;
+  outputFile?: string;
 }) {
   try {
     // 从知晓云中读取列表数据
     const response = await getSchemaList();
 
-    return writeSchemaListToTsFile(response.data.objects, {
-      outputDir,
-      outputFileName,
+    return writeSchemaFile(response.data.objects, {
+      outputPath,
+      outputFile,
     });
   } catch (error) {
     console.error(

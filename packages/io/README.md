@@ -1,4 +1,4 @@
-# @mincloud/io
+# @mincloudx/io
 
 > 知晓云核心 API
 

@@ -1,9 +1,33 @@
 {
-  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "types": ["@types/node"],
-    "composite": false,
-    "rootDir": "."
+    "allowJs": true, // 允许编译 JavaScript 文件
+
+    // 代码生成相关配置
+    "target": "es2015",
+
+    // 模块解析和路径配置
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+
+    // 严格性和类型检查
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "types": ["@types/node", "minapp-sdk-typings"],
+
+    // 与 ES6 模块系统互操作性
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // 其他配置
+    "composite": false
   },
-  "include": ["./src"]
+  "include": ["src", "typings", "./package.json"],
+  "exclude": ["node_modules", "lib", "__tests__"]
 }

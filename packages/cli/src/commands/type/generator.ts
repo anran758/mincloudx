@@ -4,14 +4,15 @@ import {
   FIELD_TYPE_MAP,
   TABLE_NAME_MAPPING,
   packageInfo,
-} from '../../../config/constant';
+} from '@/config/constant';
 import {
   getBaseType,
   pascalCase,
   parseCollectionName,
   writeFile,
-} from '../../../utils';
-import type { SchemaRootObject, SchemeObject, SchemaField } from '../schema';
+} from '@/utils';
+
+import type { SchemaRootObject, SchemeObject, SchemaField } from './schema';
 
 /**
  * 生成公共的类型文件
@@ -19,8 +20,9 @@ import type { SchemaRootObject, SchemeObject, SchemaField } from '../schema';
 export function generatorBaseTs() {
   return [
     'type Int = number;',
-    'type SchemaId = string | Int;',
-    'type EpochSeconds = Int & { seconds_since_the_unix_start: never };',
+    'type SchemaId = string | number;',
+    '/** _at 结尾的字段默认约定为时间戳字段 **/',
+    'type EpochSeconds = number & { seconds_since_the_unix_start: never };',
     'type JSONString = string & { json_parsable_string: never };',
     'type HTMLText = string & { html_content: never };',
     'type ValueOf<T> = T[keyof T];',
@@ -29,22 +31,22 @@ export function generatorBaseTs() {
     '/**',
     ' * 数据的默认值',
     ' */',
-    'type Default<T> = T;',
+    'type Default<T = undefined> = T;',
 
     'interface PointerWithoutData {',
     '  id: SchemaId;',
     '  _table: string;',
     '}',
     '',
-    'type SchemaPointer<T extends BaseSchemaObject> = T | PointerWithoutData;',
+    'type SchemaPointer<T extends BaseTable> = T | PointerWithoutData;',
     '',
-    'type CreatedBy = UserProfile | PointerWithoutData | Int',
+    'type CreatedBy = UserProfile | PointerWithoutData | number;',
     '',
-    'interface BaseSchemaObject {',
-    '  _id: Int;',
+    'export interface BaseTable {',
+    '  _id: number;',
     '  id: SchemaId;',
-    '  created_at: Int;',
-    '  updated_at: Int;',
+    '  created_at: number;',
+    '  updated_at: number;',
     '  created_by?: CreatedBy;',
     '  read_perm: string[];',
     '  write_perm: string[];',
@@ -69,6 +71,9 @@ export function getFieldChoices(field: SchemaField): string[] {
   return rule?.value || [];
 }
 
+/**
+ * 生成字段类型
+ */
 export function generateFieldType(field: SchemaField) {
   let typeStr = '';
 
@@ -83,15 +88,18 @@ export function generateFieldType(field: SchemaField) {
     const { schemaName } = parseCollectionName(field.collection_name);
     typeStr = `SchemaPointer<${getInterfaceName(schemaName)}>`;
   } else if (field.type === 'string' && fieldChoices) {
-    typeStr = ['string', ...fieldChoices.map(val => `'${val}'`)].join(' | ');
+    const list = ['string', ...fieldChoices.map(val => `'${val}'`)];
+
+    typeStr = list.join(' | ');
   } else {
     typeStr = FIELD_TYPE_MAP[field.type] || field.type;
   }
 
   if (!field?.constraints?.required && field?.default === undefined) {
-    typeStr = `${typeStr} | Default<undefined>`;
+    typeStr = `${typeStr} | Default`;
   } else if (field.default !== undefined) {
-    typeStr = `${typeStr} | Default<${JSON.stringify(field.default)}>`;
+    const defaultValue = JSON.stringify(field.default).replace(/"/g, `'`);
+    typeStr = `${typeStr} | Default<${defaultValue}>`;
   }
 
   return typeStr;
@@ -117,18 +125,19 @@ export function generateDeclaration(schema: SchemeObject) {
         `  /**`,
         `   * ${field.description}`,
         `   **/`,
-        `  ${field.name}: ${generateFieldType(field)}`,
+        `  ${field.name}: ${generateFieldType(field)};`,
       ].join('\n');
     })
     .join('\n');
 
+  const tableDescription = schema.options?.description;
   return [
     ``,
     `/**`,
-    ` * ${name} 表`,
-    ` * @description ${schema.options?.description || ''}`,
+    ` * 数据表: ${name}`,
+    ` * @description${tableDescription ? ` ${tableDescription}` : ''}`,
     ` */`,
-    `interface ${schemaName} extends BaseSchemaObject {`,
+    `export interface ${schemaName} extends BaseTable {`,
     `${content}`,
     `}`,
   ].join('\n');
@@ -137,36 +146,54 @@ export function generateDeclaration(schema: SchemeObject) {
 /**
  * 写入 schema 至 .d.ts 类型文件中
  */
-export async function writeSchemaListToTsFile(
+export async function writeSchemaFile(
   list: SchemeObject[],
-  { outputDir, outputFileName }: { outputDir: string; outputFileName: string },
+  { outputPath, outputFile }: { outputPath: string; outputFile: string },
 ) {
   // 转为文本
   const schemasText = list
+    .sort((a, b) => {
+      const aIsBuiltInSchema = a.name.startsWith('_');
+      const bIsBuiltInSchema = b.name.startsWith('_');
+
+      if (aIsBuiltInSchema && !bIsBuiltInSchema) {
+        return -1;
+      } else if (!aIsBuiltInSchema && bIsBuiltInSchema) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
     .map(schema => generateDeclaration(schema))
     .join('\n');
 
   // 基础类型文件
   const baseTypeStr = generatorBaseTs();
+  const content = [
+    `/*`,
+    ` * [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。`,
+    ` */`,
+    `/* eslint-disable no-use-before-define */`,
+    '',
+    baseTypeStr,
+    schemasText,
+  ].join('\n');
 
   return writeFile({
-    fileName: `${outputFileName}.d.ts`,
-    dirPath: outputDir,
-    content:
-      `// [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。\n` +
-      baseTypeStr +
-      schemasText,
+    fileName: `${outputFile}.d.ts`,
+    dirPath: outputPath,
+    content: `${content}\n`,
   });
 }
 
-export async function generatorSchemaTs({
+export async function generatorSchemaFile({
   input,
-  outputDir,
-  outputFileName = `schema`,
+  outputPath,
+  outputFile = `schema`,
 }: {
   input: string;
-  outputDir: string;
-  outputFileName?: string;
+  outputPath: string;
+  outputFile?: string;
 }) {
   let schemaData: SchemaRootObject | null = null;
 
@@ -191,5 +218,5 @@ export async function generatorSchemaTs({
     return;
   }
 
-  return writeSchemaListToTsFile(schemas, { outputDir, outputFileName });
+  return writeSchemaFile(schemas, { outputPath, outputFile });
 }
