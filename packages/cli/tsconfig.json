@@ -19,7 +19,7 @@
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "types": ["@types/node", "minapp-sdk-typings"],
+    "types": ["minapp-sdk-typings"],
 
     // 与 ES6 模块系统互操作性
     "esModuleInterop": true,
