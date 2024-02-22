@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "build": "mincloudx faas build",
     "deploy": "mincloudx faas deploy",
-    "release": "yarn build && yarn deploy",
+    "release": "pnpm build && pnpm deploy",
     "generator:type": "mincloudx type"
   },
   "bugs": {

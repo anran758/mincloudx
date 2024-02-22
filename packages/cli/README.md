@@ -20,11 +20,11 @@
 
 ## Installation
 
-可以通过 yarn 或 npm 安装：
+可以通过 pnpm 或 npm 安装：
 
 ```bash
-# 通过 yarn 安装
-yarn add @mincloudx/cli -D
+# 通过 pnpm 安装
+pnpm install @mincloudx/cli -D
 
 # 通过 npm 安装
 npm install @mincloudx/cli -D
@@ -192,12 +192,12 @@ mincloudx help type
 
 ```shell
 # 监听项目中的文件变化
-yarn watch
+pnpm watch
 
 # 执行本地编译后的 cli 文件
-yarn test
+pnpm test
 ```
 
-项目初始化使用 `yarn install` 或 `yarn` 安装依赖时会自动将 bin 安装到 node_modules 中。
+项目初始化使用 `pnpm install` 或 `pnpm` 安装依赖时会自动将 bin 安装到 node_modules 中。
 
-若在开发过程中修改了 bin 名称，可在对应 package 中先通过 `yarn unlink` 取消关联，再通过 `yarn link` 重新关联。
+若在开发过程中修改了 bin 名称，可在对应 package 中先通过 `pnpm unlink` 取消关联，再通过 `pnpm link` 重新关联。

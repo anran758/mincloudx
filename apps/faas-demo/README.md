@@ -4,10 +4,10 @@
 
 ```bash
 # 编译源码
-yarn build
+pnpm build
 
 # 部署云函数
-yarn deploy
+pnpm deploy
 ```
 
 **目录结构**

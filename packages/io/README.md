@@ -5,7 +5,7 @@
 ## start
 
 ```shell
-yarn build
+pnpm build
 ```
 
 ---
