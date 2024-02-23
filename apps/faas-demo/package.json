@@ -25,8 +25,8 @@
     "url": "https://github.com/anran758/mincloudx/issues"
   },
   "dependencies": {
-    "@mincloudx/cli": "^0.2.0",
-    "@mincloudx/io": "^0.1.0",
+    "@mincloudx/cli": "workspace:*",
+    "@mincloudx/io": "workspace:*",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "webpack-chain": "^6.5.1",

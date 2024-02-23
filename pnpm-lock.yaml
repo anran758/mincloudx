@@ -53,10 +53,10 @@ importers:
   apps/faas-demo:
     dependencies:
       '@mincloudx/cli':
-        specifier: ^0.1.0
-        version: 0.1.0(minapp-sdk-typings@3.23.5)
+        specifier: workspace:*
+        version: link:../../packages/cli
       '@mincloudx/io':
-        specifier: ^0.1.0
+        specifier: workspace:*
         version: link:../../packages/io
       ts-loader:
         specifier: ^9.5.1
@@ -81,7 +81,7 @@ importers:
   apps/web-demo:
     dependencies:
       '@mincloudx/io':
-        specifier: ^0.1.0
+        specifier: workspace:*
         version: link:../../packages/io
     devDependencies:
       '@babel/core':
@@ -159,6 +159,9 @@ importers:
       ini:
         specifier: ^3.0.1
         version: 3.0.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       mkdirp:
         specifier: ^1.0.4
         version: 1.0.4
@@ -181,6 +184,9 @@ importers:
       '@types/ini':
         specifier: ^1.3.31
         version: 1.3.34
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/mkdirp':
         specifier: ^1.0.2
         version: 1.0.2
@@ -193,6 +199,9 @@ importers:
       '@types/tough-cookie':
         specifier: ^4.0.2
         version: 4.0.5
+      import-fresh:
+        specifier: ^3.3.0
+        version: 3.3.0
       minapp-sdk-typings:
         specifier: ^3.1.0
         version: 3.23.5
@@ -202,15 +211,12 @@ importers:
       ts-loader:
         specifier: ^9.5.1
         version: 9.5.1(typescript@4.9.5)(webpack@5.90.3)
-      ts-node:
-        specifier: ^10.8.0
-        version: 10.9.2(@types/node@20.11.19)(typescript@4.9.5)
       typescript:
         specifier: ^4.7.2
         version: 4.9.5
       webpack-cli:
         specifier: ^5.1.4
-        version: 5.1.4(@webpack-cli/generators@2.5.0)(webpack@5.90.3)
+        version: 5.1.4(webpack@5.90.3)
       webpack-node-externals:
         specifier: ^3.0.0
         version: 3.0.0
@@ -3184,31 +3190,6 @@ packages:
       write-file-atomic: 4.0.2
     dev: true
 
-  /@mincloudx/cli@0.1.0(minapp-sdk-typings@3.23.5):
-    resolution:
-      {
-        integrity: sha512-2Nm4krjdty6wGfF4XUaUXU90sYw1s40hGBmiTT9g0WT/VWk2x8Z556ZUVRqJ42AhfkDuDPeeiTBNchihdIUnWw==,
-      }
-    hasBin: true
-    peerDependencies:
-      minapp-sdk-typings: ^3.1.0
-    dependencies:
-      axios: 1.6.7
-      axios-cookiejar-support: 4.0.7(axios@1.6.7)(tough-cookie@4.1.3)
-      commander: 9.5.0
-      ini: 3.0.1
-      minapp-sdk-typings: 3.23.5
-      mkdirp: 1.0.4
-      osenv: 0.1.5
-      rc: 1.2.8
-      tough-cookie: 4.1.3
-    transitivePeerDependencies:
-      - deasync
-      - debug
-      - supports-color
-      - undici
-    dev: false
-
   /@mrmlnc/readdir-enhanced@2.2.1:
     resolution:
       {
@@ -4173,6 +4154,13 @@ packages:
     dependencies:
       '@types/node': 20.11.19
 
+  /@types/lodash@4.14.202:
+    resolution:
+      {
+        integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==,
+      }
+    dev: true
+
   /@types/mime@1.3.5:
     resolution:
       {
@@ -4710,7 +4698,7 @@ packages:
       webpack-cli: 5.x.x
     dependencies:
       webpack: 5.90.3(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(@webpack-cli/generators@2.5.0)(webpack@5.90.3)
+      webpack-cli: 5.1.4(webpack@5.90.3)
 
   /@webpack-cli/generators@2.5.0(prettier@2.8.8)(webpack@5.90.3):
     resolution:
@@ -4759,7 +4747,7 @@ packages:
       webpack-cli: 5.x.x
     dependencies:
       webpack: 5.90.3(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(@webpack-cli/generators@2.5.0)(webpack@5.90.3)
+      webpack-cli: 5.1.4(webpack@5.90.3)
 
   /@webpack-cli/serve@1.7.0(webpack-cli@4.10.0):
     resolution:
@@ -4809,7 +4797,7 @@ packages:
         optional: true
     dependencies:
       webpack: 5.90.3(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(@webpack-cli/generators@2.5.0)(webpack@5.90.3)
+      webpack-cli: 5.1.4(webpack@5.90.3)
 
   /@xtuc/ieee754@1.2.0:
     resolution:
@@ -5545,7 +5533,7 @@ packages:
         integrity: sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==,
       }
     dependencies:
-      follow-redirects: 1.15.5(debug@3.2.7)
+      follow-redirects: 1.15.5
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -8935,6 +8923,18 @@ packages:
       }
     dev: true
 
+  /follow-redirects@1.15.5:
+    resolution:
+      {
+        integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==,
+      }
+    engines: { node: '>=4.0' }
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   /follow-redirects@1.15.5(debug@3.2.7):
     resolution:
       {
@@ -12237,6 +12237,7 @@ packages:
       {
         integrity: sha512-AV4L6UIYzvcRYJ5uKo8XsazRnP70HZv16psovKtVF6Yika0ecALK7uuBvN+ECqB4ZNAENK1CdvUSNQPKmD7HRA==,
       }
+    dev: true
 
   /mincloud@1.2.3:
     resolution:
@@ -17201,6 +17202,41 @@ packages:
       webpack-merge: 5.10.0
     dev: true
 
+  /webpack-cli@5.1.4(webpack@5.90.3):
+    resolution:
+      {
+        integrity: sha512-pIDJHIEI9LR0yxHXQ+Qh95k2EvXpWzZ5l+d+jIo+RdSm9MiHfzazIxwwni/p7+x4eJZuvG1AJwgC4TNQ7NRgsg==,
+      }
+    engines: { node: '>=14.15.0' }
+    hasBin: true
+    peerDependencies:
+      '@webpack-cli/generators': '*'
+      webpack: 5.x.x
+      webpack-bundle-analyzer: '*'
+      webpack-dev-server: '*'
+    peerDependenciesMeta:
+      '@webpack-cli/generators':
+        optional: true
+      webpack-bundle-analyzer:
+        optional: true
+      webpack-dev-server:
+        optional: true
+    dependencies:
+      '@discoveryjs/json-ext': 0.5.7
+      '@webpack-cli/configtest': 2.1.1(webpack-cli@5.1.4)(webpack@5.90.3)
+      '@webpack-cli/info': 2.0.2(webpack-cli@5.1.4)(webpack@5.90.3)
+      '@webpack-cli/serve': 2.0.5(webpack-cli@5.1.4)(webpack@5.90.3)
+      colorette: 2.0.20
+      commander: 10.0.1
+      cross-spawn: 7.0.3
+      envinfo: 7.11.1
+      fastest-levenshtein: 1.0.16
+      import-local: 3.1.0
+      interpret: 3.1.1
+      rechoir: 0.8.0
+      webpack: 5.90.3(webpack-cli@5.1.4)
+      webpack-merge: 5.10.0
+
   /webpack-dev-middleware@5.3.3(webpack@5.90.3):
     resolution:
       {
@@ -17345,7 +17381,7 @@ packages:
       tapable: 2.2.1
       terser-webpack-plugin: 5.3.10(webpack@5.90.3)
       watchpack: 2.4.0
-      webpack-cli: 5.1.4(@webpack-cli/generators@2.5.0)(webpack@5.90.3)
+      webpack-cli: 5.1.4(webpack@5.90.3)
       webpack-sources: 3.2.3
     transitivePeerDependencies:
       - '@swc/core'
