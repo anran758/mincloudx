@@ -102,7 +102,6 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
   // console.log('mock data:', data, '\n');
   try {
     const response = await invokeCloudFunction({ name: functionName, data });
-    console.log('response --> ', response.headers);
 
     const content = formatResult(response.data);
     const dir = resolveCwdAbsolutePath(options.output);
