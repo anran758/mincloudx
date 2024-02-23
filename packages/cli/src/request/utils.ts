@@ -6,7 +6,7 @@ export function transformErrorMessage(error: AxiosError) {
 
   // 设置错误信息
   if (status) {
-    const message = ERROR_MESSAGE[status];
+    const message = error.response?.data || ERROR_MESSAGE[status];
     if (message) {
       error.message = message;
     }
