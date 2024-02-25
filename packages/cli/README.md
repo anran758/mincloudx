@@ -15,6 +15,7 @@
   - [faas](#faas)
     - [build](#build)
     - [deploy](#deploy)
+    - [mock](#mock)
   - [help](#help)
 - [Development](#development)
 
@@ -52,7 +53,7 @@ mincloudx [command] [options]
 
 ### login
 
-登录知晓云。
+登录知晓云
 
 ```bash
 mincloudx login [options] <clientSecret> [clientId]
@@ -94,7 +95,7 @@ mincloudx type [options]
 
 **转换方式**:
 
-**1. 在线转换**:
+**在线转换**:
 
 登录知晓云账号后，直接读取线上最新的数据表记录来转换。
 
@@ -102,7 +103,7 @@ mincloudx type [options]
 mincloudx type --pull
 ```
 
-**2. 本地转换**:
+**本地转换**:
 
 若顾虑应用密匙泄露的安全性等因素也可以直接读取本地的 schema JSON 文件来转换。
 
@@ -144,14 +145,21 @@ mincloudx type --transform ./_schema.json
 
 构建云函数源码。`faas build` 将通过 webpack 对源码进行打包压缩。
 
-构建云函数源码：
+构建全部云函数源码：
 
 ```bash
 # 默认打包 ./src/function 目录下云函数文件，默认输出到 ./dist 目录下
 mincloudx faas build
 ```
 
-可以通过传参的方式来修改输入/输出路径的默认值：
+单独构建云函数:
+
+```bash
+# 只构建一个云函数，它会从云函数目录中递归查找是否存在对应的云函数
+mincloudx faas build createUser
+```
+
+修改源码或构建目录的默认值：
 
 ```bash
 mincloudx faas build --entry-path ./src -o ./dist
@@ -159,16 +167,42 @@ mincloudx faas build --entry-path ./src -o ./dist
 
 #### deploy
 
-部署云函数。默认情况下，云函数编译后的代码都会放在 `./dist` 目录下，因此 `faas deploy` 默认从 `./dist` 目录中部署全部云函数文件：
+部署云函数。
+
+`faas deploy` 默认从 `./dist` 目录中部署全部云函数文件：
 
 ```bash
 mincloudx faas deploy
 ```
 
-若需要修改部署的目录:
+单独部署云函数:
 
 ```bash
-mincloudx faas deploy --deploy-dir dist-test
+mincloudx faas deploy createUser
+```
+
+默认情况下，云函数编译后的代码都会放在 `./dist` 目录下，若需要修改部署目录:
+
+```bash
+mincloudx faas deploy --deploy-dir ./dist-test
+```
+
+#### mock
+
+通过本地 mock 文件调用云函数。
+
+项目默认的从根目录中的 `mock/` 文件夹中读取与云函数同名的 Mock 文件。Mock 文件可以导出一个对象或可执行函数，导出时通过 `module.exports` 导出。
+
+当调用 `faas mock` 命令时，将会读取导出的数据或执行函数的结果传递给云函数执行，若本地不存在 Mock 文件则默认传入 `{}` 调用。
+
+```bash
+mincloudx faas mock createUser
+```
+
+修改 Mock 目录:
+
+```bash
+mincloudx faas mock createUser --dir ./mocks
 ```
 
 ### help

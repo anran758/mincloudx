@@ -20,3 +20,4 @@ mincloudx 的开发是基于 [Monorepo](https://en.wikipedia.org/wiki/Monorepo) 
 
 - 💬 可以在 [GitHub Discussions](https://github.com/anran758/mincloudx/discussions) 上与其他用户交流。
 - 🚨 或是在 [GitHub Issues](https://github.com/anran758/mincloudx/issues) 上报告问题或提出功能请求。
+- 📒 也可以关注 [TODO](./docs/to) 了解项目接下来的开发计划。
