@@ -22,7 +22,7 @@
     "directory": "packages/cli"
   },
   "scripts": {
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "pnpm run build",
     "build": "webpack --node-env=production",
     "watch": "webpack --watch",
     "test": "mincloudx"
