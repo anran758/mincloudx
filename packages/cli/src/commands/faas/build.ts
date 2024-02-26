@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
+import chalk from 'chalk';
 
 import type { Command } from 'commander';
 
@@ -17,7 +18,7 @@ const defaultConfig = {
 };
 
 type BuildFaasParams = typeof defaultConfig & {
-  a?: string;
+  functionName?: string;
 };
 
 /**
@@ -27,7 +28,7 @@ type BuildFaasParams = typeof defaultConfig & {
  * @returns {Object} - 入口点对象。
  */
 
-function scanForFunctionEntries(dir) {
+function scanForFunctionEntries(dir, { pick = [] }: { pick?: string[] } = {}) {
   const entries = {};
 
   function findEntries(currentPath) {
@@ -39,7 +40,10 @@ function scanForFunctionEntries(dir) {
         findEntries(filePath);
       } else if (file.endsWith('.js') || file.endsWith('.ts')) {
         const entryKey = path.basename(filePath, path.extname(filePath));
-        entries[entryKey] = filePath;
+
+        if (!pick.length || pick.includes(entryKey)) {
+          entries[entryKey] = filePath;
+        }
       }
     });
   }
@@ -52,11 +56,32 @@ function scanForFunctionEntries(dir) {
 export function buildFunction({
   entryPath,
   outputPath,
+  functionName,
 }: BuildFaasParams = defaultConfig) {
   const folderPath = resolveCwdAbsolutePath(entryPath);
-  logger.log(`准备从 ${folderPath} 收集云函数源码...\n`);
+
+  if (functionName) {
+    logger.log(`Cloud function name: ${functionName}`);
+  }
+
+  logger.log(
+    `Preparing to collect cloud function source code from ${folderPath} ...\n`,
+  );
+
+  const pickFiles = functionName ? [functionName] : [];
+  const entry = scanForFunctionEntries(folderPath, { pick: pickFiles });
+
+  if (!Object.keys(entry).length && functionName) {
+    logger.error(
+      `Failed to build cloud function. Please ensure the ${chalk.bold(
+        functionName,
+      )} are in the entry directory.`,
+    );
+    return;
+  }
+
   const currentConf = {
-    entry: scanForFunctionEntries(folderPath),
+    entry,
     output: {
       path: resolveCwdAbsolutePath(outputPath),
     },
@@ -90,7 +115,7 @@ export function buildFunction({
 
 export function registerCommand(program: Command) {
   return program
-    .command('build')
+    .command('build [functionName]')
     .description('云函数构建')
     .option(
       '--entry-path <value>',
@@ -102,7 +127,7 @@ export function registerCommand(program: Command) {
       '云函数构建文件输出目录',
       defaultConfig.outputPath,
     )
-    .action((options: any) => {
-      buildFunction(options);
+    .action((functionName, options: BuildFaasParams) => {
+      buildFunction({ ...options, functionName });
     });
 }

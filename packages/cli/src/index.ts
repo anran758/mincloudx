@@ -14,22 +14,22 @@ program
   .name('mincloudx')
   .description(packageInfo.description)
   .version(packageInfo.version)
-  .option('--env-id <id>', '知晓云环境 ID')
+  .option('--env-id <id>', 'BaaS environment ID')
   .option('-d, --debug', 'output extra debugging')
   .hook('preAction', (_, actionCommand) => {
+    const globalOptions = program.opts();
     const opts = actionCommand.opts();
-    const config = getConfig(opts);
+    const config = getConfig({ ...globalOptions, ...opts });
 
     console.log(
       chalk.bold(`[mincloudx] client_id:`),
       chalk.bold.blue(config.client_id),
-      '\n',
     );
 
     // 知晓云请求需要附带对应的请求头
     registerMinCloudHeaders({
       token: getToken(),
-      envId: opts.envId,
+      envId: globalOptions.envId,
     });
   });
 

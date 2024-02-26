@@ -54,6 +54,6 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "dependencies": {
-    "@mincloudx/io": "^0.1.0"
+    "@mincloudx/io": "workspace:*"
   }
 }

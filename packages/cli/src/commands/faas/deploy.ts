@@ -94,16 +94,16 @@ export async function deployFunction({
   functionName,
 }: BuildFaasParams = defaultConfig) {
   const folderPath = resolveCwdAbsolutePath(deployDir);
-  logger.info(`Deployment Directory: ${folderPath}`);
+  logger.log(`Deployment directory: ${folderPath}`);
 
   try {
     if (functionName) {
-      logger.info(`Cloud Function:`, chalk.bold.blue(functionName));
+      logger.log(`Cloud Function:`, chalk.bold.blue(functionName));
       const result = await deployFile({ dir: folderPath, functionName });
 
       return result;
     } else {
-      logger.info(
+      logger.log(
         `Preparing to deploy`,
         chalk.bold('all cloud functions'),
         `from the directory...\n`,
