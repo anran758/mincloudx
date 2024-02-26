@@ -1,6 +1,7 @@
 import path from 'path';
 import mkdirp from 'mkdirp';
 import fs from 'fs/promises';
+import os from 'os';
 
 export * from './path';
 export * from './logger';
@@ -12,6 +13,17 @@ export function getBaseType(target: any) {
   const typeStr = Object.prototype.toString.call(target).toLocaleLowerCase();
 
   return typeStr.slice(8, -1);
+}
+
+export function formatBytes(byte) {
+  const divisor = 1024;
+  const unit = ['Byte', 'KB', 'MB', 'GB', 'TB'];
+  let i = 0;
+  while (Math.floor(byte / divisor) > 1) {
+    i++;
+    byte = byte / divisor;
+  }
+  return byte.toFixed(2) + unit[i];
 }
 
 export function pascalCase(str: string) {
@@ -47,4 +59,22 @@ export async function writeFile({
   await mkdirp(dirPath);
 
   return fs.writeFile(path.resolve(dirPath, fileName), content);
+}
+
+/**
+ * 生成日志格式，后续考虑用第三方库来处理
+ */
+export function generatorLog(list: (string | string[])[] = []) {
+  const logs: string[] = [];
+  list.forEach(item => {
+    if (Array.isArray(item)) {
+      item.forEach(str => {
+        logs.push(str.length ? `  ${str}` : '');
+      });
+    } else {
+      logs.push(item);
+    }
+  });
+
+  return logs.join(os.EOL);
 }

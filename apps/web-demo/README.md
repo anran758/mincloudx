@@ -11,7 +11,7 @@ npm run build
 or
 
 ```bash
-yarn build
+pnpm build
 ```
 
 to bundle your application

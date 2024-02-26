@@ -17,3 +17,6 @@ package-lock.json
 # cli
 packages/cli/_schema.json
 packages/cli/typings/schema.d.ts
+
+# log file
+apps/*/log

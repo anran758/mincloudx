@@ -1,6 +1,13 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
-  "npmClient": "yarn",
-  "version": "0.2.0"
+  "useWorkspaces": true,
+  "npmClient": "pnpm",
+  "version": "0.2.0",
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "message": "chore(release): %s"
+    }
+  }
 }

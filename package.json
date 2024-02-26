@@ -1,7 +1,6 @@
 {
-  "private": true,
   "name": "mincloudx",
-  "version": "0.0.1-alpha.0",
+  "private": true,
   "description": "知晓云生态库工具",
   "main": "index.js",
   "homepage": "https://github.com/anran758/mincloudx#readme",
@@ -12,13 +11,18 @@
     "lint": "eslint .",
     "check-format": "prettier --list-different .",
     "format": "prettier --write .",
-    "pre-commit": "yarn lint-staged",
+    "pre-commit": "pnpm lint-staged",
     "postinstall": "husky install"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,cjs,jsx,json,css}": [
+      "pnpm format",
+      "pnpm lint"
+    ],
+    "*.md": [
+      "pnpm format"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",

@@ -46,3 +46,26 @@ export async function createCloudFunction({
     },
   });
 }
+
+/**
+ * 更新云函数代码
+ */
+export async function invokeCloudFunction({
+  name,
+  data,
+  sync = true,
+}: {
+  name: string;
+  data: Record<string, any>;
+  sync?: boolean;
+}) {
+  return request({
+    url: `${API_URL_MAPPING.CLOUD_FUNCTION_DEBUG.replace('{name}', name)}`,
+    method: 'POST',
+    data: {
+      function_name: name,
+      data,
+      sync,
+    },
+  });
+}
