@@ -1,6 +1,6 @@
 {
   "name": "@mincloudx/cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/cli#readme",
@@ -22,7 +22,7 @@
     "directory": "packages/cli"
   },
   "scripts": {
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "pnpm run build",
     "build": "webpack --node-env=production",
     "watch": "webpack --watch",
     "test": "mincloudx"
@@ -62,8 +62,8 @@
     "chalk": "^4.1.2",
     "commander": "^9.4.1",
     "form-data": "^4.0.0",
-    "ini": "^3.0.1",
     "import-fresh": "^3.3.0",
+    "ini": "^3.0.1",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "osenv": "^0.1.5",
