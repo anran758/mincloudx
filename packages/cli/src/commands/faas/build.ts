@@ -13,8 +13,8 @@ import baseConf from './webpack.base.config';
 const logger = createLogger({ prefix: '[build]' });
 
 const defaultConfig = {
-  entryPath: './src/function',
-  outputPath: './dist',
+  entryDir: './src/function',
+  outputDir: './dist',
 };
 
 type BuildFaasParams = typeof defaultConfig & {
@@ -54,11 +54,11 @@ function scanForFunctionEntries(dir, { pick = [] }: { pick?: string[] } = {}) {
 }
 
 export function buildFunction({
-  entryPath,
-  outputPath,
+  entryDir,
+  outputDir,
   functionName,
 }: BuildFaasParams = defaultConfig) {
-  const folderPath = resolveCwdAbsolutePath(entryPath);
+  const folderPath = resolveCwdAbsolutePath(entryDir);
 
   if (functionName) {
     logger.log(`Cloud function name: ${functionName}`);
@@ -83,7 +83,7 @@ export function buildFunction({
   const currentConf = {
     entry,
     output: {
-      path: resolveCwdAbsolutePath(outputPath),
+      path: resolveCwdAbsolutePath(outputDir),
     },
   };
 
@@ -118,14 +118,14 @@ export function registerCommand(program: Command) {
     .command('build [functionName]')
     .description('云函数构建')
     .option(
-      '--entry-path <value>',
+      '--entry-dir <value>',
       '存放云函数源码目录的路径',
-      defaultConfig.entryPath,
+      defaultConfig.entryDir,
     )
     .option(
-      '-o, --output-path <value>',
+      '-o, --output-dir <value>',
       '云函数构建文件输出目录',
-      defaultConfig.outputPath,
+      defaultConfig.outputDir,
     )
     .action((functionName, options: BuildFaasParams) => {
       buildFunction({ ...options, functionName });

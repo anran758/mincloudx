@@ -2,10 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import { AxiosError } from 'axios';
-
 import { readFile } from 'fs/promises';
-import type { Command } from 'commander';
 import { program as globalProgram } from 'commander';
+
+import type { Command } from 'commander';
 
 import { createLogger, resolveCwdAbsolutePath } from '@/utils';
 import { createCloudFunction, updateCloudFunction } from '@/request/api';

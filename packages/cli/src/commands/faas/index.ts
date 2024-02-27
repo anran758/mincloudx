@@ -3,6 +3,7 @@ import type { Command } from 'commander';
 import { registerCommand as registerBuildCommand } from './build';
 import { registerCommand as registerDeployCommand } from './deploy';
 import { registerCommand as registerMockCommand } from './mock';
+import { registerCommand as registerDebugCommand } from './debug';
 
 export const DEFAULT_COMMAND_CONFIG = {
   build: false,
@@ -16,6 +17,7 @@ export function registerCommand(program: Command) {
     registerBuildCommand,
     registerDeployCommand,
     registerMockCommand,
+    registerDebugCommand,
   ];
   tasks.forEach(task => task(faasCommand));
 

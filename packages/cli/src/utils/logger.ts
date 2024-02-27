@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import log from 'npmlog';
 
 /**
  * 简易版日志输出系统
@@ -31,4 +32,10 @@ export function createLogger({ prefix = '' } = {}) {
 
   const logger = new Proxy(console, handler);
   return logger;
+}
+
+export function output(...args: any[]) {
+  log.clearProgress();
+  console.log(...args);
+  log.showProgress();
 }
