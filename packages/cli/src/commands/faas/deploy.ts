@@ -11,7 +11,7 @@ import { createLogger, resolveCwdAbsolutePath } from '@/utils';
 import { createCloudFunction, updateCloudFunction } from '@/request/api';
 
 const COMMAND_NAME = 'deploy';
-const logger = createLogger({ prefix: `[${COMMAND_NAME}]` });
+const logger = createLogger(COMMAND_NAME);
 const defaultConfig = {
   deployDir: './dist',
 };
@@ -46,19 +46,26 @@ async function deployFile({
       name: functionName,
       content: content.toString(),
     });
-    logger.info(`"${chalk.bold.blue(functionName)}" uploaded successfully.`);
+    logger.info(
+      COMMAND_NAME,
+      `"${chalk.bold.blue(functionName)}" uploaded successfully.`,
+    );
   } catch (error) {
     if (error instanceof AxiosError) {
       const { status, statusText } = error.response || {};
       if (debug) {
         logger.log(
+          COMMAND_NAME,
           `Update of cloud function failed. HTTP status: ${status}, statusText: ${statusText}.`,
         );
       }
 
       if (status === 404) {
         if (debug) {
-          logger.log(`"${functionName}" try create new function.`);
+          logger.log(
+            COMMAND_NAME,
+            `"${functionName}" try create new function.`,
+          );
         }
 
         await createCloudFunction({
@@ -70,6 +77,7 @@ async function deployFile({
           )}" create failed, see details: ${err.message}`;
           if (debug) {
             logger.log(
+              COMMAND_NAME,
               `${chalk.bold('Create')} of cloud function failed. HTTP status: ${
                 err.response?.status
               }, statusText: ${err.response?.statusText}.`,
@@ -79,11 +87,18 @@ async function deployFile({
           throw new Error(message);
         });
 
-        logger.info(`"${chalk.bold.blue(functionName)}" created successfully.`);
+        logger.info(
+          COMMAND_NAME,
+          `"${chalk.bold.blue(functionName)}" created successfully.`,
+        );
       }
     } else {
       if (debug) {
-        logger.error(`update cloud function error, see details:`, error);
+        logger.error(
+          COMMAND_NAME,
+          `update cloud function error, see details:`,
+          error,
+        );
       }
     }
   }
@@ -94,16 +109,21 @@ export async function deployFunction({
   functionName,
 }: BuildFaasParams = defaultConfig) {
   const folderPath = resolveCwdAbsolutePath(deployDir);
-  logger.log(`Deployment directory: ${folderPath}`);
+  logger.log(COMMAND_NAME, `Deployment directory: ${folderPath}`);
 
   try {
     if (functionName) {
-      logger.log(`Cloud Function:`, chalk.bold.blue(functionName));
+      logger.log(
+        COMMAND_NAME,
+        `Cloud Function:`,
+        chalk.bold.blue(functionName),
+      );
       const result = await deployFile({ dir: folderPath, functionName });
 
       return result;
     } else {
       logger.log(
+        COMMAND_NAME,
         `Preparing to deploy`,
         chalk.bold('all cloud functions'),
         `from the directory...\n`,
@@ -123,7 +143,7 @@ export async function deployFunction({
       );
     }
   } catch (error) {
-    logger.error(error instanceof Error ? error.message : error);
+    logger.error(COMMAND_NAME, error instanceof Error ? error.message : error);
   }
 }
 

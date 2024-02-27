@@ -1,8 +1,8 @@
 import { program } from 'commander';
-import chalk from 'chalk';
+import log from 'npmlog';
 
 import { getConfig, getToken } from './config';
-import { packageInfo } from './config/constant';
+import { packageInfo, APP_NAME } from './config/constant';
 import { registerMinCloudHeaders } from './request';
 
 import registerCommandType from './commands/type';
@@ -11,20 +11,18 @@ import registerCommandFaas from './commands/faas';
 
 // 设置基本信息
 program
-  .name('mincloudx')
+  .name(APP_NAME)
   .description(packageInfo.description)
   .version(packageInfo.version)
   .option('--env-id <id>', 'BaaS environment ID')
   .option('-d, --debug', 'output extra debugging')
+  .option('--log-level', 'output log level')
   .hook('preAction', (_, actionCommand) => {
     const globalOptions = program.opts();
     const opts = actionCommand.opts();
     const config = getConfig({ ...globalOptions, ...opts });
 
-    console.log(
-      chalk.bold(`[mincloudx] client_id:`),
-      chalk.bold.blue(config.client_id),
-    );
+    log.info('app', `client_id: ${config.client_id}`);
 
     // 知晓云请求需要附带对应的请求头
     registerMinCloudHeaders({

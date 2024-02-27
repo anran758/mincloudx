@@ -10,7 +10,8 @@ import { createLogger, resolveCwdAbsolutePath } from '@/utils';
 
 import baseConf from './webpack.base.config';
 
-const logger = createLogger({ prefix: '[build]' });
+const COMMAND_NAME = 'build';
+const logger = createLogger(COMMAND_NAME);
 
 const defaultConfig = {
   entryDir: './src/function',
@@ -61,10 +62,11 @@ export function buildFunction({
   const folderPath = resolveCwdAbsolutePath(entryDir);
 
   if (functionName) {
-    logger.log(`Cloud function name: ${functionName}`);
+    logger.log(COMMAND_NAME, `Cloud function name: ${functionName}`);
   }
 
   logger.log(
+    COMMAND_NAME,
     `Preparing to collect cloud function source code from ${folderPath} ...\n`,
   );
 
@@ -73,6 +75,7 @@ export function buildFunction({
 
   if (!Object.keys(entry).length && functionName) {
     logger.error(
+      COMMAND_NAME,
       `Failed to build cloud function. Please ensure the ${chalk.bold(
         functionName,
       )} are in the entry directory.`,
@@ -94,20 +97,20 @@ export function buildFunction({
   compiler.run((err, stats) => {
     // 处理构建过程中的错误
     if (err) {
-      logger.error('构建时发生错误:', err);
+      logger.error(COMMAND_NAME, '构建时发生错误:', err);
       return;
     }
 
     // 处理编译过程中的错误
     if (stats?.hasErrors?.()) {
-      logger.error('构建时遇到错误:');
-      logger.error(stats.toString({ colors: true }));
+      logger.error(COMMAND_NAME, '构建时遇到错误:');
+      logger.error(COMMAND_NAME, stats.toString({ colors: true }));
       return;
     }
 
     // 构建成功
-    logger.info(stats?.toString?.({ colors: true }), '\n');
-    logger.info('云函数构建完成：', conf.output?.path, '\n');
+    logger.info(COMMAND_NAME, stats?.toString?.({ colors: true }), '\n');
+    logger.info(COMMAND_NAME, '云函数构建完成：', conf.output?.path, '\n');
   });
 
   return compiler;

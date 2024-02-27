@@ -18,7 +18,7 @@ import {
 import { invokeCloudFunction } from '@/request/api';
 
 const COMMAND_NAME = 'mock';
-const logger = createLogger({ prefix: `[${COMMAND_NAME}]` });
+const logger = createLogger(COMMAND_NAME);
 const defaultConfig = {
   dir: './mock',
   output: './log',
@@ -91,6 +91,7 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
       data = content;
     } else {
       logger.error(
+        COMMAND_NAME,
         `${chalk.bold(functionName)} mock file module exports type warning!`,
         `Expected export an object or function, but got ${getBaseType(data)}.`,
       );
@@ -111,7 +112,11 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
       dirPath: dir,
       content,
     });
-    logger.info('invoke result log saved to:', path.join(dir, fileName));
+    logger.info(
+      COMMAND_NAME,
+      'invoke result log saved to:',
+      path.join(dir, fileName),
+    );
 
     return result;
   } catch (error) {
@@ -130,6 +135,7 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
     fs.appendFile(errorPath, errorLog, function (err) {
       if (err) throw err;
       logger.error(
+        COMMAND_NAME,
         'Invoke cloud function error.\n',
         `Log saved to: ${errorPath}`,
       );

@@ -1,6 +1,5 @@
 import path from 'path';
 import type { Command } from 'commander';
-import chalk from 'chalk';
 
 import { createLogger } from '@/utils';
 
@@ -8,17 +7,29 @@ import { generatorSchemaFile } from './generator';
 import { generatorSchemaFileFromRemote } from './list';
 
 const COMMAND_NAME = 'type';
-const logger = createLogger({ prefix: `[${COMMAND_NAME}]` });
+const logger = createLogger(COMMAND_NAME);
 
 export const DEFAULT_COMMAND_CONFIG = {
   transform: './_schema.json',
-  outputPath: './typings',
+  outputDir: './typings',
   outputFile: 'schema',
   pull: false,
 };
 
 /**
  * register `type` command
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type
+ * ```
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type --pull
+ * ```
  */
 export function registerCommand(program: Command) {
   return program
@@ -35,9 +46,9 @@ export function registerCommand(program: Command) {
       DEFAULT_COMMAND_CONFIG.transform,
     )
     .option(
-      '-o, --output-path <path>',
+      '-o, --output-dir <path>',
       '类型文件的输出目录',
-      DEFAULT_COMMAND_CONFIG.outputPath,
+      DEFAULT_COMMAND_CONFIG.outputDir,
     )
     .option(
       '--output-file <name>',
@@ -47,25 +58,41 @@ export function registerCommand(program: Command) {
     .action(async (options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
       const outputConf = {
-        outputPath: path.resolve(cwd, options.outputPath),
+        outputDir: path.resolve(cwd, options.outputDir),
         outputFile: options.outputFile,
       };
 
-      // 通过读取 schema file 的形式解析
-      const result = await (options.pull
-        ? generatorSchemaFileFromRemote(outputConf)
-        : generatorSchemaFile({
+      if (options.pull) {
+        try {
+          await generatorSchemaFileFromRemote(outputConf);
+        } catch (error) {
+          logger.error(
+            COMMAND_NAME,
+            'type',
+            error instanceof Error ? error.message : '获取数据表列表失败',
+          );
+        }
+      } else {
+        try {
+          await generatorSchemaFile({
             ...outputConf,
             input: path.resolve(cwd, options.transform),
-          }));
-
+          });
+        } catch (error) {
+          logger.error(
+            COMMAND_NAME,
+            'type',
+            error instanceof Error ? error.message : '生成类型文件失败',
+          );
+          logger.verbose('type', '生成类型文件失败:', error);
+        }
+      }
       logger.info(
-        chalk.green('数据表类型文件保存成功:'),
-        path.join(outputConf.outputPath, `${outputConf.outputFile}.d.ts`),
-        '\n',
+        COMMAND_NAME,
+        'type',
+        '数据表类型文件保存成功:',
+        path.join(outputConf.outputDir, `${outputConf.outputFile}.d.ts`),
       );
-
-      return result;
     });
 }
 
