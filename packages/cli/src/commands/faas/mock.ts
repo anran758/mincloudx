@@ -28,7 +28,7 @@ type BuildFaasParams = typeof defaultConfig & {
   /**
    * 云函数名
    */
-  functionName?: string;
+  functionName: string;
 };
 
 function formatResult(data) {
@@ -67,10 +67,14 @@ function formatResult(data) {
   return generatorLog(content);
 }
 
-async function invokeMockData(functionName, options: BuildFaasParams) {
+export async function invokeMockData({
+  functionName,
+  ...options
+}: BuildFaasParams) {
   const folderPath = resolveCwdAbsolutePath(options.dir);
 
   const mockPath = path.resolve(folderPath, `${functionName}.js`);
+  logger.verbose(COMMAND_NAME, 'mockPath:', mockPath);
 
   let data = {};
 
@@ -100,7 +104,6 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
     }
   }
 
-  // console.log('mock data:', data, '\n');
   try {
     const response = await invokeCloudFunction({ name: functionName, data });
 
@@ -163,8 +166,8 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
 export function registerCommand(program: Command) {
   return program
     .command(COMMAND_NAME)
-    .description('invoke cloud function with mock data')
-    .argument('<functionName>', 'cloud function name.')
+    .description('Invoke cloud function with mock data')
+    .argument('<functionName>', 'Cloud function name.')
     .option('-d,--dir <value>', 'mock data directory', defaultConfig.dir)
     .option(
       '-o,--output <value>',
@@ -172,6 +175,6 @@ export function registerCommand(program: Command) {
       defaultConfig.output,
     )
     .action((functionName: string, options: BuildFaasParams) => {
-      return invokeMockData(functionName, options);
+      return invokeMockData({ ...options, functionName });
     });
 }

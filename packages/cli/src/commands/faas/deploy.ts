@@ -46,7 +46,8 @@ async function deployFile({
       name: functionName,
       content: content.toString(),
     });
-    logger.info(
+
+    logger.success(
       COMMAND_NAME,
       `"${chalk.bold.blue(functionName)}" uploaded successfully.`,
     );
@@ -93,13 +94,11 @@ async function deployFile({
         );
       }
     } else {
-      if (debug) {
-        logger.error(
-          COMMAND_NAME,
-          `update cloud function error, see details:`,
-          error,
-        );
-      }
+      logger.verbose(
+        COMMAND_NAME,
+        `update cloud function error, see details:`,
+        error,
+      );
     }
   }
 }
@@ -111,52 +110,55 @@ export async function deployFunction({
   const folderPath = resolveCwdAbsolutePath(deployDir);
   logger.log(COMMAND_NAME, `Deployment directory: ${folderPath}`);
 
-  try {
-    if (functionName) {
-      logger.log(
-        COMMAND_NAME,
-        `Cloud Function:`,
-        chalk.bold.blue(functionName),
-      );
-      const result = await deployFile({ dir: folderPath, functionName });
+  if (functionName) {
+    logger.log(COMMAND_NAME, `Cloud Function:`, chalk.bold.blue(functionName));
+    const result = await deployFile({ dir: folderPath, functionName });
 
-      return result;
-    } else {
-      logger.log(
-        COMMAND_NAME,
-        `Preparing to deploy`,
-        chalk.bold('all cloud functions'),
-        `from the directory...\n`,
-      );
+    return result;
+  } else {
+    logger.log(
+      COMMAND_NAME,
+      `Preparing to deploy`,
+      chalk.bold('all cloud functions'),
+      `from the directory...\n`,
+    );
 
-      const extension = '.js';
-      const files = fs
-        .readdirSync(folderPath)
-        .filter(file => path.extname(file) === extension);
+    const extension = '.js';
+    const files = fs
+      .readdirSync(folderPath)
+      .filter(file => path.extname(file) === extension);
 
-      await Promise.all(
-        files.map(file => {
-          const functionName = path.basename(file, extension);
+    return Promise.all(
+      files.map(file => {
+        const functionName = path.basename(file, extension);
 
-          return deployFile({ dir: folderPath, functionName });
-        }),
-      );
-    }
-  } catch (error) {
-    logger.error(COMMAND_NAME, error instanceof Error ? error.message : error);
+        return deployFile({ dir: folderPath, functionName });
+      }),
+    );
   }
 }
 
 export function registerCommand(program: Command) {
   return program
     .command(COMMAND_NAME)
-    .description('云函数部署')
-    .option('--deploy-dir <value>', '部署目录', defaultConfig.deployDir)
-    .action((options: BuildFaasParams, actionCommand) => {
-      const [functionName] = actionCommand.args;
-      deployFunction({
-        ...options,
-        functionName,
-      });
+    .description('Deploy the built package of the cloud functions.')
+    .argument('<functionName>', 'Cloud function name.')
+    .option(
+      '--deploy-dir <value>',
+      'Deployment directory (usually the directory after source code compilation).',
+      defaultConfig.deployDir,
+    )
+    .action(async (functionName, options: BuildFaasParams) => {
+      try {
+        await deployFunction({
+          ...options,
+          functionName,
+        });
+      } catch (error) {
+        logger.error(
+          COMMAND_NAME,
+          error instanceof Error ? error.message : error,
+        );
+      }
     });
 }
