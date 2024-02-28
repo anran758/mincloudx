@@ -2,12 +2,17 @@ import path from 'path';
 import type { Command } from 'commander';
 import chalk from 'chalk';
 
+import { createLogger } from '@/utils';
+
 import { generatorSchemaFile } from './generator';
 import { generatorSchemaFileFromRemote } from './list';
 
+const COMMAND_NAME = 'type';
+const logger = createLogger({ prefix: `[${COMMAND_NAME}]` });
+
 export const DEFAULT_COMMAND_CONFIG = {
   transform: './_schema.json',
-  outputDir: './typings',
+  outputPath: './typings',
   outputFile: 'schema',
   pull: false,
 };
@@ -17,7 +22,7 @@ export const DEFAULT_COMMAND_CONFIG = {
  */
 export function registerCommand(program: Command) {
   return program
-    .command('type')
+    .command(COMMAND_NAME)
     .description('生成知晓云数据表的 .d.ts 类型文件')
     .option(
       '--pull',
@@ -30,19 +35,19 @@ export function registerCommand(program: Command) {
       DEFAULT_COMMAND_CONFIG.transform,
     )
     .option(
-      '--outputDir <path>',
+      '-o, --output-path <path>',
       '类型文件的输出目录',
-      DEFAULT_COMMAND_CONFIG.outputDir,
+      DEFAULT_COMMAND_CONFIG.outputPath,
     )
     .option(
-      '--outputFile <fileName>',
+      '--output-file <name>',
       '类型文件的文件名',
       DEFAULT_COMMAND_CONFIG.outputFile,
     )
     .action(async (options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
       const outputConf = {
-        outputDir: path.resolve(cwd, options.outputDir),
+        outputPath: path.resolve(cwd, options.outputPath),
         outputFile: options.outputFile,
       };
 
@@ -54,10 +59,9 @@ export function registerCommand(program: Command) {
             input: path.resolve(cwd, options.transform),
           }));
 
-      console.log(
-        chalk.bold(`[mincloudx/type]`),
+      logger.info(
         chalk.green('数据表类型文件保存成功:'),
-        path.join(outputConf.outputDir, `${outputConf.outputFile}.d.ts`),
+        path.join(outputConf.outputPath, `${outputConf.outputFile}.d.ts`),
       );
       console.log('');
 

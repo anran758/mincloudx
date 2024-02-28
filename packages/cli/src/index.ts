@@ -19,7 +19,7 @@ program
   .name('mincloudx')
   .description(packageInfo.description)
   .version(packageInfo.version)
-  .option('--envId <envId>', '环境 Id')
+  .option('--env-id <id>', '知晓云环境 ID')
   .hook('preAction', (_, actionCommand) => {
     const opts = actionCommand.opts();
     const config = getConfig(opts);

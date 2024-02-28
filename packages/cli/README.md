@@ -12,6 +12,8 @@
 - [Commands](#commands)
   - [login](#login)
   - [type](#type)
+  - [faas](#faas)
+    - [build](#build)
   - [help](#help)
 - [Development](#development)
 
@@ -42,7 +44,7 @@ mincloudx [command] [options]
 **Global Options:**
 
 - `-V, --version`：输出版本号
-- `--envId <envId>`：设置环境 ID
+- `--env-id <envId>`：设置环境 ID
 - `-h, --help`：输出帮助信息
 
 ## Commands
@@ -80,12 +82,12 @@ mincloudx type [options]
 
 **选项**:
 
-| 选项              | 描述                                          | 默认值             |
-| ----------------- | --------------------------------------------- | ------------------ |
-| `--pull`          | 读取线上的知晓云数据表信息来转换类型文件。    | `false`            |
-| `-f, --transform` | 解析本地的 JSON 数据表文件来转换 TypeScript。 | `"./_schema.json"` |
-| `--outputDir`     | 类型文件的输出目录。                          | `"./typings"`      |
-| `--outputFile`    | 类型文件的文件名。                            | `"schema"`         |
+| 选项              | 描述                                        | 默认值             |
+| ----------------- | ------------------------------------------- | ------------------ |
+| `--pull`          | 读取线上的知晓云数据表信息来转换类型文件    | `false`            |
+| `-f, --transform` | 解析本地的 JSON 数据表文件来转换 TypeScript | `"./_schema.json"` |
+| `--output-path`   | 类型文件的输出目录                          | `"./typings"`      |
+| `--output-file`   | 类型文件的文件名                            | `"schema"`         |
 
 ---
 
@@ -115,6 +117,42 @@ mincloudx type --transform ./_schema.json
 **注意**:
 
 生成的类型文件可能会引用知晓云官方的全局命名空间。在使用前，请确保将 `minapp-sdk-typings` 添加到 `tsconfig.json` 的 `compilerOptions.types` 中。
+
+### faas
+
+`faas` 命令为云函数环境下提供相应的帮助。
+
+目前常规的云函数的项目结构如下：
+
+```bash
+.
+├── package.json
+├── src
+│   ├── config                    // 项目常量或配置项
+│   │   └── index.js
+│   └── function                  // 云函数源码文件
+│       ├── updateProduct.ts        // 云函数 A
+│       └── user                    // 云函数分类
+│           └── createUser.js         // 云函数 B
+└── ...
+```
+
+`faas` 命令将按照项目结构的约束对项目中常见的操作做封装。
+
+#### build
+
+构建云函数源码。`faas build` 将通过 webpack 对源码进行打包压缩。
+
+```bash
+Usage: mincloudx faas build [options]
+
+云函数构建
+
+Options:
+  --entry-path <value>       存放云函数源码目录的路径 (default: "./src/function")
+  -o, --output-path <value>  云函数构建文件输出目录 (default: "./dist")
+  -h, --help                 display help for command
+```
 
 ### help
 

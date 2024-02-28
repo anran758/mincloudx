@@ -1,7 +1,9 @@
 import type { Command } from 'commander';
 
-import config from '../../config';
-import { login } from '../../request/api/login';
+import config from '@/config';
+import { login } from '@/request/api/login';
+
+const COMMAND_NAME = 'login';
 
 /**
  * 注册 `login` 命令
@@ -12,7 +14,7 @@ import { login } from '../../request/api/login';
  */
 export function registerCommand(program: Command) {
   return program
-    .command('login')
+    .command(COMMAND_NAME)
     .description('登录知晓云应用，登录后可获取知晓云相关的数据')
     .argument('<clientSecret>', '知晓云应用的密钥')
     .argument('[clientId]', '知晓云应用的 clint_id, 默认从 rc 文件中读取')
