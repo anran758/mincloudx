@@ -1,7 +1,7 @@
 {
   "name": "@mincloudx/cli",
   "version": "0.2.1",
-  "description": "基于知晓云生态的命令行工具，旨在提供一种简单、快捷的方式，帮助开发者快速处理知晓云相关的业务。",
+  "description": "A command-line tool based on the MinCloud ecosystem, designed to offer a simple and quick way to help developers efficiently manage MinCloud-related tasks.",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/cli#readme",
   "license": "MIT",
@@ -49,6 +49,7 @@
     "@types/osenv": "^0.1.1",
     "@types/rc": "^1.2.1",
     "@types/tough-cookie": "^4.0.2",
+    "@types/webpack-env": "^1.18.4",
     "minapp-sdk-typings": "^3.1.0",
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
