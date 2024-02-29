@@ -152,14 +152,14 @@ export async function uploadFunction({
  * Upload a specific cloud function named "example" from the default build directory:
  *
  * ```bash
- * mincloudx faas upload example
+ * mincloudx faas upload createUser
  * ```
  *
  * @example
  * Upload a specific cloud function named "example" from a custom build directory (`./dist-ts`):
  *
  * ```bash
- * mincloudx faas upload example --built-dir ./dist-ts
+ * mincloudx faas upload createUser --built-dir ./dist-ts
  * ```
  */
 export function registerCommand(program: Command) {

@@ -91,6 +91,27 @@ export function buildFunction({
   });
 }
 
+/**
+ * Build cloud function from source code.
+ *
+ * @example
+ * Build all cloud functions using default directories:
+ * ```
+ * mincloudx faas build
+ * ```
+ *
+ * @example
+ * Build a specific cloud function named "createUser":
+ * ```
+ * mincloudx faas build createUser
+ * ```
+ *
+ * @example
+ * Build cloud functions specifying custom source and output directories:
+ * ```
+ * mincloudx faas build --entry-dir ./src/functions --output-dir ./built
+ * ```
+ */
 export function registerCommand(program: Command) {
   return program
     .command('build')

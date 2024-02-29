@@ -19,6 +19,28 @@ type BuildFaasParams = typeof defaultConfig & {
   functionName?: string;
 };
 
+/**
+ * Deploys cloud functions
+
+ *
+ * @example
+ * Deploy all cloud functions using default directories for source and output:
+ * ```
+ * mincloudx faas deploy
+ * ```
+ *
+ * @example
+ * Deploy a specific cloud function named "createUser":
+ * ```
+ * mincloudx faas deploy createUser
+ * ```
+ *
+ * @example
+ * Deploy cloud functions specifying custom source and output directories:
+ * ```
+ * mincloudx faas deploy --entry-dir ./src/functions --built-dir ./built
+ * ```
+ **/
 export async function deployFunction({
   entryDir,
   builtDir,

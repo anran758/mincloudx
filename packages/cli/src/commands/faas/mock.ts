@@ -181,9 +181,9 @@ export function registerCommand(program: Command) {
     .command(COMMAND_NAME)
     .description('Invoke cloud function with mock data')
     .argument('<functionName>', 'Cloud function name.')
-    .option('-d,--dir <value>', 'mock data directory', defaultConfig.dir)
+    .option('-d, --dir <value>', 'mock data directory', defaultConfig.dir)
     .option(
-      '-o,--output <value>',
+      '-o, --output <value>',
       'specify the log directory for output',
       defaultConfig.output,
     )
