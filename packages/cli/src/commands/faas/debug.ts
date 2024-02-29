@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
 
-import { createLogger } from '@/utils';
+import { createLogger, selectCloudFunction } from '@/utils';
 import { deployFunction } from './deploy';
 import { invokeMockData } from './mock';
 
@@ -22,6 +22,33 @@ type BuildFaasParams = typeof defaultConfig & {
   functionName?: string;
 };
 
+/**
+ * Debug a specify cloud function with options for custom directories.
+ *
+ * @example
+ * select a cloud function to debug
+ * ```
+ * mincloudx faas debug
+ * ```
+ *
+ * @example
+ * Debug a cloud function by name:
+ * ```
+ * mincloudx faas debug createUser
+ * ```
+ *
+ * @example
+ * Debug with custom source and build directories:
+ * ```
+ * mincloudx faas debug exampl e --entry-dir ./src --built-dir ./build
+ * ```
+ *
+ * @example
+ * Debug with custom mock data directory:
+ * ```
+ * mincloudx faas debug createUser --mock-dir ./mocks
+ * ```
+ */
 export function registerCommand(program: Command) {
   return program
     .command(COMMAND_NAME)
@@ -45,14 +72,19 @@ export function registerCommand(program: Command) {
     .option('--mock-dir <value>', 'mock data directory', defaultConfig.mockDir)
     .action(async (functionName, options: BuildFaasParams) => {
       logger.verbose('verbose', 'function name:', functionName);
-      logger.verbose('verbose', 'debug options:', options);
-      const name = functionName;
+      const { entryDir, builtDir, outputDir, mockDir } = options;
+
+      let name = functionName;
+
+      // If the cloud function name is not provided, prompt the user to select one from the available functions.
+      // This step utilizes a search feature for ease of use.
       if (!name) {
-        logger.error('debug', 'Please input cloud function name.');
-        return;
+        const answer = await selectCloudFunction(entryDir, {
+          message: 'Select a cloud function to debug (supports search)',
+        });
+        name = answer;
       }
 
-      const { entryDir, builtDir, outputDir, mockDir } = options;
       // Deploy the selected or provided cloud function with specified directories for entry and build.
       await deployFunction({
         functionName: name,

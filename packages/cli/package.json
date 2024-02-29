@@ -66,6 +66,7 @@
     "form-data": "^4.0.0",
     "import-fresh": "^3.3.0",
     "ini": "^3.0.1",
+    "inquirer-autocomplete-standalone": "^0.8.1",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "npmlog": "^7.0.1",
