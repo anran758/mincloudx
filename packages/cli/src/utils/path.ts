@@ -26,3 +26,38 @@ export function checkPathExists(filePath) {
   const resolvedPath = resolveCwdAbsolutePath(filePath);
   return fs.existsSync(resolvedPath);
 }
+
+/**
+ * 递归地搜索云函数入口文件。
+ * @param {string} dir - 要搜索的目录。
+ * @param {string} baseDir - 基础目录，用于计算相对路径。
+ * @returns {Object} - 入口点对象。
+ */
+
+export function scanForFunctionEntries(
+  dir,
+  { pick = [] }: { pick?: string[] } = {},
+) {
+  const entries = {};
+
+  function findEntries(currentPath) {
+    fs.readdirSync(currentPath).forEach(file => {
+      const filePath = path.resolve(currentPath, file);
+      const stat = fs.statSync(filePath);
+
+      if (stat && stat.isDirectory()) {
+        findEntries(filePath);
+      } else if (file.endsWith('.js') || file.endsWith('.ts')) {
+        const entryKey = path.basename(filePath, path.extname(filePath));
+
+        if (!pick.length || pick.includes(entryKey)) {
+          entries[entryKey] = filePath;
+        }
+      }
+    });
+  }
+
+  findEntries(dir);
+
+  return entries;
+}

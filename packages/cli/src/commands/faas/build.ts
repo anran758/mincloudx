@@ -1,12 +1,14 @@
-import fs from 'fs';
-import path from 'path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import chalk from 'chalk';
 
 import type { Command } from 'commander';
 
-import { createLogger, resolveCwdAbsolutePath } from '@/utils';
+import {
+  createLogger,
+  resolveCwdAbsolutePath,
+  scanForFunctionEntries,
+} from '@/utils';
 
 import baseConf from './webpack.base.config';
 
@@ -22,38 +24,6 @@ type BuildFaasParams = typeof defaultConfig & {
   functionName?: string;
 };
 
-/**
- * 递归地搜索云函数入口文件。
- * @param {string} dir - 要搜索的目录。
- * @param {string} baseDir - 基础目录，用于计算相对路径。
- * @returns {Object} - 入口点对象。
- */
-
-function scanForFunctionEntries(dir, { pick = [] }: { pick?: string[] } = {}) {
-  const entries = {};
-
-  function findEntries(currentPath) {
-    fs.readdirSync(currentPath).forEach(file => {
-      const filePath = path.resolve(currentPath, file);
-      const stat = fs.statSync(filePath);
-
-      if (stat && stat.isDirectory()) {
-        findEntries(filePath);
-      } else if (file.endsWith('.js') || file.endsWith('.ts')) {
-        const entryKey = path.basename(filePath, path.extname(filePath));
-
-        if (!pick.length || pick.includes(entryKey)) {
-          entries[entryKey] = filePath;
-        }
-      }
-    });
-  }
-
-  findEntries(dir);
-
-  return entries;
-}
-
 export function buildFunction({
   entryDir,
   outputDir,
@@ -64,7 +34,7 @@ export function buildFunction({
 
     logger.log(
       COMMAND_NAME,
-      `Preparing to collect cloud function source code from ${folderPath} ...\n`,
+      `Preparing to collect cloud function source code from ${folderPath} ...`,
     );
 
     const pickFiles = functionName ? [functionName] : [];
@@ -108,8 +78,10 @@ export function buildFunction({
       }
 
       // 构建成功
-      logger.info(COMMAND_NAME, stats?.toString?.({ colors: true }), '\n');
-      logger.info(
+      logger.info(COMMAND_NAME, stats?.toString?.({ colors: true }));
+      console.log('');
+
+      logger.success(
         COMMAND_NAME,
         'CloudFunction build completed:',
         conf.output?.path,
@@ -122,7 +94,7 @@ export function buildFunction({
 export function registerCommand(program: Command) {
   return program
     .command('build')
-    .description('Build cloud function source code.')
+    .description('Build cloud function from source code.')
     .argument('[functionName]', 'Cloud function name.')
     .option(
       '--entry-dir <value>',
