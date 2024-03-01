@@ -3,9 +3,10 @@
   "useNx": true,
   "useWorkspaces": true,
   "npmClient": "pnpm",
-  "version": "0.2.1",
+  "version": "independent",
   "command": {
     "version": {
+      "createRelease": "github",
       "conventionalCommits": true,
       "message": "chore(release): %s"
     }
