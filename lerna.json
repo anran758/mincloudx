@@ -6,9 +6,8 @@
   "version": "independent",
   "command": {
     "version": {
-      "createRelease": "github",
       "conventionalCommits": true,
-      "message": "chore(release): %s"
+      "message": "chore(release): publish"
     }
   }
 }
