@@ -1,133 +1,137 @@
-import fs from 'fs';
-import path from 'path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import chalk from 'chalk';
 
 import type { Command } from 'commander';
 
-import { createLogger, resolveCwdAbsolutePath } from '@/utils';
+import {
+  createLogger,
+  resolveCwdAbsolutePath,
+  scanForFunctionEntries,
+} from '@/utils';
 
 import baseConf from './webpack.base.config';
 
-const logger = createLogger({ prefix: '[build]' });
+const COMMAND_NAME = 'build';
+const logger = createLogger(COMMAND_NAME);
 
 const defaultConfig = {
-  entryPath: './src/function',
-  outputPath: './dist',
+  entryDir: './src/function',
+  outputDir: './dist',
 };
 
 type BuildFaasParams = typeof defaultConfig & {
   functionName?: string;
 };
 
-/**
- * 递归地搜索云函数入口文件。
- * @param {string} dir - 要搜索的目录。
- * @param {string} baseDir - 基础目录，用于计算相对路径。
- * @returns {Object} - 入口点对象。
- */
-
-function scanForFunctionEntries(dir, { pick = [] }: { pick?: string[] } = {}) {
-  const entries = {};
-
-  function findEntries(currentPath) {
-    fs.readdirSync(currentPath).forEach(file => {
-      const filePath = path.resolve(currentPath, file);
-      const stat = fs.statSync(filePath);
-
-      if (stat && stat.isDirectory()) {
-        findEntries(filePath);
-      } else if (file.endsWith('.js') || file.endsWith('.ts')) {
-        const entryKey = path.basename(filePath, path.extname(filePath));
-
-        if (!pick.length || pick.includes(entryKey)) {
-          entries[entryKey] = filePath;
-        }
-      }
-    });
-  }
-
-  findEntries(dir);
-
-  return entries;
-}
-
 export function buildFunction({
-  entryPath,
-  outputPath,
+  entryDir,
+  outputDir,
   functionName,
 }: BuildFaasParams = defaultConfig) {
-  const folderPath = resolveCwdAbsolutePath(entryPath);
+  return new Promise((resolve, reject) => {
+    const folderPath = resolveCwdAbsolutePath(entryDir);
 
-  if (functionName) {
-    logger.log(`Cloud function name: ${functionName}`);
-  }
-
-  logger.log(
-    `Preparing to collect cloud function source code from ${folderPath} ...\n`,
-  );
-
-  const pickFiles = functionName ? [functionName] : [];
-  const entry = scanForFunctionEntries(folderPath, { pick: pickFiles });
-
-  if (!Object.keys(entry).length && functionName) {
-    logger.error(
-      `Failed to build cloud function. Please ensure the ${chalk.bold(
-        functionName,
-      )} are in the entry directory.`,
+    logger.log(
+      COMMAND_NAME,
+      `Preparing to collect cloud function source code from ${folderPath} ...`,
     );
-    return;
-  }
 
-  const currentConf = {
-    entry,
-    output: {
-      path: resolveCwdAbsolutePath(outputPath),
-    },
-  };
+    const pickFiles = functionName ? [functionName] : [];
+    const entry = scanForFunctionEntries(folderPath, { pick: pickFiles });
 
-  // 后续可以考虑 merge 用户提供的 config
-  const conf = merge(baseConf, currentConf);
-  const compiler = webpack(conf);
-
-  compiler.run((err, stats) => {
-    // 处理构建过程中的错误
-    if (err) {
-      logger.error('构建时发生错误:', err);
+    if (!Object.keys(entry).length && functionName) {
+      logger.error(
+        COMMAND_NAME,
+        `Failed to build cloud function. Please ensure the ${chalk.bold(
+          functionName,
+        )} are in the entry directory.`,
+      );
       return;
     }
 
-    // 处理编译过程中的错误
-    if (stats?.hasErrors?.()) {
-      logger.error('构建时遇到错误:');
-      logger.error(stats.toString({ colors: true }));
-      return;
-    }
+    const currentConf = {
+      entry,
+      output: {
+        path: resolveCwdAbsolutePath(outputDir),
+      },
+    };
 
-    // 构建成功
-    logger.info(stats?.toString?.({ colors: true }), '\n');
-    logger.info('云函数构建完成：', conf.output?.path, '\n');
+    // 后续可以考虑 merge 用户提供的 config
+    const conf = merge(baseConf, currentConf);
+    const compiler = webpack(conf);
+
+    compiler.run((err, stats) => {
+      // 处理构建过程中的错误
+      if (err) {
+        logger.error(COMMAND_NAME, '构建时发生错误:', err);
+        reject(err);
+        return;
+      }
+
+      // 处理编译过程中的错误
+      if (stats?.hasErrors?.()) {
+        logger.error(COMMAND_NAME, '构建时遇到错误:');
+        logger.error(COMMAND_NAME, stats.toString({ colors: true }));
+        reject(stats);
+        return;
+      }
+
+      // 构建成功
+      logger.info(COMMAND_NAME, stats?.toString?.({ colors: true }));
+      console.log('');
+
+      logger.success(
+        COMMAND_NAME,
+        'CloudFunction build completed:',
+        conf.output?.path,
+      );
+      resolve('ok');
+    });
   });
-
-  return compiler;
 }
 
+/**
+ * Build cloud function from source code.
+ *
+ * @example
+ * Build all cloud functions using default directories:
+ * ```
+ * mincloudx faas build
+ * ```
+ *
+ * @example
+ * Build a specific cloud function named "createUser":
+ * ```
+ * mincloudx faas build createUser
+ * ```
+ *
+ * @example
+ * Build cloud functions specifying custom source and output directories:
+ * ```
+ * mincloudx faas build --entry-dir ./src/functions --output-dir ./built
+ * ```
+ */
 export function registerCommand(program: Command) {
   return program
-    .command('build [functionName]')
-    .description('云函数构建')
+    .command('build')
+    .description('Build cloud function from source code.')
+    .argument('[functionName]', 'Cloud function name.')
     .option(
-      '--entry-path <value>',
-      '存放云函数源码目录的路径',
-      defaultConfig.entryPath,
+      '--entry-dir <value>',
+      'Cloud function source code directory',
+      defaultConfig.entryDir,
     )
     .option(
-      '-o, --output-path <value>',
-      '云函数构建文件输出目录',
-      defaultConfig.outputPath,
+      '-o, --output-dir <value>',
+      'Cloud function built file output directory',
+      defaultConfig.outputDir,
     )
     .action((functionName, options: BuildFaasParams) => {
+      if (functionName) {
+        logger.log(COMMAND_NAME, `Cloud function name: ${functionName}`);
+      }
+
       buildFunction({ ...options, functionName });
     });
 }

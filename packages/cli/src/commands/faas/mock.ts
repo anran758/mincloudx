@@ -18,7 +18,7 @@ import {
 import { invokeCloudFunction } from '@/request/api';
 
 const COMMAND_NAME = 'mock';
-const logger = createLogger({ prefix: `[${COMMAND_NAME}]` });
+const logger = createLogger(COMMAND_NAME);
 const defaultConfig = {
   dir: './mock',
   output: './log',
@@ -28,7 +28,7 @@ type BuildFaasParams = typeof defaultConfig & {
   /**
    * 云函数名
    */
-  functionName?: string;
+  functionName: string;
 };
 
 function formatResult(data) {
@@ -67,17 +67,30 @@ function formatResult(data) {
   return generatorLog(content);
 }
 
-async function invokeMockData(functionName, options: BuildFaasParams) {
-  const folderPath = resolveCwdAbsolutePath(options.dir);
+export async function invokeMockData({
+  functionName,
+  ...options
+}: BuildFaasParams) {
+  if (!functionName) {
+    const message = 'Please input cloud function name!';
+    logger.error(COMMAND_NAME, message);
 
+    return Promise.reject(new Error(message));
+  }
+
+  const folderPath = resolveCwdAbsolutePath(options.dir);
   const mockPath = path.resolve(folderPath, `${functionName}.js`);
+
+  logger.verbose(COMMAND_NAME, 'mockPath:', mockPath);
 
   let data = {};
 
   // check mock file exists
   if (!fs.existsSync(mockPath)) {
+    logger.warn(COMMAND_NAME, `${mockPath} mock file not found.`);
     logger.warn(
-      `${chalk.bold(functionName)} mock file not found. \n`,
+      COMMAND_NAME,
+      `${mockPath} mock file not found.`,
       'This call will use default value `{}` to invoke cloud function.',
     );
   } else {
@@ -91,6 +104,7 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
       data = content;
     } else {
       logger.error(
+        COMMAND_NAME,
         `${chalk.bold(functionName)} mock file module exports type warning!`,
         `Expected export an object or function, but got ${getBaseType(data)}.`,
       );
@@ -99,7 +113,6 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
     }
   }
 
-  // console.log('mock data:', data, '\n');
   try {
     const response = await invokeCloudFunction({ name: functionName, data });
 
@@ -111,7 +124,11 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
       dirPath: dir,
       content,
     });
-    logger.info('invoke result log saved to:', path.join(dir, fileName));
+    logger.success(
+      COMMAND_NAME,
+      'Invoke result log saved to:',
+      path.join(dir, fileName),
+    );
 
     return result;
   } catch (error) {
@@ -130,7 +147,8 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
     fs.appendFile(errorPath, errorLog, function (err) {
       if (err) throw err;
       logger.error(
-        'Invoke cloud function error.\n',
+        COMMAND_NAME,
+        'Invoke cloud function error.',
         `Log saved to: ${errorPath}`,
       );
     });
@@ -138,34 +156,38 @@ async function invokeMockData(functionName, options: BuildFaasParams) {
 }
 
 /**
- * invoke cloud function with mock data
+ * Invoke cloud function with mock data
  *
  * @example
- * invoke cloud function
+ * Invoke the "createUser" cloud function without specifying a mock directory:
  * ```
  * mincloudx faas mock createUser
  * ```
  *
  * @example
- * If the default mock folder is not used and wish to change folder
- * you can use `--dir` option change:
+ * Invoke the "createUser" cloud function with mock data from a specific directory:
+ * ```
+ * mincloudx faas mock createUser --dir ./mocks
+ * ```
  *
- *  ```
- *  mincloudx faas mock createUser --dir ./mocks
- *  ```
+ * @example
+ * Invoke the "createUser" cloud function and specify a directory for the output logs:
+ * ```
+ * mincloudx faas mock createUser --out ./logs
+ * ```
  */
 export function registerCommand(program: Command) {
   return program
     .command(COMMAND_NAME)
-    .description('invoke cloud function with mock data')
-    .argument('<functionName>', 'cloud function name.')
-    .option('-d,--dir <value>', 'mock data directory', defaultConfig.dir)
+    .description('Invoke cloud function with mock data')
+    .argument('<functionName>', 'Cloud function name.')
+    .option('-d, --dir <value>', 'mock data directory', defaultConfig.dir)
     .option(
-      '-o,--output <value>',
+      '-o, --output <value>',
       'specify the log directory for output',
       defaultConfig.output,
     )
     .action((functionName: string, options: BuildFaasParams) => {
-      return invokeMockData(functionName, options);
+      return invokeMockData({ ...options, functionName });
     });
 }

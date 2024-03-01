@@ -1,10 +1,10 @@
 import path from 'path';
 import mkdirp from 'mkdirp';
 import fs from 'fs/promises';
-import os from 'os';
 
 export * from './path';
 export * from './logger';
+export * from './cloud-function';
 
 /**
  * 获取类型的字段
@@ -59,22 +59,4 @@ export async function writeFile({
   await mkdirp(dirPath);
 
   return fs.writeFile(path.resolve(dirPath, fileName), content);
-}
-
-/**
- * 生成日志格式，后续考虑用第三方库来处理
- */
-export function generatorLog(list: (string | string[])[] = []) {
-  const logs: string[] = [];
-  list.forEach(item => {
-    if (Array.isArray(item)) {
-      item.forEach(str => {
-        logs.push(str.length ? `  ${str}` : '');
-      });
-    } else {
-      logs.push(item);
-    }
-  });
-
-  return logs.join(os.EOL);
 }

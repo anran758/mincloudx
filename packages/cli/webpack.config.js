@@ -18,7 +18,7 @@ const webpackConf = {
     rules: [
       {
         test: /\.(js|ts)$/,
-        use: 'ts-loader',
+        loader: require.resolve('ts-loader'),
         exclude: /node_modules/,
       },
     ],
@@ -27,12 +27,12 @@ const webpackConf = {
     node: true,
   },
   externals: [
-    nodeExternals(),
-    // monorepo 结构还需要向上找一层
+    nodeExternals({
+      allowlist: ['inquirer-autocomplete-standalone'],
+    }),
     nodeExternals({
       modulesDir: path.resolve(__dirname, '../../node_modules'),
     }),
-    // axios-cookiejar-support 的相关依赖
     { deasync: 'commonjs deasync' },
   ],
   resolve: {

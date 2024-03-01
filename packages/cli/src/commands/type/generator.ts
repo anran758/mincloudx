@@ -148,7 +148,7 @@ export function generateDeclaration(schema: SchemeObject) {
  */
 export async function writeSchemaFile(
   list: SchemeObject[],
-  { outputPath, outputFile }: { outputPath: string; outputFile: string },
+  { outputDir, outputFile }: { outputDir: string; outputFile: string },
 ) {
   // 转为文本
   const schemasText = list
@@ -181,18 +181,18 @@ export async function writeSchemaFile(
 
   return writeFile({
     fileName: `${outputFile}.d.ts`,
-    dirPath: outputPath,
+    dirPath: outputDir,
     content: `${content}\n`,
   });
 }
 
 export async function generatorSchemaFile({
   input,
-  outputPath,
+  outputDir,
   outputFile = `schema`,
 }: {
   input: string;
-  outputPath: string;
+  outputDir: string;
   outputFile?: string;
 }) {
   let schemaData: SchemaRootObject | null = null;
@@ -218,5 +218,5 @@ export async function generatorSchemaFile({
     return;
   }
 
-  return writeSchemaFile(schemas, { outputPath, outputFile });
+  return writeSchemaFile(schemas, { outputDir, outputFile });
 }

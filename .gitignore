@@ -20,3 +20,6 @@ packages/cli/typings/schema.d.ts
 
 # log file
 apps/*/log
+
+# env
+.env
