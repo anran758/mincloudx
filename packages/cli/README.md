@@ -14,8 +14,10 @@
   - [type](#type)
   - [faas](#faas)
     - [build](#build)
+    - [upload](#upload)
     - [deploy](#deploy)
     - [mock](#mock)
+    - [debug](#debug)
   - [help](#help)
 - [Development](#development)
 
@@ -108,9 +110,7 @@ mincloudx type --pull
 若顾虑应用密匙泄露的安全性等因素也可以直接读取本地的 schema JSON 文件来转换。
 
 方法：进入知晓云控制面板，打开浏览器开发者工具，在网络面板找到 `dserve/v1.8/schema/?offset=0&
-limit=200` 请求，并将响应保存为 `_schema.json` 文件，放在与 `package.json` 同级目录中。
-
-![copy response](./static/network-save-response.png)
+limit=200` 请求，并将 `JSON` 保存为 `_schema.json` 文件，放在与 `package.json` 同级目录中。
 
 ```bash
 mincloudx type --transform ./_schema.json
@@ -165,9 +165,31 @@ mincloudx faas build createUser
 mincloudx faas build --entry-path ./src -o ./dist
 ```
 
+#### upload
+
+上传与云函数，默认从 `./dist` 目录读取文件。
+
+上传已构建的全部云函数：
+
+```bash
+mincloudx faas upload
+```
+
+上传指定云函数：
+
+```bash
+mincloudx faas upload createUser
+```
+
+指定目录：
+
+```bash
+mincloudx faas upload createUser --built-dir ./dist-ts
+```
+
 #### deploy
 
-部署云函数。
+构建并上传云函数，相当于先后执行 `faas build` 和 `faas upload`
 
 `faas deploy` 默认从 `./dist` 目录中部署全部云函数文件：
 
@@ -199,10 +221,38 @@ mincloudx faas deploy --deploy-dir ./dist-test
 mincloudx faas mock createUser
 ```
 
-修改 Mock 目录:
+修改默认 Mock 目录:
 
 ```bash
 mincloudx faas mock createUser --dir ./mocks
+```
+
+修改默认日志目录：
+
+```bash
+mincloudx faas mock createUser --out ./logs
+```
+
+#### debug
+
+调试云函数，会将源码中的指定云函数进行构建上传并使用 mock 本地 mock 数据进行调试。
+
+选择一个云函数：
+
+```bash
+mincloudx faas debug
+```
+
+指定云函数：
+
+```bash
+mincloudx faas debug createUser
+```
+
+修改默认目录：
+
+```bash
+mincloudx faas debug createUser --entry-dir ./src --built-dir ./build --mock-dir ./mocks
 ```
 
 ### help

@@ -3,11 +3,11 @@
   "useNx": true,
   "useWorkspaces": true,
   "npmClient": "pnpm",
-  "version": "0.2.1",
+  "version": "independent",
   "command": {
     "version": {
       "conventionalCommits": true,
-      "message": "chore(release): %s"
+      "message": "chore(release): publish"
     }
   }
 }

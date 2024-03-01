@@ -22,7 +22,10 @@ const webpackConf: Configuration = {
     rules: [
       {
         test: /\.(js|ts)$/,
-        use: 'ts-loader',
+        // using `resolve` to ensure the correct resolution path for 'ts-loader'
+        // There are differences between Node.js `require` and webpack's `require`.
+        // https://webpack.js.org/api/module-variables/#__non_webpack_require__-webpack-specific
+        use: __non_webpack_require__.resolve('ts-loader'),
         exclude: /node_modules/,
       },
     ],

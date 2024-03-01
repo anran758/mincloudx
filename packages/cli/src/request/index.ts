@@ -51,3 +51,5 @@ export function registerMinCloudHeaders({
 }
 
 export default instance;
+
+export * from './api';

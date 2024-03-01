@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "allowJs": true, // 允许编译 JavaScript 文件
+    "allowJs": true,
 
-    // 代码生成相关配置
+    // Code generation settings
     "target": "es2015",
 
-    // 模块解析和路径配置
+    // Module resolution and path settings
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
@@ -15,17 +15,17 @@
     "module": "ESNext",
     "moduleResolution": "node",
 
-    // 严格性和类型检查
+    // Strictness and type checking
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "types": ["minapp-sdk-typings"],
+    "types": ["minapp-sdk-typings", "webpack-env"],
 
-    // 与 ES6 模块系统互操作性
+    // Interoperability with the ES6 module system
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
-    // 其他配置
+    // Miscellaneous settings
     "composite": false
   },
   "include": ["src", "typings", "./package.json"],
