@@ -1,0 +1,46 @@
+{
+  "name": "@mincloudx/faas",
+  "version": "0.0.1",
+  "description": "A more user-friendly Node.js cloud function development framework.",
+  "keywords": [
+    "Node.js",
+    "faas",
+    "serverless"
+  ],
+  "author": "anran758 <anran758@gmail.com>",
+  "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/faas#readme",
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "typings": "./dist/cjs/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anran758/mincloudx.git"
+  },
+  "scripts": {
+    "test": "jest ",
+    "tsc": "pnpm run tsc:esm && pnpm run tsc:cjs",
+    "tsc:esm": "rm -rf dist/esm && tsc -p ./tsconfig.json",
+    "tsc:cjs": "rm -rf dist/cjs && tsc -p ./tsconfig.cjs.json"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/types/index.d.mts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/anran758/mincloudx/issues"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

@@ -19,4 +19,20 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  overrides: [
+    {
+      files: ['**/__tests__/**', '**/__mocks__/**', '**/__helpers__/**'],
+      env: {
+        jest: true,
+      },
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+        'import/order': 'off',
+        'max-classes-per-file': 'off',
+        'node/no-extraneous-require': 'off',
+        'node/no-unpublished-require': 'off',
+        'no-console': 'off',
+      },
+    },
+  ],
 };

@@ -7,12 +7,13 @@
   "author": "anran758",
   "license": "MIT",
   "scripts": {
+    "pre-commit": "pnpm lint-staged",
+    "postinstall": "husky install",
     "lint-fix": "eslint . --fix",
     "lint": "eslint .",
     "check-format": "prettier --list-different .",
     "format": "prettier --write .",
-    "pre-commit": "pnpm lint-staged",
-    "postinstall": "husky install"
+    "test": "node --test integration/**/*.test.*"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs,cjs,jsx,json,css}": [
@@ -37,6 +38,6 @@
     "lerna": "^5.5.0",
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.7",
-    "typescript": "^4.7.2"
+    "typescript": "^5.3.3"
   }
 }

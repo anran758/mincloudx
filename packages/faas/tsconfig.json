@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["./src"],
+  "exclude": ["**/*.test.ts"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "lib": ["ESNext"],
+    "target": "es2022",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "outDir": "dist/esm",
+    "declarationDir": "dist/esm/types"
+  }
+}
