@@ -1,13 +1,14 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./src"],
+  "include": ["./src", "./types"],
   "exclude": ["**/*.test.ts"],
   "compilerOptions": {
+    "typeRoots": ["../../node_modules/@types", "./types"],
     "rootDir": "./src",
     "lib": ["ESNext"],
-    "target": "es2022",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "dist/esm",
     "declarationDir": "dist/esm/types"
   }

@@ -1,0 +1,69 @@
+export declare namespace FaaS {
+  /**
+   * 云函数触发的事件
+   * @see {@link https://doc.minapp.com/cloud-function/node-sdk/start/code-format.html}
+   */
+  interface Event<Data extends object> {
+    timeLimitInMS: number;
+    eventType:
+      | null //  cli 调用
+      | 'sdk' // 知晓云后台、小程序调用
+      | 'open_api'
+      | 'cloud_function'
+      | 'flex_schema'
+      | 'wechat_pay_success'
+      | 'alipay_pay_success'
+      | 'qpay_success'
+      | 'timer'
+      | 'debugger'
+      | 'file_operation'
+      | 'incoming_webhook'
+      | 'wechat_message'
+      | 'user_dash'; // 用户后台
+    request: {
+      meta: {
+        ip_address: string;
+        user_agent: string;
+      };
+      user?: {
+        avatar_url: string;
+        nickname: string;
+        id: number;
+      };
+    };
+    signKey: string;
+    miniappId: number;
+    debug: boolean; // cli、知晓云后台调用时为 true
+    timezone: string;
+    jobId: string;
+    /**
+     * @description 在用户调用云函数时传入的参数
+     */
+    data: Data;
+  }
+
+  /**
+   * 触发器 v2 版本的结构
+   */
+  interface TriggerEventV2<
+    AfterData extends object,
+    BeforeData extends object,
+  > {
+    after: AfterData;
+    before: BeforeData;
+    event: string;
+    id: string;
+    schema_id: number;
+    schema_name: string;
+    subject: string;
+  }
+
+  type MainCallback = (err: any, data: any) => void;
+
+  type MainEvent = Event | TriggerEventV2;
+
+  type MainFunction<T = object> = (
+    event: MainEvent,
+    callback?: MainCallback,
+  ) => Promise<T>;
+}

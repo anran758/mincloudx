@@ -19,6 +19,9 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  globals: {
+    BaaS: true,
+  },
   overrides: [
     {
       files: ['**/__tests__/**', '**/__mocks__/**', '**/__helpers__/**'],
