@@ -17,9 +17,10 @@
   "scripts": {
     "lint": "eslint .",
     "build": "mincloudx faas build",
+    "upload": "mincloudx faas upload",
     "deploy": "mincloudx faas deploy",
-    "release": "pnpm build && pnpm deploy",
-    "generator:type": "mincloudx type"
+    "debug": "mincloudx faas debug",
+    "refresh": "mincloudx type"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloudx/issues"

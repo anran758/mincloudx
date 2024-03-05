@@ -3,7 +3,6 @@ import path from 'path';
 import chalk from 'chalk';
 import { AxiosError } from 'axios';
 import { readFile } from 'fs/promises';
-import { program as globalProgram } from 'commander';
 
 import type { Command } from 'commander';
 
@@ -30,7 +29,6 @@ async function uploadFile({
   dir: string;
   functionName: string;
 }) {
-  const { debug } = globalProgram.opts();
   const filePath = path.resolve(dir, `${functionName}.js`);
   if (!fs.existsSync(filePath)) {
     throw new Error(
@@ -54,20 +52,16 @@ async function uploadFile({
   } catch (error) {
     if (error instanceof AxiosError) {
       const { status, statusText } = error.response || {};
-      if (debug) {
-        logger.log(
-          COMMAND_NAME,
-          `Update of cloud function failed. HTTP status: ${status}, statusText: ${statusText}.`,
-        );
-      }
+      logger.verb(
+        COMMAND_NAME,
+        `Update of cloud function failed. HTTP status: ${status}, statusText: ${statusText}.`,
+      );
 
       if (status === 404) {
-        if (debug) {
-          logger.log(
-            COMMAND_NAME,
-            `"${functionName}" try create new function.`,
-          );
-        }
+        logger.info(
+          COMMAND_NAME,
+          `Trying to create new cloud function "${functionName}".`,
+        );
 
         await createCloudFunction({
           name: functionName,
@@ -76,14 +70,10 @@ async function uploadFile({
           const message = `"${chalk.bold.blue(
             functionName,
           )}" create failed, see details: ${err.message}`;
-          if (debug) {
-            logger.log(
-              COMMAND_NAME,
-              `${chalk.bold('Create')} of cloud function failed. HTTP status: ${
-                err.response?.status
-              }, statusText: ${err.response?.statusText}.`,
-            );
-          }
+          logger.HTTP(
+            COMMAND_NAME,
+            `Create of cloud function failed. HTTP status: ${err.response?.status}, statusText: ${err.response?.statusText}.`,
+          );
 
           throw new Error(message);
         });
