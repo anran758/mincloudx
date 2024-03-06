@@ -1,12 +1,17 @@
-const { createFaas } = require('..');
+const { createFaas, FAAS_LATEST_SDK_VERSION } = require('..');
 
 // Mock global BaaS
+const SKD_VERSION = 'v2.0';
 global.BaaS = {
-  VERSION: 'v2.0',
+  VERSION: SKD_VERSION,
   useVersion(version) {
-    this.VERSION = version;
+    BaaS.VERSION = version;
   },
 };
+
+function defaultUserDefinedFunction() {
+  return { status: 'ok' };
+}
 
 describe('createFaas Functionality', () => {
   describe('Default Parameters Handling', () => {
@@ -22,10 +27,60 @@ describe('createFaas Functionality', () => {
   describe('Unified Return Format', () => {
     it('wraps non-object return values from the user-defined function in {data: value}', async () => {
       const returnValue = 'Test String';
+      const exceptResponse = { data: returnValue };
       const fn = await createFaas(() => returnValue);
 
       const response = await fn({});
-      expect(response).toEqual({ data: returnValue });
+      expect(response).toEqual(exceptResponse);
+    });
+
+    it('returns the object as-is if the return value from the user-defined function is an object', async () => {
+      const returnValue = { key: 'value' };
+      const fn = await createFaas(() => returnValue);
+
+      const response = await fn({});
+      expect(response).toEqual(returnValue);
+    });
+  });
+
+  describe('BaaS SDK version', () => {
+    // reset to original version before each test to prevent tests from affecting each other
+    beforeEach(() => {
+      BaaS.VERSION = SKD_VERSION;
+    });
+
+    it('default to using latest SDK version', async () => {
+      const fn = await createFaas(defaultUserDefinedFunction);
+      await fn({});
+      expect(BaaS.VERSION).toEqual(FAAS_LATEST_SDK_VERSION);
+    });
+
+    // Ensure the version is updated to the latest by default
+    it('updates to the latest SDK version by default', async () => {
+      const fn = await createFaas(defaultUserDefinedFunction, {
+        updateVersion: true,
+      });
+      await fn({});
+      expect(BaaS.VERSION).toEqual(FAAS_LATEST_SDK_VERSION);
+    });
+
+    // Keep the default version when updateVersion is explicitly set to false
+    it('remains at the default SDK version when updateVersion is explicitly set to false', async () => {
+      const fn = await createFaas(defaultUserDefinedFunction, {
+        updateVersion: false,
+      });
+      await fn({});
+      expect(BaaS.VERSION).toEqual(SKD_VERSION); // Assuming originalVersion is the default version
+    });
+
+    // Allow setting BaaS.VERSION to a specified version
+    it('sets SDK to the specified version', async () => {
+      const specifiedVersion = 'v3.0';
+      const fn = await createFaas(defaultUserDefinedFunction, {
+        version: specifiedVersion,
+      });
+      await fn({});
+      expect(BaaS.VERSION).toEqual(specifiedVersion);
     });
   });
 });

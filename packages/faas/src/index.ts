@@ -1,3 +1,4 @@
-export { upgradeFaaSSdk } from './version';
-export { formatEvent, formatResponse } from './formatters';
-export { createFaas } from './createFaas';
+export * from './config';
+export * from './version';
+export * from './formatters';
+export * from './createFaas';
