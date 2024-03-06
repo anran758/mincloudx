@@ -3,7 +3,7 @@ export declare namespace FaaS {
    * 云函数触发的事件
    * @see {@link https://doc.minapp.com/cloud-function/node-sdk/start/code-format.html}
    */
-  interface Event<Data extends object> {
+  interface Event<Data = any> {
     timeLimitInMS: number;
     eventType:
       | null //  cli 调用
@@ -44,8 +44,9 @@ export declare namespace FaaS {
 
   /**
    * 触发器 v2 版本的结构
+   * @see {@link https://doc.minapp.com/support/guide/trigger-v2-guideline.html#%E8%A7%A6%E5%8F%91%E5%99%A8%E6%89%A7%E8%A1%8C%E4%BA%91%E5%87%BD%E6%95%B0%E6%97%B6-eventdata-%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E}
    */
-  interface TriggerEventV2<
+  interface TriggerSchemaV2<
     AfterData extends object,
     BeforeData extends object,
   > {
@@ -60,10 +61,8 @@ export declare namespace FaaS {
 
   type MainCallback = (err: any, data: any) => void;
 
-  type MainEvent<T> = Event<T> | TriggerEventV2;
-
-  type MainFunction<T = object> = (
-    event: MainEvent<T>,
+  type UserDefinedFunction<T extends object> = (
+    event: Event<T>,
     callback?: MainCallback,
   ) => Promise<Record<string | number, any>>;
 }
