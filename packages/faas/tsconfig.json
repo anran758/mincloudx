@@ -11,9 +11,6 @@
     "moduleResolution": "node",
     "outDir": "dist/esm",
     "declarationDir": "dist/esm/types",
-    "baseUrl": "./",
-    "paths": {
-      "@local/types/*": ["types/*"]
-    }
+    "baseUrl": "./"
   }
 }

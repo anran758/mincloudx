@@ -1,4 +1,4 @@
-import type { FaaS } from '@local/types/faas';
+import type { FaaS } from '@mincloudx/types';
 
 import { upgradeFaaSSdk } from './version';
 import { formatEvent, formatResponse } from './formatters';

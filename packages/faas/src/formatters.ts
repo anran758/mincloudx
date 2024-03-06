@@ -1,5 +1,5 @@
 import { isPlainObject } from 'lodash';
-import type { FaaS } from '@local/types/faas';
+import type { FaaS } from '@mincloudx/types';
 
 /**
  * formatEvent

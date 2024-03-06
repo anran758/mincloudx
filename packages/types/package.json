@@ -1,0 +1,12 @@
+{
+  "name": "@mincloudx/types",
+  "version": "0.0.1",
+  "description": "MinCloud common type",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "typings": "./src/index.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
