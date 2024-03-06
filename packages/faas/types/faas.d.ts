@@ -60,10 +60,10 @@ export declare namespace FaaS {
 
   type MainCallback = (err: any, data: any) => void;
 
-  type MainEvent = Event | TriggerEventV2;
+  type MainEvent<T> = Event<T> | TriggerEventV2;
 
   type MainFunction<T = object> = (
-    event: MainEvent,
+    event: MainEvent<T>,
     callback?: MainCallback,
-  ) => Promise<T>;
+  ) => Promise<Record<string | number, any>>;
 }
