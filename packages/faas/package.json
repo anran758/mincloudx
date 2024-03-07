@@ -1,5 +1,6 @@
 {
   "name": "@mincloudx/faas",
+  "sideEffects": false,
   "version": "0.0.1",
   "description": "A more user-friendly Node.js cloud function development framework.",
   "keywords": [

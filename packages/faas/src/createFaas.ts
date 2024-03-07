@@ -8,7 +8,7 @@ export interface CreateFaasOptions {
   updateVersion?: boolean;
 }
 
-export async function createFaas<T extends object>(
+export function createFaas<T extends object>(
   fn: FaaS.UserDefinedFunction<T>,
   { version, updateVersion = true }: CreateFaasOptions = {},
 ) {

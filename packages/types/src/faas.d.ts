@@ -1,4 +1,4 @@
-import { BaaS as BaaSModule } from '@mincloudx/types';
+import * as BaaSModule from './baas';
 
 export declare namespace FaaS {
   /**
@@ -75,5 +75,5 @@ export declare namespace FaaS {
 
 declare global {
   // iceberg Node.js SDK
-  declare const BaaS: typeof BaaSModule;
+  const BaaS: typeof BaaSModule;
 }

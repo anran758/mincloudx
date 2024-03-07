@@ -6,9 +6,9 @@
     "typeRoots": ["../../node_modules/@types", "./types"],
     "rootDir": "./src",
     "lib": ["ESNext"],
-    "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "es2022",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "outDir": "dist/esm",
     "declarationDir": "dist/esm/types",
     "baseUrl": "./"

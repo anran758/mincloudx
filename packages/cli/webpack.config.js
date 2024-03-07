@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
@@ -44,6 +45,7 @@ const webpackConf = {
   },
   optimization: {
     minimizer: [
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new TerserPlugin({
         extractComments: false,
       }),
