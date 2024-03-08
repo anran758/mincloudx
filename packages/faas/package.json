@@ -23,10 +23,10 @@
   "scripts": {
     "prepare": "pnpm run tsc",
     "test": "jest --verbose",
-    "tsc": "pnpm run --parallel '/tsc:.*/'",
+    "tsc": "pnpm run '/tsc:.*/'",
     "tsc:esm": "rm -rf dist/esm && tsc -p ./tsconfig.json",
     "tsc:cjs": "rm -rf dist/cjs && tsc -p ./tsconfig.cjs.json",
-    "watch": "pnpm run --parallel '/^watch:.*/'",
+    "watch": "pnpm run '/^watch:.*/'",
     "watch:esm": "tsc -p ./tsconfig.json --watch",
     "watch:cjs": "tsc -p ./tsconfig.cjs.json --watch"
   },

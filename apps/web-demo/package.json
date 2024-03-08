@@ -5,7 +5,7 @@
   "description": "web test demo",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx#readme",
-  "license": "ISC",
+  "license": "MIT",
   "main": "index.js",
   "directories": {
     "lib": "dist",

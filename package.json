@@ -1,11 +1,13 @@
 {
   "name": "mincloudx",
   "private": true,
-  "description": "知晓云生态库工具",
-  "main": "index.js",
+  "description": "MinCloud Ecosystem Library Tools",
   "homepage": "https://github.com/anran758/mincloudx#readme",
-  "author": "anran758",
+  "author": "anran758 <anran758@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "pre-commit": "pnpm lint-staged",
     "postinstall": "husky install",

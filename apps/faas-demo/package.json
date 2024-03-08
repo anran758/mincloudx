@@ -5,7 +5,7 @@
   "description": "Out-of-the-box Cloud Function Template",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/node-demo#readme",
-  "license": "ISC",
+  "license": "MIT",
   "sideEffects": false,
   "publishConfig": {
     "access": "restricted"
