@@ -90,7 +90,6 @@ export async function invokeMockData({
     logger.warn(COMMAND_NAME, `${mockPath} mock file not found.`);
     logger.warn(
       COMMAND_NAME,
-      `${mockPath} mock file not found.`,
       'This call will use default value `{}` to invoke cloud function.',
     );
   } else {

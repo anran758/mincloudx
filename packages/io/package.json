@@ -4,7 +4,7 @@
   "description": "知晓云核心 API",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
-  "license": "ISC",
+  "license": "MIT",
   "private": true,
   "main": "dist/main.js",
   "files": [

@@ -1,25 +1,29 @@
 # TODO
 
-接下来 `mincloudx` 的开发计划与思路:
+Here is an overview of the upcoming development plans and strategies for `mincloudx`:
 
-**Package**
+### Packages
 
-- [ ] @mincloudx/cli
+- **@mincloudx/cli**: Core development of the command-line interface tools.
   - [x] `login` command
   - [x] `type` command
-  - [x] `faas` command
+  - [x] Cloud Functions (`faas`) related commands:
     - [x] `build`
     - [x] `upload`
     - [x] `deploy`
     - [x] `mock`
     - [x] `debug`
-- [ ] @mincloudx/io
-- [ ] @mincloudx/faas
+- [x] **@mincloudx/faas**: Cloud functions development framework, completed.
+- [x] **@mincloudx/types**: Common TypeScript type definitions, completed.
+- [ ] **@mincloudx/io**: Input/output handling utilities, pending development.
 
-**Other**
+### Others
 
-- [ ] monorepo template
-- [ ] Test case and code cover
-- [ ] document auto generate
+- [ ] **Monorepo Template Project**: will provide a template for quickly starting projects.
+- [ ] **Test Cases and Code Coverage**: aimed at ensuring code quality and stability.
+- [ ] **Documentation Auto Generation**: to simplify documentation maintenance.
+- [ ] **CI Auto Release**: to implement an automated version control and release process.
 
-Demo 将随着 package 的迭代而继续更新。
+As packages are iteratively updated, we will also continuously improve and update the demo project.
+
+This description is more structured, making the status and plans of each project clear at a glance, facilitating team members and followers of the project to quickly grasp the development trajectory of the project.

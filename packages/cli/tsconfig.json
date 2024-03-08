@@ -23,10 +23,7 @@
 
     // Interoperability with the ES6 module system
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-
-    // Miscellaneous settings
-    "composite": false
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src", "typings", "./package.json"],
   "exclude": ["node_modules", "lib", "__tests__"]

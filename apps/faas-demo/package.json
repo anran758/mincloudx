@@ -2,10 +2,10 @@
   "name": "@mincloudx/faas-demo",
   "version": "0.1.0",
   "private": true,
-  "description": "开箱即用的云函数模板",
+  "description": "Out-of-the-box Cloud Function Template",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/node-demo#readme",
-  "license": "ISC",
+  "license": "MIT",
   "sideEffects": false,
   "publishConfig": {
     "access": "restricted"
@@ -17,15 +17,17 @@
   "scripts": {
     "lint": "eslint .",
     "build": "mincloudx faas build",
+    "upload": "mincloudx faas upload",
     "deploy": "mincloudx faas deploy",
-    "release": "pnpm build && pnpm deploy",
-    "generator:type": "mincloudx type"
+    "debug": "mincloudx faas debug",
+    "refresh": "mincloudx type"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloudx/issues"
   },
   "dependencies": {
     "@mincloudx/cli": "workspace:*",
+    "@mincloudx/faas": "workspace:*",
     "@mincloudx/io": "workspace:*",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",

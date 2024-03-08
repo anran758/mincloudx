@@ -11,7 +11,7 @@ const logger = createLogger(COMMAND_NAME);
 
 export const DEFAULT_COMMAND_CONFIG = {
   transform: './_schema.json',
-  outputDir: './typings',
+  outputDir: './types',
   outputFile: 'schema',
   pull: false,
 };
@@ -30,24 +30,36 @@ export const DEFAULT_COMMAND_CONFIG = {
  * ```
  * mincloudx type --pull
  * ```
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type --transform ./_schema.json
+ * ```
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type --pull --output-dir ./dist --output-file index
+ * ```
  */
 export function registerCommand(program: Command) {
   return program
     .command(COMMAND_NAME)
     .description('生成知晓云数据表的 .d.ts 类型文件')
     .option(
-      '--pull',
+      '-p, --pull',
       '从远端拉取知晓云数据表并生成类型定义',
       DEFAULT_COMMAND_CONFIG.pull,
     )
     .option(
-      '--transform <path>',
+      '-t, --transform <path>',
       '转换本地 JSON 数据表为 TypeScript 类型定义',
       DEFAULT_COMMAND_CONFIG.transform,
     )
     .option(
       '-o, --output-dir <path>',
-      '类型文件的输出目录',
+      'typescript type file output directory',
       DEFAULT_COMMAND_CONFIG.outputDir,
     )
     .option(
@@ -68,9 +80,10 @@ export function registerCommand(program: Command) {
         } catch (error) {
           logger.error(
             COMMAND_NAME,
-            'type',
             error instanceof Error ? error.message : '获取数据表列表失败',
           );
+
+          return;
         }
       } else {
         try {
@@ -81,15 +94,18 @@ export function registerCommand(program: Command) {
         } catch (error) {
           logger.error(
             COMMAND_NAME,
-            'type',
             error instanceof Error ? error.message : '生成类型文件失败',
           );
-          logger.verbose('type', '生成类型文件失败:', error);
+
+          logger.verbose(COMMAND_NAME, '生成类型文件失败:', error);
+          return;
         }
       }
-      logger.info(
+
+      logger.verbose(COMMAND_NAME, '测试');
+
+      logger.success(
         COMMAND_NAME,
-        'type',
         '数据表类型文件保存成功:',
         path.join(outputConf.outputDir, `${outputConf.outputFile}.d.ts`),
       );
