@@ -11,10 +11,11 @@
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/faas#readme",
   "license": "MIT",
-  "main": "./dist/cjs/index.js",
-  "typings": "./dist/cjs/types/index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/cjs/types/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "README.md"
   ],
   "repository": {
     "type": "git",
@@ -23,9 +24,9 @@
   "scripts": {
     "prepare": "pnpm run tsc",
     "test": "jest --verbose",
-    "tsc": "pnpm run '/tsc:.*/'",
-    "tsc:esm": "rm -rf dist/esm && tsc -p ./tsconfig.json",
-    "tsc:cjs": "rm -rf dist/cjs && tsc -p ./tsconfig.cjs.json",
+    "build": "pnpm run '/build:.*/'",
+    "build:esm": "rm -rf lib/esm && tsc -p ./tsconfig.json",
+    "build:cjs": "rm -rf lib/cjs && tsc -p ./tsconfig.cjs.json",
     "watch": "pnpm run '/^watch:.*/'",
     "watch:esm": "tsc -p ./tsconfig.json --watch",
     "watch:cjs": "tsc -p ./tsconfig.cjs.json --watch"
@@ -33,12 +34,12 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/esm/types/index.d.mts",
-        "default": "./dist/esm/index.js"
+        "types": "./lib/esm/types/index.d.mts",
+        "default": "./lib/esm/index.js"
       },
       "require": {
-        "types": "./dist/cjs/types/index.d.ts",
-        "default": "./dist/cjs/index.js"
+        "types": "./lib/cjs/types/index.d.ts",
+        "default": "./lib/cjs/index.js"
       }
     }
   },

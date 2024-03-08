@@ -2,6 +2,8 @@
   "name": "@mincloudx/types",
   "version": "0.0.1",
   "description": "Common TypeScript types in MinCloud.",
+  "author": "anran758 <anran758@gmail.com>",
+  "license": "MIT",
   "main": "./types/index.d.ts",
   "types": "./types/index.d.ts",
   "keywords": [
@@ -11,8 +13,10 @@
     "baas",
     "typescript"
   ],
-  "author": "anran758 <anran758@gmail.com>",
-  "license": "MIT",
+  "files": [
+    "types",
+    "README.md"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }

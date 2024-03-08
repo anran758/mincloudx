@@ -9,8 +9,8 @@
     "target": "es2022",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "outDir": "dist/esm",
-    "declarationDir": "dist/esm/types",
+    "outDir": "lib/esm",
+    "declarationDir": "lib/esm/types",
     "baseUrl": "./"
   }
 }
