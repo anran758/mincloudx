@@ -1,4 +1,5 @@
 import TerserPlugin from 'terser-webpack-plugin';
+import { optimize } from 'webpack';
 import type { Configuration } from 'webpack';
 
 import { resolveCwdAbsolutePath } from '@/utils';
@@ -42,6 +43,7 @@ const webpackConf: Configuration = {
   },
   optimization: {
     minimizer: [
+      new optimize.ModuleConcatenationPlugin(),
       new TerserPlugin({
         extractComments: false,
       }),

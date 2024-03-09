@@ -3,15 +3,17 @@ import os from 'os';
 
 import { APP_NAME } from '@/config/constant';
 
+export function initLogger(logLevel?: string) {
+  log.heading = APP_NAME;
+  if (logLevel) {
+    log.level = logLevel;
+  }
+}
+
 /**
  * 简易版日志输出系统
  */
-export function createLogger(name: string, loglevel?: string) {
-  log.heading = APP_NAME;
-  if (loglevel) {
-    log.level = loglevel;
-  }
-
+export function createLogger(name: string) {
   // handle log.success()
   log.addLevel('success', 3001, { fg: 'green', bold: true });
 

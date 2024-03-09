@@ -5,7 +5,7 @@ import { deployFunction } from './deploy';
 import { invokeMockData } from './mock';
 
 const COMMAND_NAME = 'debug';
-const logger = createLogger(COMMAND_NAME, 'verbose');
+const logger = createLogger(COMMAND_NAME);
 
 // TODO: There are variables here that can be shared.
 const defaultConfig = {
