@@ -1,7 +1,7 @@
 {
   "name": "@mincloudx/faas",
   "sideEffects": false,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "A more user-friendly Node.js cloud function development framework.",
   "keywords": [
     "Node.js",
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/anran758/mincloudx.git"
   },
   "scripts": {
-    "prepare": "pnpm run tsc",
+    "prepare": "pnpm run build",
     "test": "jest --verbose",
     "build": "pnpm run '/build:.*/'",
     "build:esm": "rm -rf lib/esm && tsc -p ./tsconfig.json",
