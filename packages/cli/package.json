@@ -1,6 +1,6 @@
 {
   "name": "@mincloudx/cli",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A command-line tool based on the MinCloud ecosystem, designed to offer a simple and quick way to help developers efficiently manage MinCloud-related tasks.",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/cli#readme",

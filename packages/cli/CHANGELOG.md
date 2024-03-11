@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.2...@mincloudx/cli@0.2.3) (2024-03-11)
+
+### Bug Fixes
+
+- **faas:** fixed the issue where createFaas could not be called properly ([00b0b19](https://github.com/anran758/mincloudx/commit/00b0b194ab165332fd3c9058649e89ce9e99e8f7))
+
+### Features
+
+- **faas:** add createFaas, complete basic implementation ([64a557a](https://github.com/anran758/mincloudx/commit/64a557a85aa64995e0a44a432d1f93b9f1a18306))
+
 ## [0.2.2](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.1...@mincloudx/cli@0.2.2) (2024-03-01)
 
 ### Bug Fixes
