@@ -32,9 +32,7 @@
   },
   "files": [
     "bin",
-    "lib",
-    "LICENSE",
-    "README.md"
+    "lib"
   ],
   "bugs": {
     "url": "https://github.com/anran758/mincloudx/issues"
@@ -53,7 +51,6 @@
     "minapp-sdk-typings": "^3.1.0",
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
-    "typescript": "^4.7.2",
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0"
   },

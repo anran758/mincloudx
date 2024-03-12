@@ -14,8 +14,7 @@
   "main": "./lib/cjs/index.js",
   "typings": "./lib/cjs/types/index.d.ts",
   "files": [
-    "lib",
-    "README.md"
+    "lib"
   ],
   "repository": {
     "type": "git",

@@ -14,8 +14,7 @@
     "typescript"
   ],
   "files": [
-    "types",
-    "README.md"
+    "types"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -6,7 +6,7 @@
   "author": "anran758 <anran758@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18"
   },
   "scripts": {
     "pre-commit": "pnpm lint-staged",
@@ -41,6 +41,6 @@
     "lerna": "^6.4.1",
     "lint-staged": "^13.2.1",
     "prettier": "^2.2.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }
