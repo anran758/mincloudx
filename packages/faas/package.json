@@ -22,7 +22,7 @@
     "url": "git+https://github.com/anran758/mincloudx.git"
   },
   "scripts": {
-    "prepare": "pnpm run tsc",
+    "prepare": "pnpm run build",
     "test": "jest --verbose",
     "build": "pnpm run '/build:.*/'",
     "build:esm": "rm -rf lib/esm && tsc -p ./tsconfig.json",
