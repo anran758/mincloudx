@@ -11,6 +11,7 @@
   "scripts": {
     "pre-commit": "pnpm lint-staged",
     "postinstall": "husky install",
+    "build": "pnpm -r --filter \"./packages/*\" run build",
     "lint-fix": "eslint . --fix",
     "lint": "eslint .",
     "check-format": "prettier --list-different .",
