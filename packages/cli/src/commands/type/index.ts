@@ -1,56 +1,114 @@
 import path from 'path';
-import { generatorSchemaTs } from './template';
 import type { Command } from 'commander';
-import { generatorSchemaTsFromMincloud } from './list';
+
+import { createLogger } from '@/utils';
+
+import { generatorSchemaFile } from './generator';
+import { generatorSchemaFileFromRemote } from './list';
+
+const COMMAND_NAME = 'type';
+const logger = createLogger(COMMAND_NAME);
 
 export const DEFAULT_COMMAND_CONFIG = {
-  schemaFile: './_schema.json',
-  outputDir: './typings',
-  outputFileName: 'schema',
-  fromMinCloud: false,
+  transform: './_schema.json',
+  outputDir: './types',
+  outputFile: 'schema',
+  pull: false,
 };
 
 /**
  * register `type` command
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type
+ * ```
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type --pull
+ * ```
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type --transform ./_schema.json
+ * ```
+ *
+ * @example
+ *
+ * ```
+ * mincloudx type --pull --output-dir ./dist --output-file index
+ * ```
  */
 export function registerCommand(program: Command) {
   return program
-    .command('type')
+    .command(COMMAND_NAME)
     .description('生成知晓云数据表的 .d.ts 类型文件')
     .option(
-      '--fromMinCloud',
-      '通过读取线上的知晓云数据表信息来转换类型文件',
-      DEFAULT_COMMAND_CONFIG.fromMinCloud,
+      '-p, --pull',
+      '从远端拉取知晓云数据表并生成类型定义',
+      DEFAULT_COMMAND_CONFIG.pull,
     )
     .option(
-      '--schemaFile <path>',
-      '解析本地的 JSON 数据表文件来转换 TypeScript',
-      DEFAULT_COMMAND_CONFIG.schemaFile,
+      '-t, --transform <path>',
+      '转换本地 JSON 数据表为 TypeScript 类型定义',
+      DEFAULT_COMMAND_CONFIG.transform,
     )
     .option(
-      '--outputDir <path>',
-      '类型文件的输出目录',
+      '-o, --output-dir <path>',
+      'typescript type file output directory',
       DEFAULT_COMMAND_CONFIG.outputDir,
     )
     .option(
-      '--outputFileName <fileName>',
+      '--output-file <name>',
       '类型文件的文件名',
-      DEFAULT_COMMAND_CONFIG.outputFileName,
+      DEFAULT_COMMAND_CONFIG.outputFile,
     )
     .action(async (options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
       const outputConf = {
         outputDir: path.resolve(cwd, options.outputDir),
-        outputFileName: options.outputFileName,
+        outputFile: options.outputFile,
       };
 
-      // 通过读取 schema file 的形式解析
-      return !options.fromMinCloud
-        ? generatorSchemaTs({
+      if (options.pull) {
+        try {
+          await generatorSchemaFileFromRemote(outputConf);
+        } catch (error) {
+          logger.error(
+            COMMAND_NAME,
+            error instanceof Error ? error.message : '获取数据表列表失败',
+          );
+
+          return;
+        }
+      } else {
+        try {
+          await generatorSchemaFile({
             ...outputConf,
-            input: path.resolve(cwd, options.schemaFile),
-          })
-        : generatorSchemaTsFromMincloud(outputConf);
+            input: path.resolve(cwd, options.transform),
+          });
+        } catch (error) {
+          logger.error(
+            COMMAND_NAME,
+            error instanceof Error ? error.message : '生成类型文件失败',
+          );
+
+          logger.verbose(COMMAND_NAME, '生成类型文件失败:', error);
+          return;
+        }
+      }
+
+      logger.verbose(COMMAND_NAME, '测试');
+
+      logger.success(
+        COMMAND_NAME,
+        '数据表类型文件保存成功:',
+        path.join(outputConf.outputDir, `${outputConf.outputFile}.d.ts`),
+      );
     });
 }
 

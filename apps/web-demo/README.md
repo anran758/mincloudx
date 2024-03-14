@@ -1,4 +1,4 @@
-# @mincloud/web-demo
+# @mincloudx/web-demo
 
 > 知晓云 web 开发模板
 
@@ -11,7 +11,7 @@ npm run build
 or
 
 ```bash
-yarn build
+pnpm build
 ```
 
 to bundle your application

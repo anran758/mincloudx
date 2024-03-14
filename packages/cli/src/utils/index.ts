@@ -2,6 +2,10 @@ import path from 'path';
 import mkdirp from 'mkdirp';
 import fs from 'fs/promises';
 
+export * from './path';
+export * from './logger';
+export * from './cloud-function';
+
 /**
  * 获取类型的字段
  */
@@ -9,6 +13,17 @@ export function getBaseType(target: any) {
   const typeStr = Object.prototype.toString.call(target).toLocaleLowerCase();
 
   return typeStr.slice(8, -1);
+}
+
+export function formatBytes(byte) {
+  const divisor = 1024;
+  const unit = ['Byte', 'KB', 'MB', 'GB', 'TB'];
+  let i = 0;
+  while (Math.floor(byte / divisor) > 1) {
+    i++;
+    byte = byte / divisor;
+  }
+  return byte.toFixed(2) + unit[i];
 }
 
 export function pascalCase(str: string) {

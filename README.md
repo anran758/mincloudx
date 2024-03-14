@@ -1,32 +1,24 @@
-# mincloud
+# mincloudx
 
-![Github lerna version (branch)](https://img.shields.io/github/lerna-json/v/anran758/mincloud)
+![Github lerna version (branch)](https://img.shields.io/github/lerna-json/v/anran758/mincloudx)
 ![ts](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)
-[![GitHub](https://img.shields.io/github/license/anran758/mincloud)](https://github.com/anran758/mincloud/blob/master/LICENSE)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/anran758/mincloudx/ci.yml)
+[![GitHub](https://img.shields.io/github/license/anran758/mincloudx)](https://github.com/anran758/mincloudx/blob/master/LICENSE)
 
-[知晓云](https://cloud.minapp.com/)是一个云开发平台，提供云端数据库、内容存储、云函数、微信小程序云开发等多项云服务。同时，知晓云还提供可视化建站、表单、消息通知、短信验证码等功能，为开发者提供全方位的云端开发服务。
+[MinCloud](https://cloud.minapp.com/) is a cloud development platform that provides a variety of cloud services, including cloud databases, content storage, cloud functions, and WeChat Mini Program cloud development.
 
-🔧 mincloud 是围绕着知晓云云开发的生态库，旨在扩充原有的功能以简便工作。
+Additionally, MinCloud offers features like visual website building, forms, message notifications, SMS verification, etc., providing developers with comprehensive cloud development services.
+
+🔧 `mincloudx` is a library ecosystem built around MinCloud cloud development, aiming to expand the original functionalities to facilitate work.
 
 ## Development
 
-mincloud 的开发是基于 [Monorepo](https://en.wikipedia.org/wiki/Monorepo) 的项目组织方式。我们使用 [Lerna](https://lerna.js.org/) 作为包管理器，并且将所有相关的软件包都存储在一个 Git 仓库中。
+The development of mincloudx is based on the Monorepo project organization. We use [Lerna](https://lerna.js.org/) as the package manager, and all related packages are stored in a single Git repository.
 
-有关 Monorepo 项目的开发和发布规范，请参阅 [Monorepo 项目的开发与发布规范](./docs/dev-and-deploy.md)。
+For development and release standards of Monorepo projects, please refer to [Development and Release Standards for Monorepo Projects](./docs/dev-and-deploy.md).
 
 ## Community
 
-- 💬 可以在 [GitHub Discussions](https://github.com/anran758/mincloud/discussions) 上与其他用户交流。
-- 🚨 或是在 [GitHub Issues](https://github.com/anran758/mincloud/issues) 上报告问题或提出功能请求。
-
-## TODO
-
-以下是 mincloud 目前的开发计划，如果你有任何意见或建议，欢迎提 issue 或联系我们。
-
-- [x] [[packages/cli](./packages/cli/README.md)] 生成知晓云应用数据表对应的 typescript 类型
-- [ ] [[packages/io](./packages/io/README.md)] 整合通用 io 模块
-- [ ] [[apps/web-demo](./apps/web-demo/README.md)] web 页面开发模板
-- [ ] [[apps/faas-demo](./apps/faas-demo/README.md)] 云函数开发模板
-- [ ] 云函数框架
-- [ ] 小程序模板
-- [ ] Taro 模板
+- 💬 You can interact with other users on [GitHub Discussions](https://github.com/anran758/mincloudx/discussions).
+- 🚨 Report issues or request features on [GitHub Issues](https://github.com/anran758/mincloudx/issues).
+- 📒 Follow the [TODO](./docs/to) to know about the upcoming development plans for the project.

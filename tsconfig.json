@@ -1,21 +1,18 @@
 {
   "exclude": ["node_modules", "lib", "__tests__"],
+  "include": ["package.json"],
+  "ts-node": {
+    "esm": true
+  },
   "compilerOptions": {
-    "types": ["@types/node"],
     "skipLibCheck": true,
-    "target": "es2017",
-    "module": "commonjs",
-    "lib": ["es6", "es2017"],
     "strict": true,
     "rootDir": ".",
     "outDir": "lib",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "baseUrl": ".",
-    "composite": true,
     "declaration": true
   }
-  // "references": [],
 }

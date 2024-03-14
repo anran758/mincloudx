@@ -8,7 +8,7 @@ export interface Meta {
   total_count: number;
 }
 
-export interface Default_row_perm {
+export interface DefaultRowPerm {
   _read_perm: string[];
   _write_perm: string[];
 }
@@ -44,7 +44,7 @@ export interface SchemeObject {
   acl_gid?: any;
   acl_permission: number;
   created_at: number;
-  default_row_perm: Default_row_perm;
+  default_row_perm: DefaultRowPerm;
   dserve_hidden_columns: any[];
   id: number;
   is_protected: boolean;

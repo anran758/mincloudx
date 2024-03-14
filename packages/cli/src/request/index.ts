@@ -3,7 +3,7 @@ import axios from 'axios';
 import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
 
-import { transformErrorMessage } from './utils';
+import { transformErrorMessage, handleUnauthorizedError } from './utils';
 
 import config from '../config';
 
@@ -30,6 +30,7 @@ instance.interceptors.response.use(
 
     // transform response status to error message
     transformErrorMessage(error);
+    handleUnauthorizedError(error);
 
     return Promise.reject(error);
   },
@@ -50,3 +51,5 @@ export function registerMinCloudHeaders({
 }
 
 export default instance;
+
+export * from './api';

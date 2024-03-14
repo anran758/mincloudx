@@ -1,4 +1,4 @@
-import { sayHi } from '@mincloud/io';
+import { sayHi } from '@mincloudx/io';
 
 sayHi();
 

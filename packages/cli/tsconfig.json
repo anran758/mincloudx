@@ -1,9 +1,30 @@
 {
-  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "types": ["@types/node"],
-    "composite": false,
-    "rootDir": "."
+    "allowJs": true,
+
+    // Code generation settings
+    "target": "es2015",
+
+    // Module resolution and path settings
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+
+    // Strictness and type checking
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "types": ["minapp-sdk-typings", "webpack-env"],
+
+    // Interoperability with the ES6 module system
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["./src"]
+  "include": ["src", "typings", "./package.json"],
+  "exclude": ["node_modules", "lib", "__tests__"]
 }

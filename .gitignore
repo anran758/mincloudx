@@ -5,7 +5,9 @@ lerna-debug.log
 # 通过编译生成的文件
 /packages/*/lib
 dist/
+dist-ts/
 *.tsbuildinfo
+.nx
 
 # lock file
 package-lock.json
@@ -15,4 +17,10 @@ package-lock.json
 
 # cli
 packages/cli/_schema.json
-packages/cli/typings/schema.d.ts
+packages/cli/types/schema.d.ts
+
+# log file
+apps/*/log
+
+# env
+.env

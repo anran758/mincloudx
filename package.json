@@ -1,37 +1,47 @@
 {
+  "name": "mincloudx",
   "private": true,
-  "name": "mincloud",
-  "version": "0.0.1-alpha.0",
-  "description": "知晓云生态库工具",
-  "main": "index.js",
-  "homepage": "https://github.com/anran758/mincloud#readme",
-  "author": "anran758",
+  "description": "MinCloud Ecosystem Library Tools",
+  "homepage": "https://github.com/anran758/mincloudx#readme",
+  "author": "anran758 <anran758@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "pre-commit": "pnpm lint-staged",
+    "postinstall": "husky install",
+    "build": "pnpm -r --filter \"./packages/*\" run build",
     "lint-fix": "eslint . --fix",
     "lint": "eslint .",
     "check-format": "prettier --list-different .",
     "format": "prettier --write .",
-    "pre-commit": "yarn lint-staged",
-    "postinstall": "husky install"
+    "test": "node --test integration/**/*.test.*"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,cjs,jsx,json,css}": [
+      "pnpm format",
+      "pnpm lint"
+    ],
+    "*.md": [
+      "pnpm format"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "chalk": "^5.3.0",
     "commitizen": "^4.3.0",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
-    "lerna": "^5.5.0",
+    "lerna": "^6.4.1",
     "lint-staged": "^13.2.1",
-    "typescript": "^4.7.2",
-    "prettier": "^2.8.7"
+    "prettier": "^2.2.1",
+    "typescript": "^5.4.2"
   }
 }
