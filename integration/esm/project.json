@@ -1,0 +1,5 @@
+{
+  "name": "@mincloudx/esm-integration-tests",
+  "projectType": "application",
+  "tags": ["type:e2e"]
+}

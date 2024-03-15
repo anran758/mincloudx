@@ -1,7 +1,9 @@
+import { BaaS as BaaSModule } from '@mincloudx/types';
+
 declare global {
   // eslint-disable-next-line no-var
-  var BaaS: any;
-  // var BaaS: typeof BaaSModule;
+  var BaaS: typeof BaaSModule;
+  // var BaaS: any;
 }
 
 // eslint-disable-next-line no-var

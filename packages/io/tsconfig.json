@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "typeRoots": [
+      "../../node_modules/@types",
+      "./node_modules/@types",
+      "./types"
+    ],
     "allowJs": true,
     "noImplicitAny": false,
     "target": "ES2019",
@@ -7,5 +12,5 @@
     "moduleResolution": "node",
     "lib": ["es2015", "dom"]
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "types"]
 }

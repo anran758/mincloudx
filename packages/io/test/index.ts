@@ -1,9 +1,9 @@
-import './baas';
-import { createIo } from '../src';
+import 'dotenv/config';
+import './baas-init';
+// import { createIo } from '../src';
 
-// 使用
-const io = createIo({ tables: ['product'] });
+// // 使用
+// const io = createIo({ tables: ['product'] });
 
-io.product.create({ name: 'New Product', price: 100 });
-io.product.update('recordId', { price: 110 });
-io.product.delete('recordId');
+// io.product.update('recordId', { price: 110 });
+// io.product.delete('recordId');
