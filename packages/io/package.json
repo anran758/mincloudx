@@ -15,15 +15,15 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "npx ts-node ./test/index.ts",
+    "test": "nx exec -- ts-node ./test/index.ts",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch"
   },
   "devDependencies": {
-    "@mincloudx/types": "workspace:*",
     "@mincloudx/baas": "workspace:*",
+    "@mincloudx/types": "workspace:*",
     "@webpack-cli/generators": "^2.5.0",
     "ts-loader": "^9.3.1",
     "webpack": "^5.74.0",

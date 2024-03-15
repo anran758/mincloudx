@@ -22,5 +22,5 @@ packages/cli/types/schema.d.ts
 # log file
 apps/*/log
 
-# env
-.env
+# local env files
+.env*.local
