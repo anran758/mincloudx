@@ -1,16 +1,21 @@
 {
+  "extends": "../../tsconfig.json",
+  "include": ["src", "test", "types", "tool/baas-init.ts"],
+  "exclude": ["**/*.test.ts"],
   "compilerOptions": {
     "typeRoots": [
       "../../node_modules/@types",
       "./node_modules/@types",
       "./types"
     ],
-    "allowJs": true,
     "noImplicitAny": false,
-    "target": "ES2019",
-    "module": "commonJS",
-    "moduleResolution": "node",
-    "lib": ["es2015", "dom"]
-  },
-  "include": ["src", "test", "types"]
+    "target": "es2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["es2015"],
+    "declarationDir": "lib/types",
+    "outDir": "lib",
+    "rootDir": ".",
+    "baseUrl": "./src"
+  }
 }

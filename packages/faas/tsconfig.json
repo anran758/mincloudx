@@ -4,13 +4,14 @@
   "exclude": ["**/*.test.ts"],
   "compilerOptions": {
     "typeRoots": ["../../node_modules/@types", "./types"],
-    "rootDir": "./src",
+    "noImplicitAny": false,
     "lib": ["ESNext"],
     "target": "es2022",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "outDir": "lib/esm",
     "declarationDir": "lib/esm/types",
+    "rootDir": ".",
     "baseUrl": "./"
   }
 }

@@ -16,11 +16,11 @@ type RecordId = string | number;
 
 export interface Operation {
   readonly table: any;
-  create: <T = Record<any, any>>(
+  create: <T extends object = Record<any, any>>(
     data: T,
     options?: BasicOperationOptions,
   ) => Promise<Record<any, any>>;
-  update: <T = Record<any, any>>(
+  update: <T extends object = Record<any, any>>(
     id: RecordId,
     data: T,
     options?: BasicOperationOptions,

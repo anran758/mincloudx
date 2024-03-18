@@ -15,7 +15,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "nx exec -- ts-node ./test/index.ts",
+    "test": "jest --verbose",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
