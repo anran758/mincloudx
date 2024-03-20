@@ -9,13 +9,13 @@
       "./types"
     ],
     "noImplicitAny": false,
-    "target": "es2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "target": "es2015",
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "lib": ["es2015"],
     "declarationDir": "lib/types",
     "outDir": "lib",
-    "rootDir": ".",
-    "baseUrl": "./src"
+    "rootDir": "./src",
+    "baseUrl": "."
   }
 }

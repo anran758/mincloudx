@@ -2,8 +2,8 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": ".",
-    "target": "es2022",
-    "module": "NodeNext",
+    "target": "ES2015",
+    "module": "Node16",
     "moduleResolution": "node16",
     "strict": true,
     "esModuleInterop": true,

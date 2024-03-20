@@ -11,7 +11,7 @@
     "moduleResolution": "nodenext",
     "outDir": "lib/esm",
     "declarationDir": "lib/esm/types",
-    "rootDir": ".",
+    "rootDir": "./src",
     "baseUrl": "./"
   }
 }

@@ -1,3 +1,4 @@
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
 const isProduction = process.env.NODE_ENV == 'production';
@@ -30,6 +31,19 @@ module.exports = () => {
       },
       extensions: ['.ts', '.js'],
       fallback: { path: false },
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            format: {
+              comments: /@license/i,
+            },
+          },
+          extractComments: false,
+        }),
+      ],
     },
   };
 };

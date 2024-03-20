@@ -1,18 +1,37 @@
-import { getBaaS } from './baas';
+import { BaaS } from '@mincloudx/types';
+import { getBaaS, getBaseIo } from './baas';
 
-// export type RemoveFirst<T extends any[]> = T extends [any, ...infer Rest]
-//   ? Rest
-//   : never;
-
-// export type OmitFirstParamFunction<F extends (...args: any) => any> = (
-//   ...args: RemoveFirst<Parameters<F>>
-// ) => ReturnType<F>;
+type RecordId = string | number;
 
 interface BasicOperationOptions {
   plain?: boolean;
 }
 
-type RecordId = string | number;
+interface UpdateOperationOptions extends BasicOperationOptions {
+  data?: Record<string | number, any>;
+  unset?: Record<string | number, any>;
+  incrementBy?: Record<string | number, any>;
+  append?: Record<string | number, any>;
+  uAppend?: Record<string | number, any>;
+  remove?: Record<string | number, any>;
+  patchObject?: Record<string | number, any>;
+  enableTrigger?: boolean;
+  withCount?: boolean;
+}
+
+interface QueryOperationOptions extends BasicOperationOptions {
+  expand?: string[];
+  select?: string[];
+}
+
+interface DeleteOperation {
+  id?: RecordId;
+  query?: BaaS.Query;
+  offset?: number;
+  limit?: number;
+  enableTrigger?: boolean;
+  withCount?: boolean;
+}
 
 export interface Operation {
   readonly table: any;
@@ -20,17 +39,20 @@ export interface Operation {
     data: T,
     options?: BasicOperationOptions,
   ) => Promise<Record<any, any>>;
-  update: <T extends object = Record<any, any>>(
-    id: RecordId,
-    data: T,
-    options?: BasicOperationOptions,
-  ) => Promise<Record<any, any>>;
   get: (
     id: RecordId,
-    options?: BasicOperationOptions,
+    options?: QueryOperationOptions,
   ) => Promise<Record<any, any>>;
-  delete: (id: RecordId) => Promise<any>;
+  update: <T extends object = Record<any, any>>(
+    id: RecordId,
+    options: UpdateOperationOptions,
+  ) => Promise<T>;
+  delete: (
+    query: DeleteOperation['id'] | DeleteOperation['query'],
+  ) => Promise<any>;
 }
+
+const io = getBaseIo();
 
 export function createTableOperation(tableName: string) {
   const BaaS = getBaaS();
@@ -39,7 +61,10 @@ export function createTableOperation(tableName: string) {
       return new BaaS.TableObject(tableName);
     },
 
-    async create(data, { plain } = {}) {
+    /**
+     * Create new a row for the table
+     */
+    async create(data, { plain = true } = {}) {
       const record = tableOperation.table.create();
 
       return record
@@ -48,24 +73,87 @@ export function createTableOperation(tableName: string) {
         .then(res => (plain ? res.data : res));
     },
 
-    async update(id, data) {
-      console.log(`Updating record ${id} in ${tableName} with data:`, data);
+    async update(
+      id,
+      {
+        data,
+        unset,
+        incrementBy,
+        append,
+        uAppend,
+        remove,
+        patchObject,
+        withCount = false,
+        enableTrigger = true,
+        plain = true,
+      } = {},
+    ) {
+      if (!id) {
+        throw new Error('Missing required id parameter');
+      }
+      const record = tableOperation.table.getWithoutData(id);
+      const mergeOperator = (method, data) =>
+        Object.entries(data).forEach(([key, val]) => record[method](key, val));
 
-      return Promise.resolve(data);
+      if (data) mergeOperator('set', data);
+      if (unset) mergeOperator('unset', unset);
+      if (incrementBy) mergeOperator('incrementBy', incrementBy);
+      if (append) mergeOperator('append', append);
+      if (uAppend) mergeOperator('uAppend', uAppend);
+      if (remove) mergeOperator('remove', remove);
+      if (patchObject) mergeOperator('patchObject', patchObject);
+
+      return record
+        .update({ enableTrigger, withCount })
+        .then(res => (plain ? res.data : res));
     },
 
-    async get(id) {
-      console.log(`Creating record in ${tableName} with data`, id);
+    async get(id, { expand, select, plain = true } = {}) {
+      const { table } = tableOperation;
+      if (expand) table.expand(expand);
+      if (select) table.select(select);
 
-      return {};
+      return table.get(id).then(res => (plain ? res.data : res));
     },
 
-    async delete(id) {
-      console.log(`Deleting record ${id} from ${tableName}`);
+    async delete(query, options: Omit<DeleteOperation, 'id' | 'query'> = {}) {
+      if (!query) {
+        return Promise.reject(new Error('Missing required id parameter'));
+      }
+      const opts: DeleteOperation = {
+        ...options,
+      };
+      if (typeof query === 'string' || typeof query === 'number') {
+        opts.id = query;
+      } else {
+        opts.query = query;
+      }
 
-      return {};
+      return deleteRecord(tableOperation.table, opts);
     },
   };
 
   return tableOperation;
+}
+
+/**
+ * delete data record
+ */
+function deleteRecord(
+  table,
+  {
+    id,
+    query = io.query,
+    offset = 0,
+    limit,
+    enableTrigger = true,
+    withCount = false,
+  }: DeleteOperation = {},
+) {
+  if (query) {
+    table.offset(offset);
+    if (limit) table.limit(limit);
+  }
+
+  return table.delete(id || query, { enableTrigger, withCount });
 }

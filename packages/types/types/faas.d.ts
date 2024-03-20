@@ -3,7 +3,7 @@ export declare namespace FaaS {
    * MinCloud function event
    * @see {@link https://doc.minapp.com/cloud-function/node-sdk/start/code-format.html}
    */
-  interface Event<Data = any> {
+  interface Event<Data = Record<any, any>> {
     timeLimitInMS: number;
     eventType:
       | /** CLI invocation */ null
