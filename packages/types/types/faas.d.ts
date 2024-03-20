@@ -1,11 +1,9 @@
-import * as BaaSModule from './baas';
-
 export declare namespace FaaS {
   /**
    * MinCloud function event
    * @see {@link https://doc.minapp.com/cloud-function/node-sdk/start/code-format.html}
    */
-  interface Event<Data = any> {
+  interface Event<Data = Record<any, any>> {
     timeLimitInMS: number;
     eventType:
       | /** CLI invocation */ null
@@ -71,9 +69,4 @@ export declare namespace FaaS {
     callback?: MainCallback,
   ) => // TODO: need supports normal function
   Promise<UserDefinedFunctionResponse>;
-}
-
-declare global {
-  // iceberg Node.js SDK
-  const BaaS: typeof BaaSModule;
 }

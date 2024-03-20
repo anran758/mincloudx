@@ -52,7 +52,7 @@ async function uploadFile({
   } catch (error) {
     if (error instanceof AxiosError) {
       const { status, statusText } = error.response || {};
-      logger.verb(
+      logger.verbose(
         COMMAND_NAME,
         `Update of cloud function failed. HTTP status: ${status}, statusText: ${statusText}.`,
       );

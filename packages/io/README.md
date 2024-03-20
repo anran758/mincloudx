@@ -5,11 +5,8 @@
 ## start
 
 ```shell
-pnpm build
+yarn build
+
+# 测试本地文件
+yarn test
 ```
-
----
-
-## TODO
-
-1. IO 模块期望设计成通用的模块，由于各个平台注册的机制不同, 需要兼容不同的方式
