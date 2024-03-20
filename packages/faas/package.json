@@ -22,6 +22,7 @@
   },
   "scripts": {
     "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build",
     "test": "jest --verbose",
     "build": "pnpm run '/build:.*/'",
     "build:esm": "rm -rf lib/esm && tsc -p ./tsconfig.json",

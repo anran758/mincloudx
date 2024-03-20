@@ -12,6 +12,7 @@
     "dist"
   ],
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "lint": "eslint .",
     "test": "jest --verbose",
     "build": "webpack --mode=production --node-env=production",
