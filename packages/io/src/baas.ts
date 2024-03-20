@@ -24,7 +24,7 @@ export function getBaseIo(BaaS = getBaaS()) {
       return new BaaS.TableObject(tableName);
     },
 
-    getQuery(data?: Record<any, any>) {
+    getQuery(data?: Record<string | number, any>) {
       const query = new BaaS.Query();
       if (!data) return query;
 

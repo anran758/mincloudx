@@ -1,13 +1,3 @@
-// 在你的测试文件的顶部，模拟 @mincloudx/baas 包
-// jest.mock('@mincloudx/baas', () => ({
-//   TableObject: jest.fn().mockImplementation(tableName => ({
-//     create: jest.fn(),
-//     get: jest.fn(),
-//     update: jest.fn(),
-//     delete: jest.fn(),
-//   })),
-// }));
-
 // 引入所需模块和初始化代码
 require('../tool/baas-init');
 const { createIo } = require('..');
@@ -24,7 +14,7 @@ describe('createIo Functionality', () => {
     });
   });
 
-  it('io.channel should return an instance of BaaS.TableObject', () => {
+  it('io.channel read table property should return an instance of BaaS.TableObject', () => {
     const tables = ['channel'];
     const io = createIo({ tables });
 
