@@ -28,6 +28,14 @@
       "pnpm format"
     ]
   },
+  "cspell": {
+    "ignoreWords": [
+      "mincloud",
+      "mincloudx",
+      "faas",
+      "baas"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",

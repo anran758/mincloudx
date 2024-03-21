@@ -4,8 +4,11 @@
   "version": "0.0.1",
   "description": "A more user-friendly Node.js cloud function development framework.",
   "keywords": [
+    "mincloudx",
+    "mincloud",
     "Node.js",
     "faas",
+    "baas",
     "serverless"
   ],
   "author": "anran758 <anran758@gmail.com>",
