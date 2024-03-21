@@ -35,4 +35,4 @@ git branch -d feature/cli
 
 `master` 分支是受保护的，不允许直接操作 `master` 分支。经过测试确认无误后，需要通过 Github 提出 Pull Request ，并且经过审核后再合并至 master 分支中。
 
-在 `master` 分支执行 `npx lerna run release`
+在 `master` 分支执行 `npx nx run release`

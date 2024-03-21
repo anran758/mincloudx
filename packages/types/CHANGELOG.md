@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/anran758/mincloudx/compare/@mincloudx/types@0.0.1...@mincloudx/types@0.1.0) (2024-03-21)
+
+### Features
+
+- added baas sdk lib as a local project test, supplement type ([01f3cc6](https://github.com/anran758/mincloudx/commit/01f3cc6ab6a993a0f27f2c14deb1ec525e7c3c52))
+- **io:** io support crud function, update faas-demo example ([d67f377](https://github.com/anran758/mincloudx/commit/d67f377c564d0935679c06d2c5c357d064321aae))
+
 ## 0.0.1 (2024-03-11)
 
 ### Bug Fixes

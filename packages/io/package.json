@@ -1,11 +1,10 @@
 {
   "name": "@mincloudx/io",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "知晓云核心 API",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
   "license": "MIT",
-  "private": true,
   "main": "dist/main.js",
   "typings": "./lib/types/index.d.ts",
   "files": [
