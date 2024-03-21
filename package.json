@@ -5,13 +5,14 @@
   "homepage": "https://github.com/anran758/mincloudx#readme",
   "author": "anran758 <anran758@gmail.com>",
   "license": "MIT",
+  "nx": {},
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "pre-commit": "pnpm lint-staged",
     "postinstall": "husky install",
-    "release": "lerna release --no-private",
+    "release": "lerna publish --no-private",
     "build": "pnpm -r --filter \"./packages/*\" run build",
     "lint-fix": "eslint . --fix",
     "lint": "eslint .",

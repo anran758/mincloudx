@@ -5,7 +5,6 @@
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "",
   "license": "MIT",
-  "private": true,
   "main": "dist/main.js",
   "typings": "./lib/types/index.d.ts",
   "files": [
