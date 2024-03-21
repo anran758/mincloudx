@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.3...@mincloudx/cli@0.2.4) (2024-03-21)
+
+### Bug Fixes
+
+- fixed the issue for `upload` command verbose log call error, add ([707993d](https://github.com/anran758/mincloudx/commit/707993d736753853e3d14fc8b1b617e5c59608be))
+
 ## [0.2.3](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.2...@mincloudx/cli@0.2.3) (2024-03-11)
 
 ### Bug Fixes

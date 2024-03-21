@@ -1,7 +1,7 @@
 {
   "name": "@mincloudx/faas",
   "sideEffects": false,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A more user-friendly Node.js cloud function development framework.",
   "keywords": [
     "mincloudx",
@@ -50,8 +50,8 @@
     "url": "https://github.com/anran758/mincloudx/issues"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.202",
-    "@mincloudx/types": "workspace:*"
+    "@mincloudx/types": "workspace:*",
+    "@types/lodash": "^4.14.202"
   },
   "dependencies": {
     "lodash": "^4.17.21"
