@@ -1,0 +1,16 @@
+{
+  "name": "@mincloudx/baas",
+  "version": "0.0.0",
+  "private": true,
+  "description": "MinCloud baas sdk",
+  "author": "anran758 <anran758@gmail.com>",
+  "main": "lib/baas-sdk-v3.20.0.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "@mincloudx/types": "workspace:^"
+  }
+}

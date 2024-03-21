@@ -7,15 +7,14 @@
   "main": "./types/index.d.ts",
   "types": "./types/index.d.ts",
   "keywords": [
-    "mincloud",
     "mincloudx",
+    "mincloud",
     "faas",
     "baas",
     "typescript"
   ],
   "files": [
-    "types",
-    "README.md"
+    "types"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

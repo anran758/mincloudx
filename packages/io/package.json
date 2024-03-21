@@ -7,24 +7,32 @@
   "license": "MIT",
   "private": true,
   "main": "dist/main.js",
+  "typings": "./lib/types/index.d.ts",
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "restricted"
-  },
+  "keywords": [
+    "mincloudx",
+    "mincloud",
+    "typescript",
+    "faas",
+    "baas",
+    "io"
+  ],
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "lint": "eslint .",
-    "test": "node ./__tests__/core.test.js",
+    "test": "jest --verbose",
     "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development --node-env=development",
     "watch": "webpack --watch"
   },
   "devDependencies": {
+    "@mincloudx/baas": "workspace:*",
+    "@mincloudx/types": "workspace:*",
     "@webpack-cli/generators": "^2.5.0",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.3.1",
-    "typescript": "^4.8.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^5.1.4"
   }

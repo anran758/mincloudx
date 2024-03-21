@@ -21,8 +21,12 @@ Here is an overview of the upcoming development plans and strategies for `minclo
 
 - [ ] **Monorepo Template Project**: will provide a template for quickly starting projects.
 - [ ] **Test Cases and Code Coverage**: aimed at ensuring code quality and stability.
+  - [x] integration
+  - [ ] e2e
 - [ ] **Documentation Auto Generation**: to simplify documentation maintenance.
-- [ ] **CI Auto Release**: to implement an automated version control and release process.
+- **CI**
+  - [x] lint/build/test
+  - [ ] release: to implement an automated version control and release process.
 
 As packages are iteratively updated, we will also continuously improve and update the demo project.
 

@@ -4,6 +4,7 @@ node_modules
 # 构建出来的代码
 dist
 dist-ts
+libs/**/lib
 packages/**/lib
 
 # 测试相关文件
