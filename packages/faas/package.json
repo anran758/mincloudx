@@ -16,6 +16,9 @@
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "typings": "./lib/cjs/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "lib"
   ],

@@ -13,6 +13,9 @@
     "baas",
     "typescript"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "types"
   ],
