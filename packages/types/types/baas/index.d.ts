@@ -7,11 +7,12 @@ import GeoPoint = require('./class/GeoPoint');
 import GeoPolygon = require('./class/GeoPolygon');
 import Query = require('./class/Query');
 import TableObject = require('./class/TableObject');
+import TableRecord = require('./class/TableRecord.d');
+import TableSchema = require('./class/TableSchema');
 import User = require('./class/User');
 import UserGroup = require('./class/UserGroup');
 import UserSuperGroup = require('./class/UserSuperGroup');
 import Order = require('./class/Order');
-import TableSchema = require('./class/TableSchema');
 import RedPack = require('./class/RedPack');
 import MobileTopUp = require('./class/MobileTopup');
 import PeopleAlive = require('./class/PeopleAlive');
@@ -154,6 +155,7 @@ export {
   GeoPolygon,
   Query,
   TableObject,
+  TableRecord,
   User,
   UserGroup,
   UserSuperGroup,
