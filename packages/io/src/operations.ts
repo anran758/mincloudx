@@ -7,34 +7,37 @@ interface BasicOperationOptions {
   plain?: boolean;
 }
 
-interface UpdateOperationOptions extends BasicOperationOptions {
-  data?: Record<string | number, any>;
-  unset?: Record<string | number, any>;
-  incrementBy?: Record<string | number, any>;
-  append?: Record<string | number, any>;
-  uAppend?: Record<string | number, any>;
-  remove?: Record<string | number, any>;
-  patchObject?: Record<string | number, any>;
+interface BatchActionParams {
   enableTrigger?: boolean;
   withCount?: boolean;
+  expand?: string | string[];
 }
 
-interface QueryOperationOptions extends BasicOperationOptions {
-  expand?: string[];
-  select?: string[];
-}
+type QueryOperationOptions = BasicOperationOptions &
+  Omit<BatchActionParams, 'enableTrigger'> & {
+    select?: string[];
+  };
 
-interface DeleteOperation {
+type UpdateOperationOptions = BasicOperationOptions &
+  Omit<BatchActionParams, 'expand'> & {
+    data?: Record<string | number, any>;
+    unset?: Record<string | number, any>;
+    incrementBy?: Record<string | number, any>;
+    append?: Record<string | number, any>;
+    uAppend?: Record<string | number, any>;
+    remove?: Record<string | number, any>;
+    patchObject?: Record<string | number, any>;
+  };
+
+interface DeleteOperation extends Omit<BatchActionParams, 'expand'> {
   id?: RecordId;
   query?: BaaS.Query;
   offset?: number;
   limit?: number;
-  enableTrigger?: boolean;
-  withCount?: boolean;
 }
 
 export interface Operation {
-  readonly table: any;
+  readonly table: BaaS.TableObject;
   create: <T extends object = Record<any, any>>(
     data: T,
     options?: BasicOperationOptions,
@@ -42,6 +45,10 @@ export interface Operation {
   get: (
     id: RecordId,
     options?: QueryOperationOptions,
+  ) => Promise<Record<any, any>>;
+  find: (
+    query: BaaS.Query,
+    options?: QueryOperationOptions & { orderBy?: string | string[] },
   ) => Promise<Record<any, any>>;
   update: <T extends object = Record<any, any>>(
     id: RecordId,
@@ -53,7 +60,6 @@ export interface Operation {
 }
 
 const io = getBaseIo();
-
 export function createTableOperation(tableName: string) {
   const BaaS = getBaaS();
   const tableOperation: Operation = {
@@ -91,7 +97,7 @@ export function createTableOperation(tableName: string) {
       if (!id) {
         throw new Error('Missing required id parameter');
       }
-      const record = tableOperation.table.getWithoutData(id);
+      const record = this.table.getWithoutData(id);
       const mergeOperator = (method, data) =>
         Object.entries(data).forEach(([key, val]) => record[method](key, val));
 
@@ -109,11 +115,30 @@ export function createTableOperation(tableName: string) {
     },
 
     async get(id, { expand, select, plain = true } = {}) {
-      const { table } = tableOperation;
+      const { table } = this;
       if (expand) table.expand(expand);
       if (select) table.select(select);
 
       return table.get(id).then(res => (plain ? res.data : res));
+    },
+
+    async find(
+      query = io.query,
+      {
+        expand,
+        select,
+        orderBy = '-created_at',
+        withCount = false,
+        plain = true,
+      } = {},
+    ) {
+      return this.table
+        .setQuery(query)
+        .expand(expand)
+        .select(select)
+        .orderBy(orderBy)
+        .find({ withCount })
+        .then(res => (plain ? res.data : res));
     },
 
     async delete(query, options: Omit<DeleteOperation, 'id' | 'query'> = {}) {

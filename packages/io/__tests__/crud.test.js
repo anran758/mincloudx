@@ -31,6 +31,11 @@ describe('CRUD Operations Defined Correctly After Table Registration', () => {
     expect(io.channel.delete).toBeDefined();
     expect(typeof io.channel.delete).toBe('function');
   });
+
+  it('find method should be defined and be a function', () => {
+    expect(io.channel.find).toBeDefined();
+    expect(typeof io.channel.find).toBe('function');
+  });
 });
 
 describe('Mocking CRUD Operations in io.channel After Table Registration', () => {
@@ -56,6 +61,13 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
       description: 'Updated description',
     });
     io.channel.delete = jest.fn().mockResolvedValue(true);
+    io.channel.find = jest.fn().mockResolvedValue({
+      meta: { limit: 20, next: null, offset: 0, previous: null },
+      objects: [
+        { id: 1, description: 'This is description.' },
+        { id: 2, description: 'This is description.' },
+      ],
+    });
   });
 
   it('should correctly call and mock io.channel.create', async () => {
@@ -75,6 +87,24 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     expect(result).toHaveProperty('id', channelId);
     expect(result).toHaveProperty('name', 'Test Channel');
     expect(result).toHaveProperty('description');
+  });
+
+  it('should correctly call and mock io.channel.find', async () => {
+    const query = io.getQuery({
+      description: 'This is description.',
+    });
+    const result = await io.channel.find(query, {
+      select: ['id', 'description'],
+    });
+
+    // 验证返回的结果是否符合预期
+    expect(result).toEqual({
+      meta: { limit: 20, next: null, offset: 0, previous: null },
+      objects: [
+        { id: 1, description: 'This is description.' },
+        { id: 2, description: 'This is description.' },
+      ],
+    });
   });
 
   it('should correctly call and mock io.channel.update', async () => {
