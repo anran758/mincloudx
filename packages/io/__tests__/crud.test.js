@@ -68,6 +68,8 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
         { id: 2, description: 'This is description.' },
       ],
     });
+
+    io.channel.count = jest.fn().mockResolvedValue(5);
   });
 
   it('should correctly call and mock io.channel.create', async () => {
@@ -122,5 +124,18 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
 
     expect(io.channel.delete).toHaveBeenCalledWith(channelId);
     expect(result).toBe(true);
+  });
+
+  it('should correctly call and mock .count with a given query', async () => {
+    const query = { description: 'This is description.' };
+
+    // 调用 count 方法
+    const countResult = await io.channel.count(query);
+
+    // 验证 count 方法是否被以正确的参数调用
+    expect(io.channel.count).toHaveBeenCalledWith(query);
+
+    // 验证返回的计数值是否符合预期
+    expect(countResult).toBe(5);
   });
 });

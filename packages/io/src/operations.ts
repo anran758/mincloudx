@@ -57,6 +57,7 @@ export interface Operation {
   delete: (
     query: DeleteOperation['id'] | DeleteOperation['query'],
   ) => Promise<any>;
+  count: (query: BaaS.Query) => Promise<number>;
 }
 
 const io = getBaseIo();
@@ -155,6 +156,10 @@ export function createTableOperation(tableName: string) {
       }
 
       return deleteRecord(tableOperation.table, opts);
+    },
+
+    async count(query) {
+      return this.table.setQuery(query).count();
     },
   };
 
