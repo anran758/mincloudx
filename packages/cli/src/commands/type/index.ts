@@ -13,7 +13,7 @@ export const DEFAULT_COMMAND_CONFIG = {
   transform: './_schema.json',
   outputDir: './types',
   outputFile: 'schema',
-  pull: false,
+  pull: true,
 };
 
 /**
@@ -46,27 +46,27 @@ export const DEFAULT_COMMAND_CONFIG = {
 export function registerCommand(program: Command) {
   return program
     .command(COMMAND_NAME)
-    .description('生成知晓云数据表的 .d.ts 类型文件')
+    .description('generate .d.ts type files for LeanCloud data tables')
     .option(
       '-p, --pull',
-      '从远端拉取知晓云数据表并生成类型定义',
+      'pull MinCloud data tables from remote and generate type definitions.',
       DEFAULT_COMMAND_CONFIG.pull,
     )
     .option(
       '-t, --transform <path>',
-      '转换本地 JSON 数据表为 TypeScript 类型定义',
-      DEFAULT_COMMAND_CONFIG.transform,
+      'transform local JSON data tables to TypeScript type definitions.',
     )
     .option(
       '-o, --output-dir <path>',
-      'typescript type file output directory',
+      'TypeScript type file output directory.',
       DEFAULT_COMMAND_CONFIG.outputDir,
     )
     .option(
       '--output-file <name>',
-      '类型文件的文件名',
+      'name of the type file.',
       DEFAULT_COMMAND_CONFIG.outputFile,
     )
+
     .action(async (options: typeof DEFAULT_COMMAND_CONFIG) => {
       const cwd = process.cwd();
       const outputConf = {
@@ -74,39 +74,34 @@ export function registerCommand(program: Command) {
         outputFile: options.outputFile,
       };
 
-      if (options.pull) {
-        try {
-          await generatorSchemaFileFromRemote(outputConf);
-        } catch (error) {
-          logger.error(
+      try {
+        if (options.pull) {
+          logger.notice(
             COMMAND_NAME,
-            error instanceof Error ? error.message : '获取数据表列表失败',
+            'preparing to fetch data table structure information from remote.',
           );
-
-          return;
-        }
-      } else {
-        try {
+          await generatorSchemaFileFromRemote(outputConf);
+        } else {
           await generatorSchemaFile({
             ...outputConf,
             input: path.resolve(cwd, options.transform),
           });
-        } catch (error) {
-          logger.error(
-            COMMAND_NAME,
-            error instanceof Error ? error.message : '生成类型文件失败',
-          );
-
-          logger.verbose(COMMAND_NAME, '生成类型文件失败:', error);
-          return;
         }
-      }
+      } catch (error) {
+        logger.error(
+          COMMAND_NAME,
+          error instanceof Error
+            ? error.message
+            : 'The generation of data table type files failed.',
+        );
 
-      logger.verbose(COMMAND_NAME, '测试');
+        return;
+      }
 
       logger.success(
         COMMAND_NAME,
-        '数据表类型文件保存成功:',
+        'Generation of type file was successful. Saved at:',
+
         path.join(outputConf.outputDir, `${outputConf.outputFile}.d.ts`),
       );
     });
