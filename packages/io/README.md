@@ -30,22 +30,46 @@ Access a registered table by appending its name to `io`, such as `io.channel` or
 
 Registered tables come with CRUD operation support: `create`, `get`, `update`, and `delete`.
 
-```javascript
-// Create a new record
-const newChannel = await io.channel.create({ name: 'New Channel' });
+create record:
 
-// Retrieve a record by its ID
-const channel = await io.channel.get('recordId');
+```ts
+// create a record.
+const product = await io.product.create({ name: 'New product' });
 
-// Update a record by its ID
-const updatedChannel = await io.channel.update('recordId', {
-  name: 'Updated Name',
-});
+// create many record.
+const dataList = [
+  { name: 'Product 1', value: 100 },
+  { name: 'Product 2', value: 200 },
+  { name: 'Product 3', value: 300 },
+];
 
-// Delete a record by its ID
-await io.channel.delete('recordId');
+const { operation_result } = await io.product.createMany(dataList);
+console.log('result: ', operation_result);
 
-// Delete multiple records based on a query
+// or
+const result = await io.product.createMany(dataList, { plain: false });
+console.log('result: ', result.data.operation_result);
+```
+
+update record:
+
+```ts
+const product = await io.product.update('productId', { name: 'product 2' });
+```
+
+fetch data:
+
+```ts
+const product = await io.product.get('recordId');
+
+// or fetch list
+const query = io.query.compare('deleted', '=', false);
+const list = await io.channel.find(query, { offset: 0, limit: 20 });
+```
+
+delete record:
+
+```ts
 const query = io.query.compare('deleted', '=', true);
 await io.channel.deleteMany(query, { offset: 0, limit: 20 });
 ```
