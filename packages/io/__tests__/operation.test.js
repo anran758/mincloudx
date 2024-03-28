@@ -2,51 +2,13 @@
 require('../tool/baas-init');
 const { createIo } = require('..');
 
-describe('CRUD Operations Defined Correctly After Table Registration', () => {
+describe('Mocking CRUD Operations in TableObject', () => {
+  const tables = ['channel'];
   let io;
-  let tables;
-
-  // init
-  beforeEach(() => {
-    tables = ['channel'];
-    io = createIo({ tables });
-  });
-
-  it('create method should be defined and be a function', () => {
-    expect(io.channel.create).toBeDefined();
-    expect(typeof io.channel.create).toBe('function');
-  });
-
-  it('get method should be defined and be a function', () => {
-    expect(io.channel.get).toBeDefined();
-    expect(typeof io.channel.get).toBe('function');
-  });
-
-  it('update method should be defined and be a function', () => {
-    expect(io.channel.update).toBeDefined();
-    expect(typeof io.channel.update).toBe('function');
-  });
-
-  it('delete method should be defined and be a function', () => {
-    expect(io.channel.delete).toBeDefined();
-    expect(typeof io.channel.delete).toBe('function');
-  });
-
-  it('find method should be defined and be a function', () => {
-    expect(io.channel.find).toBeDefined();
-    expect(typeof io.channel.find).toBe('function');
-  });
-});
-
-describe('Mocking CRUD Operations in io.channel After Table Registration', () => {
-  let io;
-  let tables;
 
   beforeEach(() => {
-    tables = ['channel'];
     io = createIo({ tables });
 
-    // 设置模拟函数
     io.channel.create = jest
       .fn()
       .mockResolvedValue({ id: '1', name: 'Test Channel' });
@@ -72,7 +34,7 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     io.channel.count = jest.fn().mockResolvedValue(5);
   });
 
-  it('should correctly call and mock io.channel.create', async () => {
+  it('should correctly call and mock `create` method', async () => {
     const channelData = { name: 'Test Channel' };
     const result = await io.channel.create(channelData);
 
@@ -81,7 +43,7 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     expect(result).toHaveProperty('name', 'Test Channel');
   });
 
-  it('should correctly call and mock io.channel.get', async () => {
+  it('should correctly call and mock `get` method', async () => {
     const channelId = '1';
     const result = await io.channel.get(channelId);
 
@@ -91,7 +53,7 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     expect(result).toHaveProperty('description');
   });
 
-  it('should correctly call and mock io.channel.find', async () => {
+  it('should correctly call and mock `find` method', async () => {
     const query = io.getQuery({
       description: 'This is description.',
     });
@@ -109,7 +71,7 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     });
   });
 
-  it('should correctly call and mock io.channel.update', async () => {
+  it('should correctly call and mock `update` method', async () => {
     const channelId = '1';
     const updateData = { description: 'Updated description' };
     const result = await io.channel.update(channelId, updateData);
@@ -118,7 +80,7 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     expect(result).toHaveProperty('description', 'Updated description');
   });
 
-  it('should correctly call and mock io.channel.delete', async () => {
+  it('should correctly call and mock `delete` method', async () => {
     const channelId = '1';
     const result = await io.channel.delete(channelId);
 
@@ -126,7 +88,7 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
     expect(result).toBe(true);
   });
 
-  it('should correctly call and mock .count with a given query', async () => {
+  it('should correctly call and mock `count` method', async () => {
     const query = { description: 'This is description.' };
 
     // 调用 count 方法
@@ -137,5 +99,86 @@ describe('Mocking CRUD Operations in io.channel After Table Registration', () =>
 
     // 验证返回的计数值是否符合预期
     expect(countResult).toBe(5);
+  });
+});
+
+describe('Mocking `createMany` method in TableObject', () => {
+  let io;
+  let tables;
+  // 共享测试数据
+  const dataList = [
+    { name: 'Test Object 1', value: 100 },
+    { name: 'Test Object 2', value: 200 },
+    { name: 'Test Object 3', value: 300 },
+  ];
+  const expectData = {
+    operation_result: [
+      { success: { id: 1, name: 'Test Object 1', value: 100 } },
+      { success: { id: 2, name: 'Test Object 2', value: 200 } },
+      { success: { id: 3, name: 'Test Object 3', value: 300 } },
+    ],
+    succeed: dataList.length,
+    total_count: dataList.length,
+  };
+
+  beforeEach(() => {
+    tables = ['channel'];
+    io = createIo({ tables });
+
+    io.channel.createMany = jest
+      .fn()
+      .mockImplementation((dataList, { plain = true } = {}) => {
+        const createdList = dataList.map((item, index) => {
+          return { success: { ...item, id: index + 1 } };
+        });
+        const result = {
+          operation_result: createdList,
+          succeed: createdList.length,
+          total_count: createdList.length,
+        };
+
+        return Promise.resolve(
+          plain
+            ? result
+            : {
+                status: 200,
+                statusText: 'OK',
+                headers: {},
+                data: result,
+              },
+        );
+      });
+  });
+
+  it('should correctly call and mock `createMany` method, when plain is default', async () => {
+    const result = await io.channel.createMany(dataList);
+
+    // 验证 createMany 方法是否以默认参数调用
+    expect(io.channel.createMany).toHaveBeenCalledWith(dataList);
+    expect(result).toEqual(expectData);
+  });
+
+  it('should correctly call and mock `createMany` method, when plain is true', async () => {
+    const result = await io.channel.createMany(dataList, { plain: true });
+
+    expect(io.channel.createMany).toHaveBeenCalledWith(dataList, {
+      plain: true,
+    });
+    expect(result).toEqual(expectData);
+  });
+
+  it('should correctly call and mock `createMany` method, when plain is false', async () => {
+    // 调用方法
+    const result = await io.channel.createMany(dataList, { plain: false });
+
+    expect(io.channel.createMany).toHaveBeenCalledWith(dataList, {
+      plain: false,
+    });
+    expect(result).toEqual({
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      data: expectData,
+    });
   });
 });

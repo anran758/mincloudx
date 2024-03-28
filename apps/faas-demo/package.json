@@ -20,7 +20,7 @@
     "upload": "mincloudx faas upload",
     "deploy": "mincloudx faas deploy",
     "debug": "mincloudx faas debug",
-    "refresh": "mincloudx type"
+    "refresh": "mincloudx type --pull"
   },
   "bugs": {
     "url": "https://github.com/anran758/mincloudx/issues"

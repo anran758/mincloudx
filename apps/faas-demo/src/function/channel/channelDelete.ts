@@ -7,10 +7,10 @@ interface EventParams {
 
 export default createFaas<EventParams>(async function main(event) {
   const { id } = event.data;
-  // const result = await io.channel.delete(id);
+  const result = await io.channel.delete(id);
 
-  const query = io.getQuery({ id });
-  const result = await io.channel.delete(query);
+  // const query = io.getQuery({ id });
+  // const result = await io.channel.delete(query);
   console.log('delete result:', result);
 
   return result;

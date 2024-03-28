@@ -29,6 +29,12 @@ export interface BatchActionParams {
   expand?: string | string[];
 }
 
+export interface BatchActionResult<RecordData = Record<string, any>> {
+  operation_result: { success: RecordData }[];
+  succeed: number;
+  total_count: number;
+}
+
 export type QueryOperationOptions = BasicOperationOptions &
   Omit<BatchActionParams, 'enableTrigger'> & {
     select?: string[];
@@ -63,6 +69,10 @@ export interface Operation {
     data: T,
     options?: BasicOperationOptions,
   ) => OperationResponse<T & TableRecord, Plain>;
+  createMany: <T extends object = OperatorData, Plain extends boolean = true>(
+    dataList: Array<T>,
+    options?: { plain?: Plain } & Pick<BatchActionParams, 'enableTrigger'>,
+  ) => OperationResponse<BatchActionResult<T>, Plain>;
   get: <T extends object = TableRecord, Plain extends boolean = true>(
     id: RecordId,
     options?: QueryOperationOptions,

@@ -1,64 +1,7 @@
-import { BaaS } from '@mincloudx/types';
 import { getBaaS, getBaseIo } from './baas';
 
-type RecordId = string | number;
-
-interface BasicOperationOptions {
-  plain?: boolean;
-}
-
-interface BatchActionParams {
-  enableTrigger?: boolean;
-  withCount?: boolean;
-  expand?: string | string[];
-}
-
-type QueryOperationOptions = BasicOperationOptions &
-  Omit<BatchActionParams, 'enableTrigger'> & {
-    select?: string[];
-  };
-
-type UpdateOperationOptions = BasicOperationOptions &
-  Omit<BatchActionParams, 'expand'> & {
-    data?: Record<string | number, any>;
-    unset?: Record<string | number, any>;
-    incrementBy?: Record<string | number, any>;
-    append?: Record<string | number, any>;
-    uAppend?: Record<string | number, any>;
-    remove?: Record<string | number, any>;
-    patchObject?: Record<string | number, any>;
-  };
-
-interface DeleteOperation extends Omit<BatchActionParams, 'expand'> {
-  id?: RecordId;
-  query?: BaaS.Query;
-  offset?: number;
-  limit?: number;
-}
-
-export interface Operation {
-  readonly table: BaaS.TableObject;
-  create: <T extends object = Record<any, any>>(
-    data: T,
-    options?: BasicOperationOptions,
-  ) => Promise<Record<any, any>>;
-  get: (
-    id: RecordId,
-    options?: QueryOperationOptions,
-  ) => Promise<Record<any, any>>;
-  find: (
-    query: BaaS.Query,
-    options?: QueryOperationOptions & { orderBy?: string | string[] },
-  ) => Promise<Record<any, any>>;
-  update: <T extends object = Record<any, any>>(
-    id: RecordId,
-    options: UpdateOperationOptions,
-  ) => Promise<T>;
-  delete: (
-    query: DeleteOperation['id'] | DeleteOperation['query'],
-  ) => Promise<any>;
-  count: (query: BaaS.Query) => Promise<number>;
-}
+import { DeleteOperation, Operation } from './type';
+import { DEFAULT_ENABLE_TRIGGER } from './config';
 
 const io = getBaseIo();
 export function createTableOperation(tableName: string) {
@@ -80,6 +23,18 @@ export function createTableOperation(tableName: string) {
         .then(res => (plain ? res.data : res));
     },
 
+    /**
+     * Create new a row for the table
+     */
+    async createMany(
+      dataList,
+      { plain = true, enableTrigger = DEFAULT_ENABLE_TRIGGER } = {},
+    ) {
+      return this.table
+        .createMany(dataList, { enableTrigger })
+        .then(res => (plain ? res.data : res));
+    },
+
     async update(
       id,
       {
@@ -91,7 +46,7 @@ export function createTableOperation(tableName: string) {
         remove,
         patchObject,
         withCount = false,
-        enableTrigger = true,
+        enableTrigger = DEFAULT_ENABLE_TRIGGER,
         plain = true,
       } = {},
     ) {
@@ -176,7 +131,7 @@ function deleteRecord(
     query = io.query,
     offset = 0,
     limit,
-    enableTrigger = true,
+    enableTrigger = DEFAULT_ENABLE_TRIGGER,
     withCount = false,
   }: DeleteOperation = {},
 ) {
