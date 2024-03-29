@@ -5,7 +5,7 @@ export default createFaas(async function main() {
   const query = io.getQuery({
     description: 'This is description.',
   });
-  const count = await io.channel.count(query);
+  const count = await io.product.count(query);
 
   console.log('count: ', count);
 

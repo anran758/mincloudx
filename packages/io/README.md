@@ -70,6 +70,10 @@ const list = await io.channel.find(query, { offset: 0, limit: 20 });
 delete record:
 
 ```ts
+// delete a record
+await io.channel.delete('recordId', { offset: 0, limit: 20 });
+
+// delete many record
 const query = io.query.compare('deleted', '=', true);
 await io.channel.deleteMany(query, { offset: 0, limit: 20 });
 ```

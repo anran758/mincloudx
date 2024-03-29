@@ -5,7 +5,7 @@ import { getCurrentDate } from '@/utils';
 
 function generatorMockData() {
   const rawData = {
-    name: `旧书铺-${getCurrentDate()}`,
+    name: `新书本-${getCurrentDate()}`,
     cover:
       'https://cloud-minapp-47549.cloud.ifanrusercontent.com/1rmlh9degSiaF4ua.jpg',
   };
@@ -26,13 +26,7 @@ export default createFaas(async function main() {
     operation_result: result,
     succeed,
     total_count,
-  } = await io.channel.createMany<
-    {
-      name: string;
-      cover: string;
-    },
-    true
-  >(list, { plain: true });
+  } = await io.product.createMany(list);
 
   console.log('result:', result);
   console.log('succeed: ', succeed);

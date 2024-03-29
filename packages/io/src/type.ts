@@ -51,7 +51,9 @@ export type UpdateOperationOptions = BasicOperationOptions &
     patchObject?: Record<string | number, any>;
   };
 
-export interface DeleteOperation extends Omit<BatchActionParams, 'expand'> {
+export interface DeleteOperation
+  extends Omit<BatchActionParams, 'expand'>,
+    BasicOperationOptions {
   id?: RecordId;
   query?: BaaS.Query;
   offset?: number;
@@ -67,11 +69,12 @@ export interface Operation {
   readonly table: BaaS.TableObject;
   create: <T extends object = OperatorData, Plain extends boolean = true>(
     data: T,
-    options?: BasicOperationOptions,
+    options?: BasicOperationOptions<Plain>,
   ) => OperationResponse<T & TableRecord, Plain>;
   createMany: <T extends object = OperatorData, Plain extends boolean = true>(
     dataList: Array<T>,
-    options?: { plain?: Plain } & Pick<BatchActionParams, 'enableTrigger'>,
+    options?: BasicOperationOptions<Plain> &
+      Pick<BatchActionParams, 'enableTrigger'>,
   ) => OperationResponse<BatchActionResult<T>, Plain>;
   get: <T extends object = TableRecord, Plain extends boolean = true>(
     id: RecordId,
@@ -86,7 +89,20 @@ export interface Operation {
     options: UpdateOperationOptions,
   ) => OperationResponse<T & TableRecord, Plain>;
   delete: (
-    query: DeleteOperation['id'] | DeleteOperation['query'],
-  ) => Promise<any>;
+    id: DeleteOperation['id'],
+    options?: Omit<DeleteOperation, 'id' | 'query' | 'plain'>,
+  ) => OperationResponse<'', false>;
+  deleteMany: <Plain extends boolean = true>(
+    query: DeleteOperation['query'],
+    options?: Omit<DeleteOperation, 'id' | 'query'>,
+  ) => OperationResponse<
+    {
+      succeed: number;
+      offset: number;
+      limit: number;
+      next: number | null;
+    },
+    Plain
+  >;
   count: (query: BaaS.Query) => Promise<number>;
 }

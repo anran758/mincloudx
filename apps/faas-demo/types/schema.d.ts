@@ -202,6 +202,21 @@ export interface RichTextContent extends BaseTable {
 }
 
 /**
+ * 数据表: product
+ * @description 产品表
+ */
+export interface Product extends BaseTable {
+  /**
+   * 产品名
+   **/
+  name: string;
+  /**
+   * 产品封面
+   **/
+  cover: Default | string;
+}
+
+/**
  * 数据表: channel
  * @description 圈子表
  */

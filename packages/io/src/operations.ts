@@ -97,20 +97,26 @@ export function createTableOperation(tableName: string) {
         .then(res => (plain ? res.data : res));
     },
 
-    async delete(query, options: Omit<DeleteOperation, 'id' | 'query'> = {}) {
-      if (!query) {
+    async delete(id, options = {}) {
+      if (!id) {
         return Promise.reject(new Error('Missing required id parameter'));
       }
-      const opts: DeleteOperation = {
+
+      return deleteRecord(tableOperation.table, {
+        id,
         ...options,
-      };
-      if (typeof query === 'string' || typeof query === 'number') {
-        opts.id = query;
-      } else {
-        opts.query = query;
+      });
+    },
+
+    async deleteMany(query, options = {}) {
+      if (!query) {
+        return Promise.reject(new Error('Missing required query parameter'));
       }
 
-      return deleteRecord(tableOperation.table, opts);
+      return deleteRecord(tableOperation.table, {
+        query,
+        ...options,
+      });
     },
 
     async count(query) {
@@ -131,6 +137,7 @@ function deleteRecord(
     query = io.query,
     offset = 0,
     limit,
+    plain = true,
     enableTrigger = DEFAULT_ENABLE_TRIGGER,
     withCount = false,
   }: DeleteOperation = {},
@@ -140,5 +147,7 @@ function deleteRecord(
     if (limit) table.limit(limit);
   }
 
-  return table.delete(id || query, { enableTrigger, withCount });
+  return table
+    .delete(id || query, { enableTrigger, withCount })
+    .then(res => (plain ? res.data : res));
 }
