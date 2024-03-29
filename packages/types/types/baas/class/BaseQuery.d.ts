@@ -7,12 +7,12 @@ declare class BaseQuery {
   _orderBy: any;
   _keys: any;
   _expand: any;
-  setQuery(queryObject: any): BaseQuery;
-  select(args: any): BaseQuery;
-  expand(args: any): BaseQuery;
-  limit(value: any): BaseQuery;
-  offset(value: any): BaseQuery;
-  orderBy(args: any): BaseQuery;
+  setQuery(queryObject: any): this;
+  select(args: any): this;
+  expand(args: any): this;
+  limit(value: any): this;
+  offset(value: any): this;
+  orderBy(args: any): this;
   _handleAllQueryConditions(): {
     limit: any;
     offset: any;

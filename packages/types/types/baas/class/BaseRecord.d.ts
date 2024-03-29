@@ -7,15 +7,15 @@ declare class BaseRecord {
     $set: Record<any, any>;
     $unset: Record<any, any>;
   };
-  set(...args: any[]): BaseRecord;
-  unset(...args: any[]): BaseRecord;
-  incrementBy(key: any, value: any): BaseRecord;
-  append(key: any, value: any): BaseRecord;
-  uAppend(key: any, value: any): BaseRecord;
-  remove(key: any, value: any): BaseRecord;
-  patchObject(key: any, value: any): BaseRecord;
-  pop(key: any): BaseRecord;
-  shift(key: any): BaseRecord;
+  set(...args: any[]): this;
+  unset(...args: any[]): this;
+  incrementBy(key: any, value: any): this;
+  append(key: any, value: any): this;
+  uAppend(key: any, value: any): this;
+  remove(key: any, value: any): this;
+  patchObject(key: any, value: any): this;
+  pop(key: any): this;
+  shift(key: any): this;
 }
 declare namespace BaseRecord {
   export { _serializeValueFuncFactory };

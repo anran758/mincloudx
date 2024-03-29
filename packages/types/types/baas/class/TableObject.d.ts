@@ -10,7 +10,7 @@ declare class TableObject extends BaseQuery {
     }?: {
       enableTrigger?: boolean;
     },
-  ): any;
+  ): Promise<any>;
   /**
    * 设置 withCount 默认值为 true，以兼容旧的用法
    */
@@ -23,14 +23,14 @@ declare class TableObject extends BaseQuery {
       enableTrigger?: boolean;
       withCount?: any;
     },
-  ): any;
+  ): Promise<any>;
   getWithoutData(args: any): TableRecord;
-  get(recordID: any): any;
+  get(recordID: any): Promise<any>;
   /**
    * 设置 withCount 默认值为 true，以兼容旧的用法
    */
-  find({ withCount }?: { withCount?: any }): any;
-  count(): any;
+  find({ withCount }?: { withCount?: any }): Promise<any>;
+  count(): Promise<number>;
   importData(
     {
       dataFileUrl,
@@ -41,7 +41,7 @@ declare class TableObject extends BaseQuery {
     },
     fileType: any,
   ): Promise<any>;
-  exportData(fileType: any, mode: any, start: any, end: any): any;
+  exportData(fileType: any, mode: any, start: any, end: any): Promise<any>;
 }
 import BaseQuery = require('./BaseQuery');
 import TableRecord = require('./TableRecord');
