@@ -26,17 +26,34 @@ const io = createIo({ tables });
 
 Access a registered table by appending its name to `io`, such as `io.channel` or `io.product`.
 
-### Performing CRUD Operations
+### query
 
-Registered tables come with CRUD operation support: `create`, `get`, `update`, and `delete`.
+In batch lookup, update, delete, and other operations, the Query object is needed. It is used to describe the characteristics of the data rows that need to be matched.
 
-create record:
+We can generate and obtain an instance of a `Query` object by reading `io.query`.
 
 ```ts
-// create a record.
-const product = await io.product.create({ name: 'New product' });
+const query = io.product.query;
+query.compare('name', '=', 'book');
+```
 
-// create many record.
+In most cases of query requests, many scenarios involve comparing values to see if they match. `io.getQuery` supports a more convenient way to generate a Query instance. The example code below is equivalent to the one above:
+
+```ts
+const query = io.getQuery({ name: 'book' });
+```
+
+### create record
+
+create a record:
+
+```ts
+const product = await io.product.create({ name: 'New product' });
+```
+
+create many record:
+
+```ts
 const dataList = [
   { name: 'Product 1', value: 100 },
   { name: 'Product 2', value: 200 },
@@ -51,31 +68,49 @@ const result = await io.product.createMany(dataList, { plain: false });
 console.log('result: ', result.data.operation_result);
 ```
 
-update record:
+### update record
 
 ```ts
 const product = await io.product.update('productId', { name: 'product 2' });
 ```
 
-fetch data:
+### read record
+
+fetch record:
 
 ```ts
 const product = await io.product.get('recordId');
+```
 
-// or fetch list
+fetch list:
+
+```ts
 const query = io.query.compare('deleted', '=', false);
 const list = await io.channel.find(query, { offset: 0, limit: 20 });
 ```
 
-delete record:
+### delete record
+
+delete a record:
 
 ```ts
-// delete a record
-await io.channel.delete('recordId', { offset: 0, limit: 20 });
+const result = await io.channel.delete('recordId', { offset: 0, limit: 20 });
+```
 
-// delete many record
+delete many record
+
+```ts
 const query = io.query.compare('deleted', '=', true);
-await io.channel.deleteMany(query, { offset: 0, limit: 20 });
+const result = await io.channel.deleteMany(query, { offset: 0, limit: 20 });
+```
+
+### count
+
+fetch record count:
+
+```ts
+const query = io.getQuery({ deleted: false });
+const count = await io.channel.deleteMany(query);
 ```
 
 ## Development

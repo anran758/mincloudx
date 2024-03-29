@@ -1,13 +1,17 @@
 import type { IncomingHttpHeaders } from 'http';
 import type { BaaS } from '@mincloudx/types';
 
+interface OperatorData {
+  [key: string | number]: any;
+}
+
 export type RecordId = string | number;
 
-export interface MinCloudResponse<T = any> {
+export interface MinCloudResponse<Data = any> {
   status: number;
   statusText: string;
   headers: IncomingHttpHeaders;
-  data: T;
+  data: Data;
 }
 
 export interface BasicOperationOptions<Plain extends boolean = true> {
@@ -19,29 +23,48 @@ export interface TableRecord {
   [key: string | number]: any;
 }
 
-export interface OperatorData {
-  [key: string | number]: any;
-}
-
 export interface BatchActionParams {
   enableTrigger?: boolean;
   withCount?: boolean;
   expand?: string | string[];
 }
 
+export type OperationResult<Data = Record<string, any>> = (
+  | { success: Data }
+  | {
+      error: {
+        code: number;
+        err_msg: string;
+      };
+    }
+)[];
+
+/**
+ * The data format returned by batch operations
+ */
 export interface BatchActionResult<RecordData = Record<string, any>> {
-  operation_result: { success: RecordData }[];
+  operation_result: OperationResult<RecordData>;
   succeed: number;
   total_count: number;
+  next: string | null;
+  offset: number;
+  limit: number;
 }
+
+export type CreateManyResult = Pick<
+  BatchActionResult<{ id: string; created_at: number }>,
+  'operation_result' | 'succeed' | 'total_count'
+>;
 
 export type QueryOperationOptions = BasicOperationOptions &
   Omit<BatchActionParams, 'enableTrigger'> & {
     select?: string[];
   };
 
-export type UpdateOperationOptions = BasicOperationOptions &
+export type UpdateOperation = BasicOperationOptions &
   Omit<BatchActionParams, 'expand'> & {
+    id?: RecordId;
+    query?: BaaS.Query;
     data?: Record<string | number, any>;
     unset?: Record<string | number, any>;
     incrementBy?: Record<string | number, any>;
@@ -49,6 +72,8 @@ export type UpdateOperationOptions = BasicOperationOptions &
     uAppend?: Record<string | number, any>;
     remove?: Record<string | number, any>;
     patchObject?: Record<string | number, any>;
+    offset?: number;
+    limit?: number;
   };
 
 export interface DeleteOperation
@@ -75,7 +100,7 @@ export interface Operation {
     dataList: Array<T>,
     options?: BasicOperationOptions<Plain> &
       Pick<BatchActionParams, 'enableTrigger'>,
-  ) => OperationResponse<BatchActionResult<T>, Plain>;
+  ) => OperationResponse<CreateManyResult, Plain>;
   get: <T extends object = TableRecord, Plain extends boolean = true>(
     id: RecordId,
     options?: QueryOperationOptions,
@@ -85,9 +110,15 @@ export interface Operation {
     options?: QueryOperationOptions & { orderBy?: string | string[] },
   ) => OperationResponse<Array<T>, Plain>;
   update: <T extends object = OperatorData, Plain extends boolean = true>(
-    id: RecordId,
-    options: UpdateOperationOptions,
+    id: UpdateOperation['id'],
+    options: Omit<UpdateOperation, 'id' | 'query'>,
   ) => OperationResponse<T & TableRecord, Plain>;
+  updateMany: <Plain extends boolean = true>(
+    options: Omit<UpdateOperation, 'id' | 'offset' | 'limit'>,
+  ) => OperationResponse<
+    BatchActionResult<{ id: string; updated_at: number }>,
+    Plain
+  >;
   delete: (
     id: DeleteOperation['id'],
     options?: Omit<DeleteOperation, 'id' | 'query' | 'plain'>,
@@ -96,12 +127,7 @@ export interface Operation {
     query: DeleteOperation['query'],
     options?: Omit<DeleteOperation, 'id' | 'query'>,
   ) => OperationResponse<
-    {
-      succeed: number;
-      offset: number;
-      limit: number;
-      next: number | null;
-    },
+    Pick<BatchActionResult, 'succeed' | 'offset' | 'limit' | 'next'>,
     Plain
   >;
   count: (query: BaaS.Query) => Promise<number>;

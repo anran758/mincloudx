@@ -1,12 +1,12 @@
 import { getBaaS, getBaseIo } from './baas';
 
-import { DeleteOperation, Operation } from './type';
+import type { Operation, DeleteOperation, UpdateOperation } from './type';
 import { DEFAULT_ENABLE_TRIGGER } from './config';
 
 const io = getBaseIo();
-export function createTableOperation(tableName: string) {
+export function createTableOperation(tableName: string): Operation {
   const BaaS = getBaaS();
-  const tableOperation: Operation = {
+  return {
     get table() {
       return new BaaS.TableObject(tableName);
     },
@@ -15,7 +15,7 @@ export function createTableOperation(tableName: string) {
      * Create new a row for the table
      */
     async create(data, { plain = true } = {}) {
-      const record = tableOperation.table.create();
+      const record = this.table.create();
 
       return record
         .set(data)
@@ -35,39 +35,19 @@ export function createTableOperation(tableName: string) {
         .then(res => (plain ? res.data : res));
     },
 
-    async update(
-      id,
-      {
-        data,
-        unset,
-        incrementBy,
-        append,
-        uAppend,
-        remove,
-        patchObject,
-        withCount = false,
-        enableTrigger = DEFAULT_ENABLE_TRIGGER,
-        plain = true,
-      } = {},
-    ) {
+    async update(id, options = {}) {
       if (!id) {
         throw new Error('Missing required id parameter');
       }
-      const record = this.table.getWithoutData(id);
-      const mergeOperator = (method, data) =>
-        Object.entries(data).forEach(([key, val]) => record[method](key, val));
 
-      if (data) mergeOperator('set', data);
-      if (unset) mergeOperator('unset', unset);
-      if (incrementBy) mergeOperator('incrementBy', incrementBy);
-      if (append) mergeOperator('append', append);
-      if (uAppend) mergeOperator('uAppend', uAppend);
-      if (remove) mergeOperator('remove', remove);
-      if (patchObject) mergeOperator('patchObject', patchObject);
+      return updateRecord(this.table, {
+        ...options,
+        id,
+      });
+    },
 
-      return record
-        .update({ enableTrigger, withCount })
-        .then(res => (plain ? res.data : res));
+    async updateMany(options = {}) {
+      return updateRecord(this.table, options);
     },
 
     async get(id, { expand, select, plain = true } = {}) {
@@ -102,7 +82,7 @@ export function createTableOperation(tableName: string) {
         return Promise.reject(new Error('Missing required id parameter'));
       }
 
-      return deleteRecord(tableOperation.table, {
+      return deleteRecord(this.table, {
         id,
         ...options,
       });
@@ -113,7 +93,7 @@ export function createTableOperation(tableName: string) {
         return Promise.reject(new Error('Missing required query parameter'));
       }
 
-      return deleteRecord(tableOperation.table, {
+      return deleteRecord(this.table, {
         query,
         ...options,
       });
@@ -123,9 +103,47 @@ export function createTableOperation(tableName: string) {
       return this.table.setQuery(query).count();
     },
   };
-
-  return tableOperation;
 }
+
+const updateRecord = (table, options: UpdateOperation) => {
+  const {
+    id,
+    query = io.query,
+    data,
+    unset,
+    incrementBy,
+    append,
+    uAppend,
+    remove,
+    patchObject,
+    offset = 0,
+    limit,
+    enableTrigger = DEFAULT_ENABLE_TRIGGER,
+    withCount = false,
+    plain = true,
+  } = options || {};
+
+  if (query) {
+    table.offset(offset);
+    if (limit) table.limit(limit);
+  }
+
+  const record = table.getWithoutData(id || query);
+  const each = (method, data) =>
+    Object.entries(data).forEach(([key, val]) => record[method](key, val));
+
+  if (data) each('set', data);
+  if (unset) each('unset', unset);
+  if (incrementBy) each('incrementBy', incrementBy);
+  if (append) each('append', append);
+  if (uAppend) each('uAppend', uAppend);
+  if (remove) each('remove', remove);
+  if (patchObject) each('patchObject', patchObject);
+
+  return record
+    .update({ enableTrigger, withCount })
+    .then(res => (plain ? res.data : res));
+};
 
 /**
  * delete data record

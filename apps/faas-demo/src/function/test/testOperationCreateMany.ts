@@ -8,6 +8,7 @@ function generatorMockData() {
     name: `新书本-${getCurrentDate()}`,
     cover:
       'https://cloud-minapp-47549.cloud.ifanrusercontent.com/1rmlh9degSiaF4ua.jpg',
+    description: 'testOperationCreateMany create.',
   };
 
   return Array(6)
