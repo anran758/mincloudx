@@ -1,5 +1,6 @@
 import { getBaaS, getBaseIo } from './baas';
-import { createTableOperation, Operation } from './operations';
+import { createTableOperation } from './operations';
+import type { Operation } from './type';
 
 export function createIo<T extends string>(options: { tables?: T[] } = {}) {
   const BaaS = getBaaS();

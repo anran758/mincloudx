@@ -1,62 +1,12 @@
-import { BaaS } from '@mincloudx/types';
 import { getBaaS, getBaseIo } from './baas';
 
-type RecordId = string | number;
-
-interface BasicOperationOptions {
-  plain?: boolean;
-}
-
-interface UpdateOperationOptions extends BasicOperationOptions {
-  data?: Record<string | number, any>;
-  unset?: Record<string | number, any>;
-  incrementBy?: Record<string | number, any>;
-  append?: Record<string | number, any>;
-  uAppend?: Record<string | number, any>;
-  remove?: Record<string | number, any>;
-  patchObject?: Record<string | number, any>;
-  enableTrigger?: boolean;
-  withCount?: boolean;
-}
-
-interface QueryOperationOptions extends BasicOperationOptions {
-  expand?: string[];
-  select?: string[];
-}
-
-interface DeleteOperation {
-  id?: RecordId;
-  query?: BaaS.Query;
-  offset?: number;
-  limit?: number;
-  enableTrigger?: boolean;
-  withCount?: boolean;
-}
-
-export interface Operation {
-  readonly table: any;
-  create: <T extends object = Record<any, any>>(
-    data: T,
-    options?: BasicOperationOptions,
-  ) => Promise<Record<any, any>>;
-  get: (
-    id: RecordId,
-    options?: QueryOperationOptions,
-  ) => Promise<Record<any, any>>;
-  update: <T extends object = Record<any, any>>(
-    id: RecordId,
-    options: UpdateOperationOptions,
-  ) => Promise<T>;
-  delete: (
-    query: DeleteOperation['id'] | DeleteOperation['query'],
-  ) => Promise<any>;
-}
+import type { Operation, DeleteOperation, UpdateOperation } from './type';
+import { DEFAULT_ENABLE_TRIGGER } from './config';
 
 const io = getBaseIo();
-
-export function createTableOperation(tableName: string) {
+export function createTableOperation(tableName: string): Operation {
   const BaaS = getBaaS();
-  const tableOperation: Operation = {
+  return {
     get table() {
       return new BaaS.TableObject(tableName);
     },
@@ -65,7 +15,7 @@ export function createTableOperation(tableName: string) {
      * Create new a row for the table
      */
     async create(data, { plain = true } = {}) {
-      const record = tableOperation.table.create();
+      const record = this.table.create();
 
       return record
         .set(data)
@@ -73,68 +23,127 @@ export function createTableOperation(tableName: string) {
         .then(res => (plain ? res.data : res));
     },
 
-    async update(
-      id,
-      {
-        data,
-        unset,
-        incrementBy,
-        append,
-        uAppend,
-        remove,
-        patchObject,
-        withCount = false,
-        enableTrigger = true,
-        plain = true,
-      } = {},
+    /**
+     * Create new a row for the table
+     */
+    async createMany(
+      dataList,
+      { plain = true, enableTrigger = DEFAULT_ENABLE_TRIGGER } = {},
     ) {
-      if (!id) {
-        throw new Error('Missing required id parameter');
-      }
-      const record = tableOperation.table.getWithoutData(id);
-      const mergeOperator = (method, data) =>
-        Object.entries(data).forEach(([key, val]) => record[method](key, val));
-
-      if (data) mergeOperator('set', data);
-      if (unset) mergeOperator('unset', unset);
-      if (incrementBy) mergeOperator('incrementBy', incrementBy);
-      if (append) mergeOperator('append', append);
-      if (uAppend) mergeOperator('uAppend', uAppend);
-      if (remove) mergeOperator('remove', remove);
-      if (patchObject) mergeOperator('patchObject', patchObject);
-
-      return record
-        .update({ enableTrigger, withCount })
+      return this.table
+        .createMany(dataList, { enableTrigger })
         .then(res => (plain ? res.data : res));
     },
 
+    async update(id, options = {}) {
+      if (!id) {
+        throw new Error('Missing required id parameter');
+      }
+
+      return updateRecord(this.table, {
+        ...options,
+        id,
+      });
+    },
+
+    async updateMany(options = {}) {
+      return updateRecord(this.table, options);
+    },
+
     async get(id, { expand, select, plain = true } = {}) {
-      const { table } = tableOperation;
+      const { table } = this;
       if (expand) table.expand(expand);
       if (select) table.select(select);
 
       return table.get(id).then(res => (plain ? res.data : res));
     },
 
-    async delete(query, options: Omit<DeleteOperation, 'id' | 'query'> = {}) {
-      if (!query) {
+    async find(
+      query = io.query,
+      {
+        expand,
+        select,
+        orderBy = '-created_at',
+        withCount = false,
+        plain = true,
+      } = {},
+    ) {
+      return this.table
+        .setQuery(query)
+        .expand(expand)
+        .select(select)
+        .orderBy(orderBy)
+        .find({ withCount })
+        .then(res => (plain ? res.data : res));
+    },
+
+    async delete(id, options = {}) {
+      if (!id) {
         return Promise.reject(new Error('Missing required id parameter'));
       }
-      const opts: DeleteOperation = {
+
+      return deleteRecord(this.table, {
+        id,
         ...options,
-      };
-      if (typeof query === 'string' || typeof query === 'number') {
-        opts.id = query;
-      } else {
-        opts.query = query;
+      });
+    },
+
+    async deleteMany(query, options = {}) {
+      if (!query) {
+        return Promise.reject(new Error('Missing required query parameter'));
       }
 
-      return deleteRecord(tableOperation.table, opts);
+      return deleteRecord(this.table, {
+        query,
+        ...options,
+      });
+    },
+
+    async count(query) {
+      return this.table.setQuery(query).count();
     },
   };
-
-  return tableOperation;
 }
+
+const updateRecord = (table, options: UpdateOperation) => {
+  const {
+    id,
+    query = io.query,
+    data,
+    unset,
+    incrementBy,
+    append,
+    uAppend,
+    remove,
+    patchObject,
+    offset = 0,
+    limit,
+    enableTrigger = DEFAULT_ENABLE_TRIGGER,
+    withCount = false,
+    plain = true,
+  } = options || {};
+
+  if (query) {
+    table.offset(offset);
+    if (limit) table.limit(limit);
+  }
+
+  const record = table.getWithoutData(id || query);
+  const each = (method, data) =>
+    Object.entries(data).forEach(([key, val]) => record[method](key, val));
+
+  if (data) each('set', data);
+  if (unset) each('unset', unset);
+  if (incrementBy) each('incrementBy', incrementBy);
+  if (append) each('append', append);
+  if (uAppend) each('uAppend', uAppend);
+  if (remove) each('remove', remove);
+  if (patchObject) each('patchObject', patchObject);
+
+  return record
+    .update({ enableTrigger, withCount })
+    .then(res => (plain ? res.data : res));
+};
 
 /**
  * delete data record
@@ -146,7 +155,8 @@ function deleteRecord(
     query = io.query,
     offset = 0,
     limit,
-    enableTrigger = true,
+    plain = true,
+    enableTrigger = DEFAULT_ENABLE_TRIGGER,
     withCount = false,
   }: DeleteOperation = {},
 ) {
@@ -155,5 +165,7 @@ function deleteRecord(
     if (limit) table.limit(limit);
   }
 
-  return table.delete(id || query, { enableTrigger, withCount });
+  return table
+    .delete(id || query, { enableTrigger, withCount })
+    .then(res => (plain ? res.data : res));
 }

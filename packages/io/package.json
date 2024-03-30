@@ -1,12 +1,15 @@
 {
   "name": "@mincloudx/io",
   "version": "0.1.0",
-  "description": "知晓云核心 API",
+  "description": "A more convenient tool for MinCloud IO requests, optimized for ease of use and efficiency.",
   "author": "anran758 <anran758@gmail.com>",
-  "homepage": "",
+  "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/io#readme",
   "license": "MIT",
   "main": "dist/main.js",
   "typings": "./lib/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],

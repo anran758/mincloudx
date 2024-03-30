@@ -87,13 +87,14 @@ export async function invokeMockData({
 
   // check mock file exists
   if (!fs.existsSync(mockPath)) {
-    logger.warn(COMMAND_NAME, `${mockPath} mock file not found.`);
-    logger.warn(
+    logger.notice(COMMAND_NAME, `${mockPath} mock file not found.`);
+    logger.notice(
       COMMAND_NAME,
       'This call will use default value `{}` to invoke cloud function.',
     );
   } else {
     // Due to the current inability of import() to handle cases with dynamic variables, we are temporarily compromising by using require to import.
+    logger.notice(COMMAND_NAME, `prepare invoke ${mockPath} mock file.`);
     const content: Record<string, any> | typeof Function =
       importFresh(mockPath);
 

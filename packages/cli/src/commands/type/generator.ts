@@ -1,4 +1,5 @@
 import { readFile } from 'fs/promises';
+import path from 'path';
 
 import {
   FIELD_TYPE_MAP,
@@ -15,94 +16,108 @@ import {
 import type { SchemaRootObject, SchemeObject, SchemaField } from './schema';
 
 /**
- * 生成公共的类型文件
+ * Read the content of TypeScript template file in assist directory
  */
-export function generatorBaseTs() {
-  return [
-    'type Int = number;',
-    'type SchemaId = string | number;',
-    '/** _at 结尾的字段默认约定为时间戳字段 **/',
-    'type EpochSeconds = number & { seconds_since_the_unix_start: never };',
-    'type JSONString = string & { json_parsable_string: never };',
-    'type HTMLText = string & { html_content: never };',
-    'type ValueOf<T> = T[keyof T];',
-    'type KeyOf<T> = Array<keyof T>;',
-    '',
-    '/**',
-    ' * 数据的默认值',
-    ' */',
-    'type Default<T = undefined> = T;',
+export async function getBaseContent() {
+  const filePath = path.join(__dirname, './assist/type.template.ts');
+  const data = await readFile(filePath, 'utf8');
 
-    'interface PointerWithoutData {',
-    '  id: SchemaId;',
-    '  _table: string;',
-    '}',
-    '',
-    'type SchemaPointer<T extends BaseTable> = T | PointerWithoutData;',
-    '',
-    'type CreatedBy = UserProfile | PointerWithoutData | number;',
-    '',
-    'export interface BaseTable {',
-    '  _id: number;',
-    '  id: SchemaId;',
-    '  created_at: number;',
-    '  updated_at: number;',
-    '  created_by?: CreatedBy;',
-    '  read_perm: string[];',
-    '  write_perm: string[];',
-    '}',
-  ].join('\n');
+  return data;
 }
 
 /**
- * 获取接口名称
+ * get interface name
+ * @description special internal data tables need to be read from mapping first
  */
 export function getInterfaceName(name: string) {
   return TABLE_NAME_MAPPING[name] || pascalCase(name);
 }
 
 export function getFieldChoices(field: SchemaField): string[] {
-  const rule =
-    field.constraints &&
-    field.constraints.rules &&
-    field.constraints.rules.length &&
-    field.constraints.rules.find(rule => rule.type === 'choices');
+  const rule = field.constraints?.rules?.find?.(
+    rule => rule.type === 'choices',
+  );
 
   return rule?.value || [];
 }
 
-/**
- * 生成字段类型
- */
-export function generateFieldType(field: SchemaField) {
-  let typeStr = '';
+export function getFieldType(field: SchemaField): string {
+  // 初始化类型字符串
+  const defaultType = getFieldDefaultType(field);
+  let fieldType = defaultType ? `${defaultType} | ` : '';
 
-  const fieldChoices = getFieldChoices(field);
-
+  // 处理时间戳字段
   if (field.name.endsWith('_at')) {
-    typeStr = 'EpochSeconds';
-  } else if (field.type === 'array') {
-    const type = field.items?.type || '';
-    typeStr = `${FIELD_TYPE_MAP[type] || type}[]`;
-  } else if (field.type === 'reference') {
-    const { schemaName } = parseCollectionName(field.collection_name);
-    typeStr = `SchemaPointer<${getInterfaceName(schemaName)}>`;
-  } else if (field.type === 'string' && fieldChoices) {
-    const list = ['string', ...fieldChoices.map(val => `'${val}'`)];
-
-    typeStr = list.join(' | ');
-  } else {
-    typeStr = FIELD_TYPE_MAP[field.type] || field.type;
+    fieldType += 'EpochSeconds';
+    return fieldType;
   }
 
-  if (!field?.constraints?.required && field?.default === undefined) {
-    typeStr = `${typeStr} | Default`;
-  } else if (field.default !== undefined) {
+  // 根据字段类型处理
+  switch (field.type) {
+    case 'array':
+      fieldType += getArrayFieldType(field);
+      break;
+    case 'reference':
+      fieldType += getReferenceFieldType(field);
+      break;
+    case 'string':
+      fieldType += getStringFieldType(field);
+      break;
+    default:
+      fieldType += FIELD_TYPE_MAP[field.type] || field.type;
+  }
+
+  // 添加默认值修饰符
+  return fieldType;
+}
+
+/**
+ * 处理数组类型
+ * @param {SchemaField} field 字段
+ * @return {string}
+ */
+function getArrayFieldType(field: SchemaField): string {
+  const itemType = field.items?.type || '';
+  return `${FIELD_TYPE_MAP[itemType] || itemType}[]`;
+}
+
+/**
+ * 处理引用类型
+ * @param {SchemaField} field 字段
+ * @return {string}
+ */
+function getReferenceFieldType(field: SchemaField): string {
+  const { schemaName } = parseCollectionName(field.collection_name);
+  const name = getInterfaceName(schemaName);
+
+  return `SchemaPointer<${name}>`;
+}
+
+/**
+ * 处理字符串类型，考虑字段选择
+ */
+function getStringFieldType(field: SchemaField): string {
+  const fieldChoices = getFieldChoices(field).map(val => `'${val}'`);
+  fieldChoices.unshift('string');
+
+  return fieldChoices.join(' | ');
+}
+
+/**
+ * get field default type
+ */
+function getFieldDefaultType(field: SchemaField): string {
+  if (field.default) {
     const defaultValue = JSON.stringify(field.default).replace(/"/g, `'`);
-    typeStr = `${typeStr} | Default<${defaultValue}>`;
+    const formattedDefault =
+      // eslint: use an empty object instead of `{}`
+      defaultValue === '{}' ? 'Record<string, any>' : defaultValue;
+    return `Default<${formattedDefault}>`;
   }
 
-  return typeStr;
+  if (field?.constraints?.required) return '';
+
+  return `Default`;
 }
 
 /**
@@ -125,7 +140,7 @@ export function generateDeclaration(schema: SchemeObject) {
         `  /**`,
         `   * ${field.description}`,
         `   **/`,
-        `  ${field.name}: ${generateFieldType(field)};`,
+        `  ${field.name}: ${getFieldType(field)};`,
       ].join('\n');
     })
     .join('\n');
@@ -168,15 +183,12 @@ export async function writeSchemaFile(
     .join('\n');
 
   // 基础类型文件
-  const baseTypeStr = generatorBaseTs();
+  const baseTypeStr = await getBaseContent();
   const content = [
     `/*`,
-    ` * [tips]: 该文件由 ${packageInfo.name} 自动生成，请勿直接修改文件。`,
+    ` * [tips]: This file is automatically generated by ${packageInfo.name}, please do not modify the file directly.`,
     ` */`,
-    `/* eslint-disable no-use-before-define */`,
-    '',
-    baseTypeStr,
-    schemasText,
+    baseTypeStr + schemasText,
   ].join('\n');
 
   return writeFile({

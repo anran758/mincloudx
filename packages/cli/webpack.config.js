@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const webpackConf = {
   mode: 'production',
@@ -48,6 +49,14 @@ const webpackConf = {
       new webpack.optimize.ModuleConcatenationPlugin(),
       new TerserPlugin({
         extractComments: false,
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'src/assist'), // 源目录的绝对路径
+            to: path.resolve(__dirname, 'lib/assist'), // 目标目录的绝对路径
+          },
+        ],
       }),
     ],
   },
