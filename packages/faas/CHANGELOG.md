@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/anran758/mincloudx/compare/@mincloudx/faas@0.1.0...@mincloudx/faas@0.1.1) (2024-03-30)
+
+**Note:** Version bump only for package @mincloudx/faas
+
 # [0.1.0](https://github.com/anran758/mincloudx/compare/@mincloudx/faas@0.0.1...@mincloudx/faas@0.1.0) (2024-03-21)
 
 ### Features
