@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/anran758/mincloudx/compare/@mincloudx/io@0.1.0...@mincloudx/io@0.2.0) (2024-03-30)
+
+### Features
+
+- **io:** support the `createMany` command to create many records ([e956c85](https://github.com/anran758/mincloudx/commit/e956c8541b403af50d5895c9c4c33161f246cfc3))
+- **io:** support the `deleteMany` method for IO ([fcec4e3](https://github.com/anran758/mincloudx/commit/fcec4e3a292d88fb21695f767f8d64f641312655))
+- **io:** support the `updateMany` method for IO, update document ([fe08bf6](https://github.com/anran758/mincloudx/commit/fe08bf6c75af054444a71197ecd815fb4b17f926))
+- **io:** supports `count` function to fetch data count ([8e5273a](https://github.com/anran758/mincloudx/commit/8e5273ab80caa340fd6362481a2aa5d0b34c4d74))
+- **io:** supports find to find lists of data ([ef4ceac](https://github.com/anran758/mincloudx/commit/ef4ceace80c70705c2462a62efd3dcdd9feb44e4))
+- **type:** support dynamic return via plain param ([8307f1c](https://github.com/anran758/mincloudx/commit/8307f1cfc864cc08f148e6cb184faa331c8445d8))
+
 # 0.1.0 (2024-03-21)
 
 ### Features

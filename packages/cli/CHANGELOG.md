@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.4...@mincloudx/cli@0.3.0) (2024-03-30)
+
+### Features
+
+- **io:** support the `createMany` command to create many records ([e956c85](https://github.com/anran758/mincloudx/commit/e956c8541b403af50d5895c9c4c33161f246cfc3))
+
 ## [0.2.4](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.3...@mincloudx/cli@0.2.4) (2024-03-21)
 
 ### Bug Fixes
