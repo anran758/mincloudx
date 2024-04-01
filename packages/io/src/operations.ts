@@ -1,14 +1,13 @@
-import { getBaaS, getBaseIo } from './baas';
+import { getBaseIo } from './baas';
 
 import type { Operation, DeleteOperation, UpdateOperation } from './type';
 import { DEFAULT_ENABLE_TRIGGER } from './config';
 
 const io = getBaseIo();
 export function createTableOperation(tableName: string): Operation {
-  const BaaS = getBaaS();
   return {
     get table() {
-      return new BaaS.TableObject(tableName);
+      return io.table(tableName);
     },
 
     /**
