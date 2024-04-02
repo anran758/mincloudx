@@ -62,6 +62,8 @@ export function createTableOperation(tableName: string): Operation {
       {
         expand,
         select,
+        offset = 0,
+        limit = 20,
         orderBy = '-created_at',
         withCount = false,
         plain = true,
@@ -69,9 +71,11 @@ export function createTableOperation(tableName: string): Operation {
     ) {
       return this.table
         .setQuery(query)
+        .offset(offset)
+        .limit(limit)
+        .orderBy(orderBy)
         .expand(expand)
         .select(select)
-        .orderBy(orderBy)
         .find({ withCount })
         .then(res => (plain ? res.data : res));
     },

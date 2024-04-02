@@ -18,6 +18,11 @@ export interface BasicOperationOptions<Plain extends boolean = true> {
   plain?: Plain;
 }
 
+export interface QueryParam {
+  offset: number;
+  limit: number;
+}
+
 export interface TableRecord {
   id: RecordId;
   [key: string | number]: any;
@@ -42,13 +47,12 @@ export type OperationResult<Data = Record<string, any>> = (
 /**
  * The data format returned by batch operations
  */
-export interface BatchActionResult<RecordData = Record<string, any>> {
+export interface BatchActionResult<RecordData = Record<string, any>>
+  extends QueryParam {
   operation_result: OperationResult<RecordData>;
   succeed: number;
   total_count: number;
   next: string | null;
-  offset: number;
-  limit: number;
 }
 
 export type CreateManyResult = Pick<
@@ -57,12 +61,14 @@ export type CreateManyResult = Pick<
 >;
 
 export type QueryOperationOptions = BasicOperationOptions &
-  Omit<BatchActionParams, 'enableTrigger'> & {
+  Omit<BatchActionParams, 'enableTrigger'> &
+  Partial<QueryParam> & {
     select?: string[];
   };
 
 export type UpdateOperation = BasicOperationOptions &
-  Omit<BatchActionParams, 'expand'> & {
+  Omit<BatchActionParams, 'expand'> &
+  Partial<QueryParam> & {
     id?: RecordId;
     query?: BaaS.Query;
     data?: Record<string | number, any>;
@@ -72,17 +78,14 @@ export type UpdateOperation = BasicOperationOptions &
     uAppend?: Record<string | number, any>;
     remove?: Record<string | number, any>;
     patchObject?: Record<string | number, any>;
-    offset?: number;
-    limit?: number;
   };
 
 export interface DeleteOperation
   extends Omit<BatchActionParams, 'expand'>,
-    BasicOperationOptions {
+    BasicOperationOptions,
+    Partial<QueryParam> {
   id?: RecordId;
   query?: BaaS.Query;
-  offset?: number;
-  limit?: number;
 }
 
 export type OperationResponse<
