@@ -77,7 +77,7 @@ export function createTableOperation(tableName: string): Operation {
         .expand(expand)
         .select(select)
         .find({ withCount })
-        .then(res => (plain ? res.data : res));
+        .then(res => (plain ? res.data.objects : res));
     },
 
     async delete(id, options = {}) {

@@ -1,9 +1,22 @@
 import type { IncomingHttpHeaders } from 'http';
 import type { BaaS } from '@mincloudx/types';
 
-interface OperatorData {
-  [key: string | number]: any;
+export interface Meta {
+  limit: number;
+  next: string | null;
+  offset: number;
+  previous: string | null;
+  total_count?: number;
 }
+
+export type OperatorData = {
+  [key: string | number]: any;
+};
+
+export type FindListResponseData<Data = OperatorData> = {
+  meta: Meta;
+  objects: Data[];
+};
 
 export type RecordId = string | number;
 
@@ -14,8 +27,8 @@ export interface MinCloudResponse<Data = any> {
   data: Data;
 }
 
-export interface BasicOperationOptions<Plain extends boolean = true> {
-  plain?: Plain;
+export interface BasicOperationOptions {
+  plain?: boolean;
 }
 
 export interface QueryParam {
@@ -34,7 +47,7 @@ export interface BatchActionParams {
   expand?: string | string[];
 }
 
-export type OperationResult<Data = Record<string, any>> = (
+export type OperationResult<Data = OperatorData> = (
   | { success: Data }
   | {
       error: {
@@ -47,7 +60,7 @@ export type OperationResult<Data = Record<string, any>> = (
 /**
  * The data format returned by batch operations
  */
-export interface BatchActionResult<RecordData = Record<string, any>>
+export interface BatchActionResult<RecordData = OperatorData>
   extends QueryParam {
   operation_result: OperationResult<RecordData>;
   succeed: number;
@@ -64,6 +77,7 @@ export type QueryOperationOptions = BasicOperationOptions &
   Omit<BatchActionParams, 'enableTrigger'> &
   Partial<QueryParam> & {
     select?: string[];
+    orderBy?: string | string[];
   };
 
 export type UpdateOperation = BasicOperationOptions &
@@ -95,27 +109,29 @@ export type OperationResponse<
 
 export interface Operation {
   readonly table: BaaS.TableObject;
-  create: <T extends object = OperatorData, Plain extends boolean = true>(
-    data: T,
-    options?: BasicOperationOptions<Plain>,
-  ) => OperationResponse<T & TableRecord, Plain>;
-  createMany: <T extends object = OperatorData, Plain extends boolean = true>(
-    dataList: Array<T>,
-    options?: BasicOperationOptions<Plain> &
-      Pick<BatchActionParams, 'enableTrigger'>,
+  create: <Data extends object = OperatorData, Plain extends boolean = true>(
+    data: Data,
+    options?: BasicOperationOptions,
+  ) => OperationResponse<Data & TableRecord, Plain>;
+  createMany: <
+    Data extends object = OperatorData,
+    Plain extends boolean = true,
+  >(
+    dataList: Array<Data>,
+    options?: BasicOperationOptions & Pick<BatchActionParams, 'enableTrigger'>,
   ) => OperationResponse<CreateManyResult, Plain>;
-  get: <T extends object = TableRecord, Plain extends boolean = true>(
+  get: <Data extends object = TableRecord, Plain extends boolean = true>(
     id: RecordId,
-    options?: QueryOperationOptions,
-  ) => OperationResponse<T, Plain>;
-  find: <T extends object = OperatorData, Plain extends boolean = true>(
+    options?: Omit<QueryOperationOptions, 'orderBy'>,
+  ) => OperationResponse<Data, Plain>;
+  find: <Data extends object = OperatorData, Plain extends boolean = true>(
     query: BaaS.Query,
-    options?: QueryOperationOptions & { orderBy?: string | string[] },
-  ) => OperationResponse<Array<T>, Plain>;
-  update: <T extends object = OperatorData, Plain extends boolean = true>(
+    options?: QueryOperationOptions,
+  ) => OperationResponse<FindListResponseData<Array<Data>>, Plain>;
+  update: <Data extends object = OperatorData, Plain extends boolean = true>(
     id: UpdateOperation['id'],
     options: Omit<UpdateOperation, 'id' | 'query'>,
-  ) => OperationResponse<T & TableRecord, Plain>;
+  ) => OperationResponse<Data & TableRecord, Plain>;
   updateMany: <Plain extends boolean = true>(
     options: Omit<UpdateOperation, 'id' | 'offset' | 'limit'>,
   ) => OperationResponse<
