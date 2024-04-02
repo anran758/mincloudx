@@ -128,6 +128,10 @@ export interface Operation {
     query: BaaS.Query,
     options?: QueryOperationOptions,
   ) => OperationResponse<FindListResponseData<Array<Data>>, Plain>;
+  first: <Data extends object = OperatorData, Plain extends boolean = true>(
+    query: BaaS.Query,
+    options?: QueryOperationOptions,
+  ) => OperationResponse<Data, Plain>;
   update: <Data extends object = OperatorData, Plain extends boolean = true>(
     id: UpdateOperation['id'],
     options: Omit<UpdateOperation, 'id' | 'query'>,

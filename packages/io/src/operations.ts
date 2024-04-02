@@ -1,6 +1,14 @@
 import { getBaseIo } from './baas';
 
-import type { Operation, DeleteOperation, UpdateOperation } from './type';
+import type {
+  Operation,
+  DeleteOperation,
+  UpdateOperation,
+  OperatorData,
+  QueryOperationOptions,
+  MinCloudResponse,
+  FindListResponseData,
+} from './type';
 import { DEFAULT_ENABLE_TRIGGER } from './config';
 
 const io = getBaseIo();
@@ -78,6 +86,40 @@ export function createTableOperation(tableName: string): Operation {
         .select(select)
         .find({ withCount })
         .then(res => (plain ? res.data.objects : res));
+    },
+
+    /**
+     * Find the first record that matches `Query`
+     */
+    async first<
+      Data extends object = OperatorData,
+      Plain extends boolean = true,
+    >(
+      query = io.query,
+      {
+        expand,
+        select,
+        offset = 0,
+        orderBy = '-created_at',
+        plain = true,
+      }: QueryOperationOptions = {},
+    ) {
+      const result = await this.find<Data, Plain>(query, {
+        expand,
+        select,
+        offset,
+        orderBy,
+        plain,
+        limit: 1,
+      });
+
+      if (plain) return result[0];
+
+      const response = result as MinCloudResponse<FindListResponseData<Data>>;
+      return {
+        ...result,
+        data: response.data.objects[0],
+      };
     },
 
     async delete(id, options = {}) {
