@@ -17,11 +17,13 @@ import {
 } from '@/utils';
 import { invokeCloudFunction } from '@/request/api';
 
+import { DEFAULT_MOCK_DIR, DEFAULT_LOG_DIR } from './config';
+
 const COMMAND_NAME = 'mock';
 const logger = createLogger(COMMAND_NAME);
 const defaultConfig = {
-  dir: './mock',
-  output: './log',
+  dir: DEFAULT_MOCK_DIR,
+  output: DEFAULT_LOG_DIR,
 };
 
 type BuildFaasParams = typeof defaultConfig & {

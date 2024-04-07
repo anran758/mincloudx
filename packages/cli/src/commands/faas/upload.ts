@@ -8,11 +8,12 @@ import type { Command } from 'commander';
 
 import { createLogger, resolveCwdAbsolutePath } from '@/utils';
 import { createCloudFunction, updateCloudFunction } from '@/request/api';
+import { DEFAULT_BUILT_DIR } from './config';
 
 const COMMAND_NAME = 'upload';
 const logger = createLogger(COMMAND_NAME);
 const defaultConfig = {
-  builtDir: './dist',
+  builtDir: DEFAULT_BUILT_DIR,
 };
 
 type BuildFaasParams = typeof defaultConfig & {

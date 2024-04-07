@@ -3,16 +3,21 @@ import type { Command } from 'commander';
 import { createLogger, selectCloudFunction } from '@/utils';
 import { deployFunction } from './deploy';
 import { invokeMockData } from './mock';
+import {
+  DEFAULT_FUNCTION_DIR,
+  DEFAULT_BUILT_DIR,
+  DEFAULT_LOG_DIR,
+  DEFAULT_MOCK_DIR,
+} from './config';
 
 const COMMAND_NAME = 'debug';
 const logger = createLogger(COMMAND_NAME);
 
-// TODO: There are variables here that can be shared.
 const defaultConfig = {
-  entryDir: './src/function',
-  builtDir: './dist',
-  outputDir: './log',
-  mockDir: './mock',
+  entryDir: DEFAULT_FUNCTION_DIR,
+  builtDir: DEFAULT_BUILT_DIR,
+  outputDir: DEFAULT_LOG_DIR,
+  mockDir: DEFAULT_MOCK_DIR,
 };
 
 type BuildFaasParams = typeof defaultConfig & {
