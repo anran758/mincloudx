@@ -4,12 +4,13 @@ import { createLogger } from '@/utils';
 
 import { buildFunction } from './build';
 import { uploadFunction } from './upload';
+import { DEFAULT_FUNCTION_DIR, DEFAULT_BUILT_DIR } from './config';
 
 const COMMAND_NAME = 'deploy';
 const logger = createLogger(COMMAND_NAME);
 const defaultConfig = {
-  entryDir: './src/function',
-  builtDir: './dist',
+  entryDir: DEFAULT_FUNCTION_DIR,
+  builtDir: DEFAULT_BUILT_DIR,
 };
 
 type BuildFaasParams = typeof defaultConfig & {

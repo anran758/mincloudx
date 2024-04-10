@@ -41,7 +41,7 @@ export function scanForFunctionEntries(
 
 export async function selectCloudFunction(
   entryDir: string,
-  { message = 'Select a cloud function' } = {},
+  { message = 'Select a cloud function', defaultValue = '' } = {},
 ) {
   const folderPath = resolveCwdAbsolutePath(entryDir);
   const entry = scanForFunctionEntries(folderPath);
@@ -67,7 +67,7 @@ export async function selectCloudFunction(
     transformer: input => {
       return `Cloud function: ${input}`;
     },
-    default: '',
+    default: defaultValue,
     pageSize: 10,
     validate(value) {
       if (!value) {
