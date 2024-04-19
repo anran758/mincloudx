@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/anran758/mincloudx/compare/v0.1.1...v0.4.0) (2024-04-19)
+
+### Bug Fixes
+
+- **cli:** fix the issue where build fails in the absence of `ts-loader` dependency ([3e87715](https://github.com/anran758/mincloudx/commit/3e8771531d9a0f8cbaf8bd9fb2c11bcb393c9e11))
+- **faas:** fixed the issue where createFaas could not be called properly ([00b0b19](https://github.com/anran758/mincloudx/commit/00b0b194ab165332fd3c9058649e89ce9e99e8f7))
+- fix reading incorrect configuration for client_id ([df37a2c](https://github.com/anran758/mincloudx/commit/df37a2c8896a4b610a9c9afc48172da076b86f89))
+- fixed the issue for `upload` command verbose log call error, add ([707993d](https://github.com/anran758/mincloudx/commit/707993d736753853e3d14fc8b1b617e5c59608be))
+- fixed the issue where environment variables were not working correctly ([b57d924](https://github.com/anran758/mincloudx/commit/b57d924c9143ca84d4a7b653aed1daa6bf3f2918))
+
+### Features
+
+- `faas debug` support select cloud function ([c66d624](https://github.com/anran758/mincloudx/commit/c66d624b4fbd6ff31218a424694f9e08453955e6))
+- 💥 add `faas upload` command, refactor `faas deploy` and other faas command params ([6ecff0b](https://github.com/anran758/mincloudx/commit/6ecff0bc52a3b5f3592d2f3a310c3626c1319847))
+- add faas deploy command ([b6a5ab1](https://github.com/anran758/mincloudx/commit/b6a5ab18cd842941ae903871360ddc2f688376fb))
+- added `faas mock` command to support invoking cloud function with mock data ([e066fc1](https://github.com/anran758/mincloudx/commit/e066fc107d63bb55e2f6f128429f93f7618ffba8))
+- **cli:** cli faas debug command supports continuous debugging ([fc06472](https://github.com/anran758/mincloudx/commit/fc06472b46cb3ae3fffcddc0406fe44df94d4c3b))
+- **cli:** support `faas debug` command ([0b6b3cf](https://github.com/anran758/mincloudx/commit/0b6b3cfbfc6594eb8ad1bc9d2e74ee4d057a3dd3))
+- enhance faas deploy command to support deploying all cloud functions ([5fc0f8d](https://github.com/anran758/mincloudx/commit/5fc0f8d0e808ccc80a09ef4ab578de47b7c65a11))
+- faas build supports single file ([a8a5cbd](https://github.com/anran758/mincloudx/commit/a8a5cbdc1a0db637fa8586c86f3adfbe28eb74d4))
+- **faas:** add createFaas, complete basic implementation ([64a557a](https://github.com/anran758/mincloudx/commit/64a557a85aa64995e0a44a432d1f93b9f1a18306))
+- **io:** support the `createMany` command to create many records ([e956c85](https://github.com/anran758/mincloudx/commit/e956c8541b403af50d5895c9c4c33161f246cfc3))
+- support faas build command ([13f705e](https://github.com/anran758/mincloudx/commit/13f705eb623b62d531ffc5825f0d60aed6e1c6ec))
+
+### Performance Improvements
+
+- **cli:** abstract common configuration ([3ae22dc](https://github.com/anran758/mincloudx/commit/3ae22dc30c1086f3dd89a758a473c8dc1965b6b6))
+- **cli:** introduce inquirer to enhance security when entering password during login ([7462292](https://github.com/anran758/mincloudx/commit/7462292dbf246df719d04c5089780bae085e91e3))
+- use npmlog instead of default log ([b1294c3](https://github.com/anran758/mincloudx/commit/b1294c32ee4b808b4a779a888e029351dcaa6618))
+
 # [0.3.0](https://github.com/anran758/mincloudx/compare/@mincloudx/cli@0.2.4...@mincloudx/cli@0.3.0) (2024-03-30)
 
 ### Features

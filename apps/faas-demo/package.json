@@ -1,6 +1,6 @@
 {
   "name": "@mincloudx/faas-demo",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Out-of-the-box Cloud Function Template",
   "author": "anran758 <anran758@gmail.com>",
