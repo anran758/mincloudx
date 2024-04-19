@@ -9,6 +9,7 @@ import {
   resolveCwdAbsolutePath,
   scanForFunctionEntries,
 } from '@/utils';
+import { DEFAULT_FUNCTION_DIR, DEFAULT_BUILT_DIR } from './config';
 
 import baseConf from './webpack.base.config';
 
@@ -16,8 +17,8 @@ const COMMAND_NAME = 'build';
 const logger = createLogger(COMMAND_NAME);
 
 const defaultConfig = {
-  entryDir: './src/function',
-  outputDir: './dist',
+  entryDir: DEFAULT_FUNCTION_DIR,
+  outputDir: DEFAULT_BUILT_DIR,
 };
 
 type BuildFaasParams = typeof defaultConfig & {

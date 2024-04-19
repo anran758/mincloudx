@@ -3,16 +3,21 @@ import type { Command } from 'commander';
 import { createLogger, selectCloudFunction } from '@/utils';
 import { deployFunction } from './deploy';
 import { invokeMockData } from './mock';
+import {
+  DEFAULT_FUNCTION_DIR,
+  DEFAULT_BUILT_DIR,
+  DEFAULT_LOG_DIR,
+  DEFAULT_MOCK_DIR,
+} from './config';
 
 const COMMAND_NAME = 'debug';
 const logger = createLogger(COMMAND_NAME);
 
-// TODO: There are variables here that can be shared.
 const defaultConfig = {
-  entryDir: './src/function',
-  builtDir: './dist',
-  outputDir: './log',
-  mockDir: './mock',
+  entryDir: DEFAULT_FUNCTION_DIR,
+  builtDir: DEFAULT_BUILT_DIR,
+  outputDir: DEFAULT_LOG_DIR,
+  mockDir: DEFAULT_MOCK_DIR,
 };
 
 type BuildFaasParams = typeof defaultConfig & {
@@ -21,6 +26,28 @@ type BuildFaasParams = typeof defaultConfig & {
    */
   functionName?: string;
 };
+
+async function debugFunction({
+  functionName,
+  entryDir,
+  builtDir,
+  mockDir,
+  outputDir,
+}: Required<BuildFaasParams>) {
+  // Deploy the selected or provided cloud function with specified directories for entry and build.
+  await deployFunction({
+    functionName,
+    entryDir,
+    builtDir,
+  });
+
+  // Invoke the cloud function with mock data, specifying the mock data directory and the output directory for logs.
+  await invokeMockData({
+    functionName,
+    dir: mockDir,
+    output: outputDir,
+  });
+}
 
 /**
  * Debug a specify cloud function with options for custom directories.
@@ -72,31 +99,39 @@ export function registerCommand(program: Command) {
     .option('--mock-dir <value>', 'mock data directory', defaultConfig.mockDir)
     .action(async (functionName, options: BuildFaasParams) => {
       logger.verbose('verbose', 'function name:', functionName);
-      const { entryDir, builtDir, outputDir, mockDir } = options;
 
-      let name = functionName;
+      const { entryDir, builtDir, outputDir, mockDir } = options;
+      let name = functionName || '';
 
       // If the cloud function name is not provided, prompt the user to select one from the available functions.
       // This step utilizes a search feature for ease of use.
-      if (!name) {
-        const answer = await selectCloudFunction(entryDir, {
-          message: 'Select a cloud function to debug (supports search)',
+      if (name) {
+        await debugFunction({
+          functionName,
+          entryDir,
+          builtDir,
+          mockDir,
+          outputDir,
         });
-        name = answer;
+
+        return;
       }
 
-      // Deploy the selected or provided cloud function with specified directories for entry and build.
-      await deployFunction({
-        functionName: name,
-        entryDir,
-        builtDir,
-      });
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const answer = await selectCloudFunction(entryDir, {
+          message: 'Select a cloud function to debug (supports search)',
+          defaultValue: name,
+        });
+        name = answer;
 
-      // Invoke the cloud function with mock data, specifying the mock data directory and the output directory for logs.
-      await invokeMockData({
-        functionName: name,
-        dir: mockDir,
-        output: outputDir,
-      });
+        await debugFunction({
+          functionName: name,
+          entryDir,
+          builtDir,
+          mockDir,
+          outputDir,
+        });
+      }
     });
 }
