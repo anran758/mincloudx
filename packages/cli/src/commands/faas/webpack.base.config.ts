@@ -22,11 +22,25 @@ const webpackConf: Configuration = {
   module: {
     rules: [
       {
-        test: /\.(js|ts)$/,
+        test: /\.((j|t)s)$/,
         // using `resolve` to ensure the correct resolution path for 'ts-loader'
         // There are differences between Node.js `require` and webpack's `require`.
         // https://webpack.js.org/api/module-variables/#__non_webpack_require__-webpack-specific
-        use: __non_webpack_require__.resolve('ts-loader'),
+        use: () => {
+          /**
+           * To avoid affecting the entire package usage due to `ts-loader not being installed in the user's environment,
+           * the use property needs to be modified to execute through a function.
+           */
+          try {
+            return __non_webpack_require__.resolve('ts-loader');
+          } catch (e) {
+            console.error(
+              'ts-loader is required but not installed. Please run "npm install ts-loader" to install it.',
+            );
+            throw e;
+          }
+        },
+
         exclude: /node_modules/,
       },
     ],
