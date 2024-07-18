@@ -1,6 +1,6 @@
 {
   "name": "@mincloudx/io",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A more convenient tool for MinCloud IO requests, optimized for ease of use and efficiency.",
   "author": "anran758 <anran758@gmail.com>",
   "homepage": "https://github.com/anran758/mincloudx/tree/main/packages/io#readme",
