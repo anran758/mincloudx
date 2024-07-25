@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/anran758/mincloudx/compare/v4.0.2...v0.4.2) (2024-07-25)
+
+**Note:** Version bump only for package @mincloudx/io
+
 ## [0.4.1](https://github.com/anran758/mincloudx/compare/v4.0.1...v0.4.1) (2024-07-18)
 
 **Note:** Version bump only for package @mincloudx/io
