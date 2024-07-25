@@ -155,7 +155,7 @@ export interface UserProfile extends BaseTable {
   /**
    * 用户在平台方的用户信息
    **/
-  _provider: Default | object;
+  _provider: Default | Record<string | number, any>;
   /**
    * 用户手机
    **/
@@ -214,6 +214,10 @@ export interface Product extends BaseTable {
    * 产品封面
    **/
   cover: Default | string;
+  /**
+   * 描述
+   **/
+  description: Default | string;
 }
 
 /**
