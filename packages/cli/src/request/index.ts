@@ -3,9 +3,13 @@ import axios from 'axios';
 import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
 
-import { transformErrorMessage, handleUnauthorizedError } from './utils';
+import { createLogger } from '@/utils';
 
 import config from '../config';
+import { transformErrorMessage, handleUnauthorizedError } from './utils';
+
+const NAME = 'api';
+const logger = createLogger(NAME);
 
 const jar = new CookieJar();
 
@@ -44,6 +48,7 @@ export function registerMinCloudHeaders({
   envId: string;
 }) {
   instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  logger.verbose(NAME, `request env id: ${envId}`);
 
   if (envId) {
     instance.defaults.headers.common['X-Hydrogen-Env-ID'] = envId;

@@ -14,6 +14,7 @@ export const TABLE_NAME_MAPPING = {
 export const FIELD_TYPE_MAP = {
   integer: 'number',
   file: 'FileOperationResult',
+  object: 'Record<string | number, any>',
 };
 
 export { packageInfo };
